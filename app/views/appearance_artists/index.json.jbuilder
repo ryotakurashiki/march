@@ -1,0 +1,1 @@
+json.array! @appearance_artists, partial: 'appearance_artists/appearance_artist', as: :appearance_artist

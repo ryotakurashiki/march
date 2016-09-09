@@ -1,0 +1,9 @@
+= simple_form_for(@prefecture) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :area
+
+  .form-actions
+    = f.button :submit

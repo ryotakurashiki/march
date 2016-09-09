@@ -1,0 +1,23 @@
+h1 Listing appearance_artists
+
+table
+  thead
+    tr
+      th Concert
+      th Artist
+      th
+      th
+      th
+
+  tbody
+    - @appearance_artists.each do |appearance_artist|
+      tr
+        td = appearance_artist.concert_id
+        td = appearance_artist.artist_id
+        td = link_to 'Show', appearance_artist
+        td = link_to 'Edit', edit_appearance_artist_path(appearance_artist)
+        td = link_to 'Destroy', appearance_artist, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Appearance artist', new_appearance_artist_path

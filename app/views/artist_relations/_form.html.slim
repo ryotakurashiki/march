@@ -1,0 +1,15 @@
+= simple_form_for(@artist_relation) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :artist_id
+    = f.input :related_artist_id
+    = f.input :g
+    = f.input :scaffold
+    = f.input :MediumArtistRelation
+    = f.input :medium_id
+    = f.input :artist_id
+    = f.input :medium_artist_id
+
+  .form-actions
+    = f.button :submit

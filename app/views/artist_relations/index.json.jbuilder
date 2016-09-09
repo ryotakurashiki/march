@@ -1,0 +1,1 @@
+json.array! @artist_relations, partial: 'artist_relations/artist_relation', as: :artist_relation

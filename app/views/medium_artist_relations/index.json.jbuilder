@@ -1,0 +1,1 @@
+json.array! @medium_artist_relations, partial: 'medium_artist_relations/medium_artist_relation', as: :medium_artist_relation

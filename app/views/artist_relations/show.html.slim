@@ -1,0 +1,30 @@
+p#notice = notice
+
+p
+  strong Artist:
+  = @artist_relation.artist_id
+p
+  strong Related artist:
+  = @artist_relation.related_artist_id
+p
+  strong G:
+  = @artist_relation.g
+p
+  strong Scaffold:
+  = @artist_relation.scaffold
+p
+  strong Mediumartistrelation:
+  = @artist_relation.MediumArtistRelation
+p
+  strong Medium:
+  = @artist_relation.medium_id
+p
+  strong Artist:
+  = @artist_relation.artist_id
+p
+  strong Medium artist:
+  = @artist_relation.medium_artist_id
+
+= link_to 'Edit', edit_artist_relation_path(@artist_relation)
+'|
+= link_to 'Back', artist_relations_path

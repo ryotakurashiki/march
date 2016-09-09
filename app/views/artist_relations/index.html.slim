@@ -1,0 +1,35 @@
+h1 Listing artist_relations
+
+table
+  thead
+    tr
+      th Artist
+      th Related artist
+      th G
+      th Scaffold
+      th Mediumartistrelation
+      th Medium
+      th Artist
+      th Medium artist
+      th
+      th
+      th
+
+  tbody
+    - @artist_relations.each do |artist_relation|
+      tr
+        td = artist_relation.artist_id
+        td = artist_relation.related_artist_id
+        td = artist_relation.g
+        td = artist_relation.scaffold
+        td = artist_relation.MediumArtistRelation
+        td = artist_relation.medium_id
+        td = artist_relation.artist_id
+        td = artist_relation.medium_artist_id
+        td = link_to 'Show', artist_relation
+        td = link_to 'Edit', edit_artist_relation_path(artist_relation)
+        td = link_to 'Destroy', artist_relation, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Artist relation', new_artist_relation_path

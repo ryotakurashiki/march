@@ -1,0 +1,9 @@
+= simple_form_for(@appearance_artist) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :concert_id
+    = f.input :artist_id
+
+  .form-actions
+    = f.button :submit

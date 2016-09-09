@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyText
+  place: MyString
+  prefecture_id: 1
+  date: 2016-09-09
+  eplus_id: 1
+
+two:
+  title: MyText
+  place: MyString
+  prefecture_id: 1
+  date: 2016-09-09
+  eplus_id: 1

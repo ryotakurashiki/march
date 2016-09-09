@@ -1,0 +1,1 @@
+json.partial! "medium_artist_relations/medium_artist_relation", medium_artist_relation: @medium_artist_relation

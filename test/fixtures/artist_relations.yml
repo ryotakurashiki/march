@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  artist_id: 1
+  related_artist_id: 
+  g: MyString
+  scaffold: MyString
+  MediumArtistRelation: MyString
+  medium_id: 1
+  artist_id: 1
+  medium_artist_id: 1
+
+two:
+  artist_id: 1
+  related_artist_id: 
+  g: MyString
+  scaffold: MyString
+  MediumArtistRelation: MyString
+  medium_id: 1
+  artist_id: 1
+  medium_artist_id: 1
