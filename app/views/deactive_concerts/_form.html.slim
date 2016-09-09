@@ -1,0 +1,16 @@
+= simple_form_for(@deactive_concert) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :place
+    = f.input :prefecture_id
+    = f.input :date
+    = f.input :category
+    = f.input :integer
+    = f.input :eplus_id
+    = f.input :date_text
+    = f.input :active
+
+  .form-actions
+    = f.button :submit

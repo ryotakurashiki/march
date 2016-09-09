@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  place: MyString
+  prefecture_id: 1
+  date: 2016-09-09
+  category: MyString
+  integer: MyString
+  eplus_id: 1
+  date_text: MyString
+  active: false
+
+two:
+  title: MyString
+  place: MyString
+  prefecture_id: 1
+  date: 2016-09-09
+  category: MyString
+  integer: MyString
+  eplus_id: 1
+  date_text: MyString
+  active: false

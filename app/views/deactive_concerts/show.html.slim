@@ -1,0 +1,33 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @deactive_concert.title
+p
+  strong Place:
+  = @deactive_concert.place
+p
+  strong Prefecture:
+  = @deactive_concert.prefecture_id
+p
+  strong Date:
+  = @deactive_concert.date
+p
+  strong Category:
+  = @deactive_concert.category
+p
+  strong Integer:
+  = @deactive_concert.integer
+p
+  strong Eplus:
+  = @deactive_concert.eplus_id
+p
+  strong Date text:
+  = @deactive_concert.date_text
+p
+  strong Active:
+  = @deactive_concert.active
+
+= link_to 'Edit', edit_deactive_concert_path(@deactive_concert)
+'|
+= link_to 'Back', deactive_concerts_path

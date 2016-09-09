@@ -1,0 +1,1 @@
+json.array! @deactive_concerts, partial: 'deactive_concerts/deactive_concert', as: :deactive_concert

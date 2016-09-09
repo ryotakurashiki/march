@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :deactive_concerts
   resources :medium_artist_relations
   resources :prefectures
   resources :artist_relations

@@ -10,20 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909011430) do
+ActiveRecord::Schema.define(version: 20160909082324) do
 
   create_table "appearance_artists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "concert_id"
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
     t.integer  "artist_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["attachable_id", "attachable_type", "artist_id"], name: "appearance_artist_unique", unique: true, using: :btree
   end
 
   create_table "artist_relations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "artist_id"
     t.integer  "related_artist_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "related_eplus_artist_id"
+    t.index ["artist_id", "related_eplus_artist_id"], name: "index_artist_relations_on_artist_id_and_related_eplus_artist_id", unique: true, using: :btree
   end
 
   create_table "artists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -31,17 +35,36 @@ ActiveRecord::Schema.define(version: 20160909011430) do
     t.integer  "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_artists_on_name", unique: true, using: :btree
   end
 
   create_table "concerts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "title",         limit: 65535
+    t.string   "title"
     t.string   "place"
     t.integer  "prefecture_id"
     t.date     "date"
     t.integer  "category"
-    t.integer  "eplus_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "eplus_id"
+    t.boolean  "self_planed"
+    t.boolean  "title_edited"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["title", "place", "date"], name: "index_concerts_on_title_and_place_and_date", unique: true, using: :btree
+  end
+
+  create_table "deactive_concerts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.string   "place"
+    t.integer  "prefecture_id"
+    t.date     "date"
+    t.string   "category"
+    t.string   "eplus_id"
+    t.boolean  "self_planed"
+    t.string   "date_text"
+    t.boolean  "active"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["title", "place", "date_text"], name: "index_deactive_concerts_on_title_and_place_and_date_text", using: :btree
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -56,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160909011430) do
     t.integer  "medium_artist_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.index ["medium_id", "artist_id"], name: "index_medium_artist_relations_on_medium_id_and_artist_id", unique: true, using: :btree
   end
 
   create_table "prefectures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -63,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160909011430) do
     t.string   "area"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_prefectures_on_name", unique: true, using: :btree
   end
 
 end
