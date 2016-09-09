@@ -4,9 +4,12 @@ namespace :initial do
 
   desc "最初のデータ収集"
   task :eplus_scraping => :environment do
+    logger = Logger.new(Rails.root.join('log', 'crawler.log'))
+    logger.level = Logger::INFO
+    logger.warn "=> Booting EplusCrawler..."
     base_url = 'https://eplus.jp/ath/word/'
     Capybara.register_driver :poltergeist do |app|
-      options = { :phantomjs => Phantomjs.path, :js_errors => false, :timeout => 5000, phantomjs_options: ['--load-images=no'] }
+      options = { :phantomjs => Phantomjs.path, :js_errors => false, :timeout => 60, phantomjs_options: ['--load-images=no'] }
       Capybara::Poltergeist::Driver.new(app, options)
     end
 
@@ -18,12 +21,13 @@ namespace :initial do
     session.driver.headers = {
       'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)"
     }
-    eplus_artist_ids = [*4478..96500]
+    eplus_artist_ids = [*1..96500]
     #[*14366..96500].each do |eplus_artist_id|
     Parallel.each(eplus_artist_ids, in_threads: 4) do |eplus_artist_id|
       ActiveRecord::Base.connection_pool.with_connection do
         puts "↓次見に行くページ↓"
         puts url = "#{base_url}#{eplus_artist_id}"
+        logger.info "visit #{base_url}#{eplus_artist_id}"
         begin
           sleep(1)
           session.visit url
@@ -31,6 +35,7 @@ namespace :initial do
           puts info = session.find('section#performance_list').find('h2').text
         rescue
           puts "公演あるかどうかのチェックでエラー"
+          logger.error "Can't loading the page : #{$!}"
           next
         end
 
@@ -42,6 +47,7 @@ namespace :initial do
           artist.medium_artist_relations.find_or_create_by(medium_id: 1).update(medium_artist_id: eplus_artist_id)
         else
           puts "公演なし→next"
+          logger.info "公演なし"
           next
         end
 
@@ -136,6 +142,7 @@ namespace :initial do
           end
         rescue
           puts "スクレイピングでエラー"
+          logger.error "scraping error : #{$!}"
           next
         end
       end

@@ -10,7 +10,7 @@ default: &default
   encoding: utf8
   charset: utf8
   collation: utf8_general_ci
-  pool: 5
+  pool: 8
   timeout: 5000
 
 development:
@@ -26,4 +26,4 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: march_production
