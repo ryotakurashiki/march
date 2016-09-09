@@ -14,18 +14,16 @@ namespace :initial do
     #target2 = 'https://eplus.jp/ath/word/14366'
     #'https://eplus.jp/ath/word/4478' #最初から表がない
 
-    eplus_artist_ids = [*51952..96500]
-
-    [*14366..96500].each do |eplus_artist_id|
-    #Parallel.each(eplus_artist_ids, in_threads: 4) do |eplus_artist_id|
+    session = Capybara::Session.new(:poltergeist)
+    session.driver.headers = {
+      'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)"
+    }
+    eplus_artist_ids = [*4478..96500]
+    #[*14366..96500].each do |eplus_artist_id|
+    Parallel.each(eplus_artist_ids, in_threads: 4) do |eplus_artist_id|
       ActiveRecord::Base.connection_pool.with_connection do
         puts "↓次見に行くページ↓"
         puts url = "#{base_url}#{eplus_artist_id}"
-
-        session = Capybara::Session.new(:poltergeist)
-        session.driver.headers = {
-            'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)"
-        }
         begin
           sleep(1)
           session.visit url
