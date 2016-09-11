@@ -63,3 +63,5 @@ gem 'font-awesome-rails'
 gem 'parallel'
 gem 'slim-rails'
 gem 'whenever', require: false
+gem 'devise'
+gem 'omniauth-twitter'
