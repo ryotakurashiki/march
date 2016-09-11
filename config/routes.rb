@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :admins, :controllers => {
+   :registrations => 'admins/registrations',
+   :sessions => 'admins/sessions'
+  }
   root to: "statics#welcome"
 
   resources :deactive_concerts
