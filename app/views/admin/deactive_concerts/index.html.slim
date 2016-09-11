@@ -1,0 +1,29 @@
+h1 Listing deactive_concerts
+
+table
+  thead
+    tr
+      th Title
+      th Place
+      th Date
+      th Date text
+      th Active
+      th
+      th
+      th
+
+  tbody
+    - @deactive_concerts.each do |deactive_concert|
+      tr
+        td = link_to deactive_concert.title, deactive_concert.eplus_url
+        td = deactive_concert.place
+        td = deactive_concert.date
+        td = deactive_concert.date_text
+        td = deactive_concert.active
+        /td = link_to 'Show', deactive_concert
+        /td = link_to 'Edit', edit_deactive_concert_path(deactive_concert)
+        /td = link_to 'Destroy', deactive_concert, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+/= link_to 'New Deactive concert', new_deactive_concert_path

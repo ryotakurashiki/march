@@ -8,6 +8,12 @@ html[lang="ja"]
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
+    header
+      nav
+        - if admin_signed_in?
+          strong = current_admin.email
+          = link_to '公演管理', admin_deactive_concerts_path
+          = link_to 'ログアウト', destroy_admin_session_path, method: :delete
     p.notice = notice
     p.alert = alert
     = yield

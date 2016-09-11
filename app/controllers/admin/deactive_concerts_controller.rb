@@ -1,4 +1,4 @@
-class DeactiveConcertsController < ApplicationController
+class Admin::DeactiveConcertsController < Admin::AdminApplicationController
   before_action :set_deactive_concert, only: [:show, :edit, :update, :destroy]
 
   # GET /deactive_concerts
