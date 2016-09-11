@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: "statics#welcome"
+
   resources :deactive_concerts
   resources :medium_artist_relations
   resources :prefectures
