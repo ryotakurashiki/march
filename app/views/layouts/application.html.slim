@@ -1,0 +1,24 @@
+doctype html
+html[lang="ja"]
+  head
+    title March
+    = csrf_meta_tags
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    header
+      nav
+        - if admin_signed_in?
+          strong = current_admin.email
+          = link_to 'プロフィール変更', edit_admin_registration_path
+          = link_to 'ログアウト', destroy_admin_session_path, method: :delete
+        - else
+          = link_to 'サインアップ', new_admin_registration_path
+          = link_to 'ログイン', new_admin_session_path
+    p.notice = notice
+    p.alert = alert
+    = yield
+
+  = debug params if Rails.env.development?
