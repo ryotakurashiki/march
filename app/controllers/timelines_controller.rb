@@ -1,7 +1,7 @@
 class TimelinesController < ApplicationController
-  def top
+  def timeline
   	render :welcome unless user_signed_in?
 
-  	#@concerts = Concert.where()
+  	@concerts = current_user.concerts
   end
 end
