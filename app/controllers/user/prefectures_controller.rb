@@ -1,4 +1,4 @@
-class PrefecturesController < ApplicationController
+class User::PrefecturesController < User::UserApplicationController
   before_action :set_prefecture, only: [:show, :edit, :update, :destroy]
 
   # GET /prefectures

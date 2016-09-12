@@ -1,4 +1,4 @@
-class ConcertsController < ApplicationController
+class User::ConcertsController < User::UserApplicationController
   before_action :set_concert, only: [:show, :edit, :update, :destroy]
 
   # GET /concerts

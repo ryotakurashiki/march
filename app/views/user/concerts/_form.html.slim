@@ -1,0 +1,12 @@
+= simple_form_for(@concert) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :place
+    = f.input :prefecture_id
+    = f.input :date
+    = f.input :eplus_id
+
+  .form-actions
+    = f.button :submit

@@ -1,4 +1,4 @@
-class AppearanceArtistsController < ApplicationController
+class Admin::AppearanceArtistsController < Admin::AdminApplicationController
   before_action :set_appearance_artist, only: [:show, :edit, :update, :destroy]
 
   # GET /appearance_artists

@@ -1,0 +1,23 @@
+h1 Listing prefectures
+
+table
+  thead
+    tr
+      th Name
+      th Area
+      th
+      th
+      th
+
+  tbody
+    - @prefectures.each do |prefecture|
+      tr
+        td = prefecture.name
+        td = prefecture.area
+        td = link_to 'Show', prefecture
+        td = link_to 'Edit', edit_prefecture_path(prefecture)
+        td = link_to 'Destroy', prefecture, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Prefecture', new_prefecture_path
