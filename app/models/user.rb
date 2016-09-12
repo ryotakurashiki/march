@@ -5,6 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:twitter]
 
+  has_many :favorite_artists
+  has_many :artists, through: :favorite_artists
+  has_many :favorite_prefectures
+  has_many :prefectures, through: :favorite_prefectures
+  has_many :user_concert_joinings
+  has_many :concerts, through: :user_concert_joinings
+
   def self.from_omniauth(auth)
     where(provider: auth["provider"], uid: auth["uid"]).first_or_create do |user|
       user.email = "#{auth.uid}@#{auth.provider}"
