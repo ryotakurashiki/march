@@ -54,10 +54,10 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "march_#{Rails.env}"
+  # config.active_job.queue_name_prefix = "rekhyt_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: "vanchamarch.herokuapp.com" }
+  config.action_mailer.default_url_options = { host: "rekhyt.herokuapp.com" }
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
@@ -66,7 +66,7 @@ Rails.application.configure do
     :address => "smtp.gmail.com",
     :port => 587,
     :domain => "smtp.gmail.com",
-    :user_name => "march.make.the.world@gmail.com",
+    :user_name => "rekhyt.info@gmail.com@gmail.com",
     :password => "<%= ENV["MAIL_PASSWORD"] %>",
     :authentication => :plain,
     :enable_starttls_auto => true
