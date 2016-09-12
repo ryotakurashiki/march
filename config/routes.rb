@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { confirmations: 'confirmations' }
+  devise_for :users, controllers: {
+  	confirmations: 'confirmations',
+  	omniauth_callbacks: "omniauth_callbacks"
+  }
   devise_for :admins, only: [:sessions]
   namespace :admin do
     resources :deactive_concerts
