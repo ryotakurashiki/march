@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { confirmations: 'confirmations' }
   devise_for :admins, only: [:sessions]
   namespace :admin do
     resources :deactive_concerts

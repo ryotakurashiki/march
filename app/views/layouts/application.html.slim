@@ -8,6 +8,11 @@ html[lang="ja"]
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
+    header
+      nav
+        - if user_signed_in?
+          strong = current_user.email
+          = link_to 'ログアウト', destroy_user_session_path, method: :delete
     p.notice = notice
     p.alert = alert
     = yield
