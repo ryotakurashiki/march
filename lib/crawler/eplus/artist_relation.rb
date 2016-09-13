@@ -1,17 +1,9 @@
 require 'phantomjs'
 require 'csv'
 
-#module Eplus
-module Crawler
-  class Crawler
-    def initialize
-      @logger = Logger.new(Rails.root.join('log', 'crawler.log'))
-      @logger.level = Logger::INFO
-      @logger.warn "=> Booting EplusCrawler..."
-      set_capybara()
-    end
-
-    def artist_relations
+module Crawler::Eplus
+  class ArtistRelation < Crawler::Base
+    def run
       Artist.artist_relations_nil.each do |artist|
         ActiveRecord::Base.connection_pool.with_connection do
           session = create_session
@@ -58,42 +50,26 @@ module Crawler
               break if words_count > 10
             rescue
               puts "これ以上もっと見れない"
-              sleep(2)
               break
             end
           end
 
-          puts "関連アーティストのスクレイピング"
-          doc = Nokogiri::HTML.parse(session.html)
-          artist_relation_list =  doc.css('#relativityWordUnorderedList li')
-          artist_relation_list.each do |element|
-            puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1].to_i
-            artist.artist_relations.find_or_create_by(related_eplus_artist_id: related_eplus_artist_id)
+          begin
+            puts "関連アーティストのスクレイピング"
+            doc = Nokogiri::HTML.parse(session.html)
+            artist_relation_list =  doc.css('#relativityWordUnorderedList li')
+            artist_relation_list.each do |element|
+              puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1].to_i
+              artist.artist_relations.find_or_create_by(related_eplus_artist_id: related_eplus_artist_id)
+            end
+            @logger.info "ralated_artist scraping success at #{url}"
+          rescue
+            @logger.warn "ralated_artist scraping error at #{url}"
           end
           session.driver.quit
         end
       end
     end
 
-
-    private
-
-    def set_capybara
-  	  Capybara.register_driver :poltergeist do |app|
-  	    options = {
-  	      :phantomjs => Phantomjs.path, :js_errors => false, :timeout => 60000,
-  	      phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
-  	    }
-  	    Capybara::Poltergeist::Driver.new(app, options)
-      end
-	  end
-
-    def create_session
-      session = Capybara::Session.new(:poltergeist)
-      session.driver.headers = {
-        'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36"
-      }
-      session
-    end
 	end
 end
