@@ -16,16 +16,16 @@ namespace :initial do
       Capybara::Poltergeist::Driver.new(app, options)
     end
 
-    i = 0
-    csv = CSV.read('initial_eplus_artist_ids.csv', headers: false)
-    Parallel.each(csv, in_threads: 5) do |row|
-    #CSV.foreach("initial_eplus_artist_ids.csv") do |row|
-    #csv.each do |row|
-      i += 1
-      if i <= 2990
-        next
-      end
-      eplus_artist_id = row[0]
+    eplus_artist_ids = CSV.read('initial_eplus_artist_ids.csv', headers: false).map {|row| row[0].to_s}
+    puts eplus_artist_ids.size
+    puts eplus_artist_ids.uniq.size
+    #eplus_artist_ids -= MediumArtistRelation.where(medium_id: 1).pluck("medium_artist_id")
+
+    eplus_artist_ids -= Artist.includes(:medium_artist_relations).
+    where(medium_artist_relations: {medium_id: 1}).pluck("medium_artist_id")
+    puts eplus_artist_ids.size
+
+    Parallel.each(eplus_artist_ids, in_threads: 5) do |eplus_artist_id|
       ActiveRecord::Base.connection_pool.with_connection do
         session = Capybara::Session.new(:poltergeist)
         session.driver.headers = {
