@@ -2,6 +2,123 @@ require 'phantomjs'
 namespace :initial do
   require 'csv'
 
+  desc "最初のe+アーティスト登録"
+  task :eplus_artists => :environment do
+    logger = Logger.new(Rails.root.join('log', 'crawler.log'))
+    logger.level = Logger::INFO
+    logger.warn "=> Booting EplusCrawler..."
+    base_url = 'https://eplus.jp/ath/word/'
+    Capybara.register_driver :poltergeist do |app|
+      options = {
+        :phantomjs => Phantomjs.path, :js_errors => false, :timeout => 60000,
+        phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
+      }
+      Capybara::Poltergeist::Driver.new(app, options)
+    end
+
+    CSV.foreach("initial_eplus_artist_ids.csv") do |row|
+      eplus_artist_id = row[0]
+      ActiveRecord::Base.connection_pool.with_connection do
+        session = Capybara::Session.new(:poltergeist)
+        session.driver.headers = {
+          'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)"
+        }
+
+        puts "↓次見に行くページ↓"
+        puts url = "#{base_url}#{eplus_artist_id}"
+        logger.info "visit #{base_url}#{eplus_artist_id}"
+
+        begin
+          sleep(1)
+          session.visit url
+          puts "ステータスコード #{session.status_code}"
+
+          doc = Nokogiri::HTML.parse(session.html)
+          puts style = doc.at("#performance_list").attr("style")
+          puts info = doc.at("#performance_list h2").inner_text
+
+          puts "アーティストを登録"
+          puts eplus_artist_name = info.match(/(.*)の公演情報/)[1]
+          artist = Artist.find_or_create_by(name: eplus_artist_name)
+          artist.medium_artist_relations.find_or_create_by(medium_id: 1).update(medium_artist_id: eplus_artist_id)
+        rescue
+          puts "アーティスト名取得でエラー"
+          logger.error "Can't loading the page : #{$!}"
+          next
+        end
+      end
+    end
+  end
+
+  desc "関連e+アーティスト取得"
+  task :eplus_artist_relations => :environment do
+    logger = Logger.new(Rails.root.join('log', 'crawler.log'))
+    logger.level = Logger::INFO
+    logger.warn "=> Booting EplusCrawler..."
+    base_url = 'https://eplus.jp/ath/word/'
+    Capybara.register_driver :poltergeist do |app|
+      options = {
+        :phantomjs => Phantomjs.path, :js_errors => false, :timeout => 60000,
+        phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
+      }
+      Capybara::Poltergeist::Driver.new(app, options)
+    end
+
+    Artist.all.each do |artist|
+      ActiveRecord::Base.connection_pool.with_connection do
+        session = Capybara::Session.new(:poltergeist)
+        session.driver.headers = {
+          'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)"
+        }
+
+        puts "↓次見に行くページ↓"
+        puts url = artist.eplus_url
+        logger.info "visit #{base_url}#{eplus_artist_id}"
+
+        begin
+          sleep(1)
+          session.visit url
+          puts "ステータスコード #{session.status_code}"
+
+          doc = Nokogiri::HTML.parse(session.html)
+          puts style = doc.at("#performance_list").attr("style")
+          puts info = doc.at("#performance_list h2").inner_text
+
+          puts "アーティストを登録"
+          puts eplus_artist_name = info.match(/(.*)の公演情報/)[1]
+          artist = Artist.find_or_create_by(name: eplus_artist_name)
+          artist.medium_artist_relations.find_or_create_by(medium_id: 1).update(medium_artist_id: eplus_artist_id)
+        rescue
+          puts "アーティスト名取得でエラー"
+          logger.error "Can't loading the page : #{$!}"
+          next
+        end
+
+        # 関連アーティストのもっと見るをクリック
+        while true
+          begin
+            puts session.find('a#display_relativity_word_quantity_anchor').text
+            session.find('a#display_relativity_word_quantity_anchor').click
+            puts "1回押した"
+            sleep(0.2)
+          rescue
+            puts "これ以上もっと見れない"
+            sleep(2)
+            break
+          end
+        end
+
+        puts "関連アーティストのスクレイピング"
+        doc = Nokogiri::HTML.parse(session.html)
+        artist_relation_list =  doc.css('#relativityWordUnorderedList li')
+        artist_relation_list.each do |element|
+          puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1].to_i
+          artist.artist_relations.find_or_create_by(related_eplus_artist_id: related_eplus_artist_id)
+        end
+
+      end
+    end
+  end
   desc "最初のデータ収集"
   task :eplus_scraping => :environment do
     logger = Logger.new(Rails.root.join('log', 'crawler.log'))
