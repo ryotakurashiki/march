@@ -15,12 +15,14 @@ namespace :initial do
       }
       Capybara::Poltergeist::Driver.new(app, options)
     end
-    Capybara.javascript_driver = :poltergeist
 
     i = 0
-    CSV.foreach("initial_eplus_artist_ids.csv") do |row|
+    csv = CSV.read('initial_eplus_artist_ids.csv', headers: false)
+    Parallel.each(csv, in_threads: 5) do |row|
+    #CSV.foreach("initial_eplus_artist_ids.csv") do |row|
+    #csv.each do |row|
       i += 1
-      if i <= 90
+      if i <= 145
         next
       end
       eplus_artist_id = row[0]
@@ -58,7 +60,7 @@ namespace :initial do
     end
   end
 
-  desc "関連e+アーティスト取得"
+  desc "e+で関連アーティスト取得"
   task :artist_relations => :environment do
     logger = Logger.new(Rails.root.join('log', 'crawler.log'))
     logger.level = Logger::INFO
@@ -72,8 +74,7 @@ namespace :initial do
       Capybara::Poltergeist::Driver.new(app, options)
     end
 
-    Artist.all.each do |artist|
-      next if artist.artist_relations.length > 10
+    Artist.artist_relations_nil.each do |artist|
       ActiveRecord::Base.connection_pool.with_connection do
         session = Capybara::Session.new(:poltergeist)
         session.driver.headers = {
