@@ -22,7 +22,7 @@ namespace :initial do
     #CSV.foreach("initial_eplus_artist_ids.csv") do |row|
     #csv.each do |row|
       i += 1
-      if i <= 2100
+      if i <= 2990
         next
       end
       eplus_artist_id = row[0]

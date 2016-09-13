@@ -2,7 +2,7 @@ require 'phantomjs'
 require 'csv'
 
 module Crawler::Eplus
-  class Concert < Crawler::Base
+  class ScrapeArtistRelation < Crawler::Base
     def run
       Artist.artist_relations_nil.each do |artist|
         ActiveRecord::Base.connection_pool.with_connection do

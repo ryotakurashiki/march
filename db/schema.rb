@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913122529) do
+ActiveRecord::Schema.define(version: 20160913145106) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -62,10 +62,10 @@ ActiveRecord::Schema.define(version: 20160913122529) do
     t.date     "date"
     t.integer  "category"
     t.string   "eplus_id"
-    t.boolean  "self_planed"
-    t.boolean  "title_edited"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "self_planed",   default: false
+    t.boolean  "title_edited",  default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.index ["title", "place", "date"], name: "index_concerts_on_title_and_place_and_date", unique: true, using: :btree
   end
 
@@ -86,11 +86,12 @@ ActiveRecord::Schema.define(version: 20160913122529) do
     t.date     "date"
     t.string   "category"
     t.string   "eplus_id"
-    t.boolean  "self_planed"
+    t.boolean  "self_planed",     default: false
     t.string   "date_text"
-    t.boolean  "active"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "active",          default: false
+    t.boolean  "eplus_id_edited", default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["title", "place", "date_text"], name: "index_deactive_concerts_on_title_and_place_and_date_text", using: :btree
   end
 

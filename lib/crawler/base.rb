@@ -20,6 +20,10 @@ module Crawler
       session
     end
 
+    def js_finish?(session)
+      session.evaluate_script('jQuery.active').zero?
+    end
+
     private
 
     def set_capybara

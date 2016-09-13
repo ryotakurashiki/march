@@ -7,6 +7,6 @@ class DeactiveConcert < ApplicationRecord
   end
 
   def self.find_or_create_by(params)
-  	self.find_by(title: params[:title], date_text: params[:date_text], place: params[:place]) || self.create(params)
+    self.find_by(eplus_id: params[:eplus_id], date_text: params[:date_text], place: params[:place]) || self.create(params)
   end
 end
