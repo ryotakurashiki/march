@@ -4,9 +4,10 @@ require 'csv'
 module Crawler::Eplus
   class ScrapeArtistRelation < Crawler::CapybaraBase
     def run
-      artists = Artist.artist_relations_nil
+      #artists = Artist.artist_relations_nil
+      artists = Artist.artist_relations_small(10)
+      puts artists.size
       Parallel.each(artists, in_threads: 3) do |artist|
-      #Artist.artist_relations_nil.each do |artist|
         ActiveRecord::Base.connection_pool.with_connection do
           session = create_session
 

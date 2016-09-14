@@ -12,6 +12,15 @@ class Artist < ApplicationRecord
     where(artist_relations: {related_eplus_artist_id: nil}, medium_artist_relations: {medium_id: 1})
   }
 
+  scope :artist_relations_small, -> (num) {
+    find_by_sql(
+      "SELECT * FROM artists WHERE id not in (
+        SELECT artist_id FROM artist_relations
+        GROUP BY artist_id HAVING COUNT(*) > #{num}
+      )"
+    )
+  }
+
   def eplus_url
     medium_artist_relations.find_by(medium_id: 1).eplus_url
   end
