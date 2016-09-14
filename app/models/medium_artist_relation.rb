@@ -1,5 +1,5 @@
 class MediumArtistRelation < ApplicationRecord
-  belongs_to :artist
+  belongs_to :artist, optional: true
   belongs_to :medium
 
   after_create :create_crawl_status
