@@ -12,8 +12,8 @@ namespace :initial do
 
   desc "CSVから最初のアーティストデータ登録"
   task :artist_data => :environment do
-    eplus = Medium.find_or_create_by(id: 1, name: "e+", en_name: "eplus")
-    camp = Medium.find_or_create_by(id: 2, name: "チケットキャンプ", en_name: "camp")
+    eplus = Medium.find(1)
+    camp = Medium.find(2)
     csv = CSV.read("#{Rails.public_path}/csv/initial_artists.csv", headers: false)
     #0:eplus_artist_id 1:artist.name 2:camp_artist_name 3:camp_artist_id 4:subcategory 5:unused 6:category
     csv.each do |row|
@@ -26,7 +26,7 @@ namespace :initial do
         artist.medium_artist_relations.find_or_create_by(medium_id: eplus.id).update(medium_artist_id: eplus_artist_id)
         artist.medium_artist_relations.find_or_create_by(medium_id: camp.id).update(medium_artist_id: camp_artist_id)
       else
-        unless relation = MediumArtistRelation.find_by(medium_id: camp.id, medium_artist_id: camp_artist_id)
+        unless MediumArtistRelation.find_by(medium_id: camp.id, medium_artist_id: camp_artist_id)
           MediumArtistRelation.create(medium_id: camp.id, medium_artist_id: camp_artist_id)
         end
       end
