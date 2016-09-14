@@ -15,7 +15,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'nokogiri'
 gem 'poltergeist'
 gem 'capybara'
-gem 'phantomjs', :require => 'phantomjs/poltergeist'
+gem 'phantomjs', '~> 2.1.1', require: 'phantomjs/poltergeist'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

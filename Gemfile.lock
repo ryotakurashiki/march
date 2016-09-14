@@ -229,7 +229,7 @@ DEPENDENCIES
   nokogiri
   omniauth-twitter
   parallel
-  phantomjs
+  phantomjs (~> 2.1.1)
   poltergeist
   puma (~> 3.0)
   rails (~> 5.0.0)
