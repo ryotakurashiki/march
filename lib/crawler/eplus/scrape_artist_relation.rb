@@ -2,7 +2,7 @@ require 'phantomjs'
 require 'csv'
 
 module Crawler::Eplus
-  class ScrapeArtistRelation < Crawler::Base
+  class ScrapeArtistRelation < Crawler::CapybaraBase
     def run
       artists = Artist.artist_relations_nil
       Parallel.each(artists, in_threads: 3) do |artist|

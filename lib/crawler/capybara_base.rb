@@ -2,7 +2,7 @@ require 'phantomjs'
 require 'csv'
 
 module Crawler
-  class Base
+  class CapybaraBase
     def initialize
       @logger = Logger.new(Rails.root.join('log', 'crawler.log'))
       @logger.level = Logger::INFO

@@ -2,7 +2,7 @@ require 'phantomjs'
 require 'csv'
 
 module Crawler::Eplus
-  class ScrapeConcert < Crawler::Base
+  class ScrapeConcert < Crawler::CapybaraBase
     def run
       Parallel.each(MediumArtistRelation.eplus.crawlable(3), in_threads: 3) do |medium_artist_relation|
       #MediumArtistRelation.eplus.crawlble(3).each do |medium_artist_relation|
@@ -93,7 +93,6 @@ module Crawler::Eplus
                 puts "eplus_artist_name: #{artist.name}"
                 puts "title: #{title}"
                 if dates.length == 2 && dates[1] - 1 == dates[0] && artist.name == title
-                  #create.hogehoge
                   puts "連続2daysかつ公演名とアーティスト名が一致"
                   concerts = []
                   dates.each do |date|
