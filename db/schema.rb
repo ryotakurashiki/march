@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914001704) do
+ActiveRecord::Schema.define(version: 20160914022357) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20160914001704) do
     t.integer  "related_artist_id"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.integer  "related_eplus_artist_id"
+    t.string   "related_eplus_artist_id"
     t.index ["artist_id", "related_eplus_artist_id"], name: "index_artist_relations_on_artist_id_and_related_eplus_artist_id", unique: true, using: :btree
   end
 

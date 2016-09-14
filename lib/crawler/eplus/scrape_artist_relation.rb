@@ -4,7 +4,9 @@ require 'csv'
 module Crawler::Eplus
   class ScrapeArtistRelation < Crawler::Base
     def run
-      Artist.artist_relations_nil.each do |artist|
+      artists = Artist.artist_relations_nil
+      Parallel.each(artists, in_threads: 3) do |artist|
+      #Artist.artist_relations_nil.each do |artist|
         ActiveRecord::Base.connection_pool.with_connection do
           session = create_session
 
@@ -24,7 +26,7 @@ module Crawler::Eplus
           end
 
           while true
-            break if session.all("#box_related_word").count >= 1 || session.evaluate_script('jQuery.active').zero?
+            break if session.all("#box_related_word").count >= 1 || js_finish?(session)
             puts "wait for #box_related_word table"
             sleep(2)
           end
@@ -39,7 +41,7 @@ module Crawler::Eplus
               session.find('a#display_relativity_word_quantity_anchor').click
               while true
                 # 表示が増えるかajaxが終わったら進む
-                if session.all("#box_related_word li").count > words_count || session.evaluate_script('jQuery.active').zero?
+                if session.all("#box_related_word li").count > words_count || js_finish?(session)
                   words_count = session.all("#box_related_word li").count
                   break
                 end
@@ -59,8 +61,9 @@ module Crawler::Eplus
             doc = Nokogiri::HTML.parse(session.html)
             artist_relation_list =  doc.css('#relativityWordUnorderedList li')
             artist_relation_list.each do |element|
-              puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1].to_i
-              artist.artist_relations.find_or_create_by(related_eplus_artist_id: related_eplus_artist_id)
+              puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1]
+              relation = MediumArtistRelation.find_by(medium_id: 1, medium_artist_id: related_eplus_artist_id)
+              artist.artist_relations.find_or_create_by(related_artist_id: relation.try(:artist_id), related_eplus_artist_id: related_eplus_artist_id)
             end
             @logger.info "ralated_artist scraping success at #{url}"
           rescue

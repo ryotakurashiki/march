@@ -4,9 +4,11 @@ require 'csv'
 module Crawler::Eplus
   class ScrapeConcert < Crawler::Base
     def run
-      MediumArtistRelation.eplus.each do |medium_artist_relation|
+      Parallel.each(MediumArtistRelation.eplus.crawlable(3), in_threads: 3) do |medium_artist_relation|
+      #MediumArtistRelation.eplus.crawlble(3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           artist = medium_artist_relation.artist
+          crawl_status = medium_artist_relation.crawl_status
           session = create_session
           puts "↓次見に行くページ↓"
           puts url = medium_artist_relation.eplus_url
@@ -19,6 +21,8 @@ module Crawler::Eplus
           rescue
             puts "Can't loading the page"
             @logger.error "Can't loading the page : #{$!}"
+            crawl_status.error_count += 1
+            crawl_status.save
             session.driver.quit
             next
           end
@@ -31,6 +35,7 @@ module Crawler::Eplus
 
           if Nokogiri::HTML.parse(session.html).at("#performance_list").attr("style").match(/none/)
             puts "公演なし"
+            crawl_status.update(crawled_on: Time.zone.now)
             session.driver.quit
             next
           end
@@ -121,8 +126,10 @@ module Crawler::Eplus
           rescue
             puts "スクレイピングでエラー"
             @logger.warn "scraping error : #{$!}"
+            crawl_status.update(crawled_on: Time.zone.now)
             next
           end
+          crawl_status.update(crawled_on: Time.zone.now)
           session.driver.quit
         end
       end
