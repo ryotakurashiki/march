@@ -12,8 +12,8 @@ namespace :initial do
 
   desc "CSVから最初のアーティストデータ登録"
   task :artist_data => :environment do
-    eplus = Medium.find_or_create_by(name: "eplus")
-    camp = Medium.find_or_create_by(name: "camp")
+    eplus = Medium.find_or_create_by(id: 1, name: "e+", en_name: "eplus")
+    camp = Medium.find_or_create_by(id: 2, name: "チケットキャンプ", en_name: "camp")
     csv = CSV.read("#{Rails.public_path}/csv/initial_artists.csv", headers: false)
     #0:eplus_artist_id 1:artist.name 2:camp_artist_name 3:camp_artist_id 4:subcategory 5:unused 6:category
     csv.each do |row|
@@ -90,6 +90,7 @@ namespace :initial do
       end
     end
   end
+end
 
 def wait_for_element_display(element, session, url)
   i = 0
