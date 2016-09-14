@@ -4,6 +4,10 @@ class Medium < ApplicationRecord
 
   def self.find_or_create_by(params)
     medium = self.find_by(id: params[:id])
-    medium.present? ? medium.update(params) : self.create(params)
+    if medium.present?
+      medium.update(params)
+    else
+      self.create(params)
+    end
   end
 end
