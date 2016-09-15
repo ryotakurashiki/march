@@ -1,9 +1,17 @@
 class Concert < ApplicationRecord
-  has_many :appearance_artists, as: :attachable
+  has_many :appearance_artists, as: :attachable, dependent: :delete_all
+  accepts_nested_attributes_for :appearance_artists
   has_many :artists, through: :appearance_artists
   belongs_to :prefecture
   has_many :user_concert_joinings
   has_many :users, through: :user_concert_joinings
+
+  scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago)) }
+  scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
+
+  def close?(days = 0)
+    date < days.days.ago
+  end
 
   def self.find_or_create_by(params)
     #self.find_by(title: params[:title], date: params[:date], place: params[:place]) || self.create(params)

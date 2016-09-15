@@ -1,6 +1,7 @@
 class Artist < ApplicationRecord
-  has_many :appearance_artists
-  has_many :concerts, through: :appearance_artists
+  has_many :appearance_artists, dependent: :destroy
+  accepts_nested_attributes_for :appearance_artists
+  has_many :concerts, through: :appearance_artists, source: 'attachable', source_type: 'Concert'
   has_many :artist_relations
   has_many :medium_artist_relations
   has_many :media, through: :medium_artist_relations

@@ -11,7 +11,7 @@ namespace :initial do
   end
 
   desc "CSVから最初のアーティストデータ登録"
-  task :artist_data => :environment do
+  task :artist_from_eplus => :environment do
     eplus = Medium.find(1)
     camp = Medium.find(2)
     csv = CSV.read("#{Rails.public_path}/csv/initial_artists.csv", headers: false)
@@ -32,6 +32,21 @@ namespace :initial do
       end
     end
   end
+
+  desc "livefansアーティスト登録"
+  task :livefans_relations => :environment do
+    relations = CSV.read("#{Rails.public_path}/csv/livefans_eplus_relations.csv", headers: true)
+    relations.each do |row|
+      livefans_artist_id = row[0]
+      eplus_artist_id = row[1]
+      next if livefans_artist_id.nil?
+
+      artist = MediumArtistRelation.find_by(medium_artist_id: eplus_artist_id, medium_id: 1).artist
+      artist.medium_artist_relations.create(medium_artist_id: livefans_artist_id, medium_id: 3)
+    end
+  end
+
+  ## ↓前のやつ
 
   desc "最初のe+アーティスト取得"
   task :eplus_artists => :environment do

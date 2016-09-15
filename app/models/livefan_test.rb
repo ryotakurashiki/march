@@ -1,0 +1,2 @@
+class LivefanTest < ApplicationRecord
+end

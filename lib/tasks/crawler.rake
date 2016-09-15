@@ -9,3 +9,10 @@ namespace :eplus_crawler do
     Crawler::Eplus::ScrapeConcert.new.run
   end
 end
+
+namespace :livefans_crawler do
+  desc "セットリストの取得"
+  task :setlists => :environment do
+    Crawler::Livefans::ScrapeSetlist.new.run
+  end
+end

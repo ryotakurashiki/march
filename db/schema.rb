@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914022357) do
+ActiveRecord::Schema.define(version: 20160915040044) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(version: 20160914022357) do
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.integer  "artist_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "setlist_path"
+    t.boolean  "not_decided",     default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["attachable_id", "attachable_type", "artist_id"], name: "appearance_artist_unique", unique: true, using: :btree
   end
 
@@ -62,6 +64,7 @@ ActiveRecord::Schema.define(version: 20160914022357) do
     t.date     "date"
     t.integer  "category"
     t.string   "eplus_id"
+    t.string   "livefans_path"
     t.boolean  "self_planed",   default: false
     t.boolean  "title_edited",  default: false
     t.datetime "created_at",                    null: false
@@ -107,6 +110,16 @@ ActiveRecord::Schema.define(version: 20160914022357) do
     t.integer  "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "livefan_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "livefans_artist_id"
+    t.string   "result_text"
+    t.string   "artist_name"
+    t.string   "eplus_artist_id"
+    t.string   "search_url"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

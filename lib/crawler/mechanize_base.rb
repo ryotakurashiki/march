@@ -4,9 +4,9 @@ require 'csv'
 module Crawler
   class MechanizeBase
     def initialize
-      @logger = Logger.new(Rails.root.join('log', 'crawler.log'))
+      @logger = Logger.new(Rails.root.join('log', 'mechanize.log'))
       @logger.level = Logger::INFO
-      @logger.warn "=> Booting EplusCrawler..."
+      @logger.warn "=> Booting MechanizeCrawler..."
       create_agent
     end
 
