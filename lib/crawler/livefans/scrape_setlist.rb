@@ -8,7 +8,7 @@ module Crawler::Livefans
     end
 
     def run
-      MediumArtistRelation.livefans.crawlable(3).each do |medium_artist_relation| #.reverse
+      MediumArtistRelation.livefans.crawlable(3).shuffle.each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           setlist_array = []
@@ -102,7 +102,6 @@ module Crawler::Livefans
                 # 出演日未定がありえるフェスの場合は、livefans_url変わらないのでそこの処理入れない #
               else
                 # concertが変わっている場合は更新 / appearance_artistが存在する時concertも存在
-                #appearance_artists.first.attachable.update(livefans_path: livefans_path)
                 appearance_artists.first.attachable.update(livefans_path: livefans_path)
               end
 
@@ -118,7 +117,9 @@ module Crawler::Livefans
                 concerts = Concert.where(livefans_path: livefans_path)
               end
 
-              unless concerts.present? # live_fansと紐付いたコンサートが存在しない場合 → コンサートを作成
+              if concerts.present? # live_fansと紐付いたコンサートが存在しない場合 → コンサートを作成
+                puts "not new concert"
+              else
                 puts "new concert"
                 concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
               end

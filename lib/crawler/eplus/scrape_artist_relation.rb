@@ -7,7 +7,7 @@ module Crawler::Eplus
       #artists = Artist.artist_relations_nil
       artists = Artist.artist_relations_small(10)
       puts artists.size
-      Parallel.each(artists, in_threads: 3) do |artist|
+      Parallel.each(artists.shuffle, in_threads: 3) do |artist|
         ActiveRecord::Base.connection_pool.with_connection do
           session = create_session
 
