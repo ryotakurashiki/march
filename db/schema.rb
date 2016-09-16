@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915040044) do
+ActiveRecord::Schema.define(version: 20160916015611) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -75,11 +75,12 @@ ActiveRecord::Schema.define(version: 20160915040044) do
   create_table "crawl_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "status"
     t.integer  "error_count"
+    t.text     "error_message",             limit: 65535
     t.integer  "priority"
     t.datetime "crawled_on"
     t.integer  "medium_artist_relation_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "deactive_concerts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

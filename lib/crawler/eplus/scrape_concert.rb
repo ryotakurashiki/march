@@ -96,6 +96,7 @@ module Crawler::Eplus
                   puts "連続2daysかつ公演名とアーティスト名が一致"
                   concerts = []
                   dates.each do |date|
+                    next artist.concerts.find_by(date: date)  # 既にlivefans側で取った同日のconcertがあればskip
                     concert = Concert.find_or_create_by(
                       title: title, place: place, prefecture_id: Prefecture.find_by_name(prefecture).id,
                       date: date, eplus_id: eplus_id, self_planed: self_planed
@@ -114,11 +115,13 @@ module Crawler::Eplus
               else
                 # 普通にcreate
                 puts "普通にcreate"
-                concert = Concert.find_or_create_by(
-                  title: title, place: place, prefecture_id: Prefecture.find_by_name(prefecture).id,
-                  date: Date.parse(date_text), eplus_id: eplus_id, self_planed: self_planed
-                )
-                concert.appearance_artists.find_or_create_by(artist_id: artist.id) if concert
+                unless artist.concerts.find_by(date: date) # 既にlivefans側で取った同日のconcertがあればskip
+                  concert = Concert.find_or_create_by(
+                    title: title, place: place, prefecture_id: Prefecture.find_by_name(prefecture).id,
+                    date: Date.parse(date_text), eplus_id: eplus_id, self_planed: self_planed
+                  )
+                  concert.appearance_artists.find_or_create_by(artist_id: artist.id) if concert
+                end
               end
               puts ""
             end

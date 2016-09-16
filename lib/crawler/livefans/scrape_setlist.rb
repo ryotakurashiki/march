@@ -39,6 +39,7 @@ module Crawler::Livefans
             end
 
             ## 既に1度スクレピング済みで最後の終演が1週間以上前（新規公演の追加ないだろうと判断）の場合はページめくり終了 ##
+            break if setlist_array.empty?
             appearance_artists = AppearanceArtist.where(setlist_path: setlist_array.last[0], artist_id: artist.id)
             if appearance_artists.present?
               if appearance_artists.first.attachable
