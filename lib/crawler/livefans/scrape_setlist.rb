@@ -16,6 +16,7 @@ module Crawler::Livefans
             setlists = []
             artist = medium_artist_relation.artist
             crawl_status = medium_artist_relation.crawl_status
+            crawl_status.error_count = 0
 
             url = medium_artist_relation.livefans_url
             puts "次のアーティスト #{artist.name}"
@@ -42,7 +43,7 @@ module Crawler::Livefans
               ## 既に1度スクレピング済みで最後の終演が1週間以上前（新規公演の追加ないだろうと判断）の場合はページめくり終了 ##
               break if setlist_array.empty?
               appearance_artists = AppearanceArtist.where(setlist_path: setlist_array.last[0], artist_id: artist.id)
-              if appearance_artists.present?
+              if appearance_artists.present? && crawl_status.crawled_on
                 if appearance_artists.first.attachable
                   if appearance_artists.first.attachable.close?(7)
                     puts "stop pagination"
@@ -61,8 +62,17 @@ module Crawler::Livefans
               end
               #break
             end # アーティストの出演情報終了
+          rescue
+            puts "scraping error"
+            @logger.warn "Can't scraping : #{$!}"
+            crawl_status.error_message = "#{$!}"
+            crawl_status.error_count = 0 if crawl_status.error_count.nil?
+            crawl_status.error_count += 1
+            crawl_status.save
+          end
 
-            setlist_array.each do |setlist_component|
+          setlist_array.each do |setlist_component|
+            begin
               setlist_path = setlist_component[0]
               fes_flag = setlist_component[1]
               appearance_artists = AppearanceArtist.where(setlist_path: setlist_path, artist_id: artist.id)
@@ -145,17 +155,18 @@ module Crawler::Livefans
                   end
                 end
               end
+            rescue
+              puts "scraping error"
+              @logger.warn "Can't scraping setlist : #{$!}"
+              crawl_status.error_message = "#{$!}"
+              crawl_status.error_count += 1
+              crawl_status.save
             end
+          end
+          if crawl_status.error_count == 0
             puts "successfly scraped #{url}"
             @logger.info "successfly scraped #{url}"
-            crawl_status.crawled_on = Time.zone.now
-          rescue
-            puts "scraping error"
-            @logger.warn "Can't loading the page : #{$!}"
-            crawl_status.error_message = "#{$!}"
-            crawl_status.error_count = 0 if crawl_status.error_count.nil?
-            crawl_status.error_count += 1
-            crawl_status.save
+            crawl_status.update(crawled_on: Time.zone.now)
           end
         end
       end
