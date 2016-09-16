@@ -17,6 +17,11 @@ class MediumArtistRelation < ApplicationRecord
   	"https://eplus.jp/ath/word/" + medium_artist_id
   end
 
+  def camp_url(active_only = true)
+    url = "https://ticketcamp.net/" + medium_artist_id
+    active_only ? url + "/?count=all&extra_payment=all&filter=active-only&section_id=all&sort=new#ticket-list-content" : url
+  end
+
   def livefans_url
     "http://www.livefans.jp/search/artist/#{medium_artist_id}?setlist=0&year=&sort=e1"
   end

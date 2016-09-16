@@ -1,17 +1,17 @@
 require 'phantomjs'
 
-module Crawler::Livefans
+module Crawler::Camp
   class ScrapeSetlist < Crawler::MechanizeBase
     def initialize
       super
-      @logger = Logger.new(Rails.root.join('log', 'mechanize.log'))
+      @logger = Logger.new(Rails.root.join('log', 'camp.log'))
       @logger.level = Logger::INFO
-      @logger.warn "=> Booting LiveFans Crawler..."
-      @base_url = 'http://www.livefans.jp'
+      @logger.warn "=> Booting TicketCamp Crawler..."
+      @base_url = 'https://ticketcamp.net'
     end
 
     def run
-      MediumArtistRelation.livefans.crawlable(3).each do |medium_artist_relation| #.reverse .shuffle
+      MediumArtistRelation.camp.crawlable(3).each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           begin

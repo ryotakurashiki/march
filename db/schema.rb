@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916032431) do
+ActiveRecord::Schema.define(version: 20160916151640) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -145,6 +145,23 @@ ActiveRecord::Schema.define(version: 20160916032431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_prefectures_on_name", unique: true, using: :btree
+  end
+
+  create_table "tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "info",               limit: 65535
+    t.integer  "concert_id"
+    t.integer  "medium_id"
+    t.string   "medium_ticket_id"
+    t.string   "ticket_path"
+    t.text     "seat",               limit: 65535
+    t.string   "number_of_tickets"
+    t.boolean  "selling_separately",               default: false
+    t.integer  "price"
+    t.string   "remaining_time"
+    t.boolean  "extra_payment"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.index ["medium_id", "medium_ticket_id"], name: "index_tickets_on_medium_id_and_medium_ticket_id", unique: true, using: :btree
   end
 
   create_table "user_concert_joinings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

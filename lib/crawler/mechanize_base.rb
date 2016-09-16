@@ -4,13 +4,20 @@ require 'csv'
 module Crawler
   class MechanizeBase
     def initialize
-      @logger = Logger.new(Rails.root.join('log', 'mechanize.log'))
-      @logger.level = Logger::INFO
-      @logger.warn "=> Booting MechanizeCrawler..."
       create_agent
     end
 
     protected
+
+    def update_or_create_ticket(ticket, params)
+      if ticket
+        puts "updated ticket"
+        ticket.update(params)
+      else
+        puts "created ticket"
+        Ticket.create(params)
+      end
+    end
 
     def js_finish?(session)
       session.evaluate_script('jQuery.active').zero?

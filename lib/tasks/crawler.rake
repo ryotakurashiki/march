@@ -16,3 +16,10 @@ namespace :livefans_crawler do
     Crawler::Livefans::ScrapeSetlist.new.run
   end
 end
+
+namespace :camp_crawler do
+  desc "チケットの取得"
+  task :tickets => :environment do
+    Crawler::Camp::ScrapeTicket.new.run
+  end
+end
