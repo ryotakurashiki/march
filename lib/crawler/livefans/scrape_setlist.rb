@@ -162,7 +162,7 @@ module Crawler::Livefans
 
     def delete_eplus_concert(concert, artist)
       # eplus_concertが存在すれば、今見ているappearance_artistを削除
-      eplus_concert = artist.concerts.find_by(date: concert.date, livefans_path: nil)
+      eplus_concert = artist.concerts.where.not(eplus_id: nil).find_by(date: concert.date, livefans_path: nil)
       if eplus_concert.present?
         puts "delete eplus concert appearance_artist"
         eplus_concert.appearance_artists.find_by(artist_id: artist.id).destroy
@@ -215,19 +215,17 @@ module Crawler::Livefans
       livefans_path = nil if livefans_path == "/groups/0"
       # 複数コンサートをcreate
       dates.each do |date|
-        puts "created concert #{date} : #{concert_title}"
-
         # livefans_pathは存在しないが
-        concert = artist.concerts.find_by(date: date)
+        concert = artist.concerts.where.not(eplus_id: nil).find_by(date: date)
         if concert.present? # e+側でconcertは存在する → livefansの情報で上書き
+          puts "updated eplus concert #{date} : #{concert_title}"
           concert.update(title: concert_title, livefans_path: livefans_path,
-           place: place, prefecture_id: Prefecture.find_by_name(prefecture).id,
-           date: date, title_edited: title_edited)
+           place: place, prefecture_id: prefecture_id, date: date, title_edited: title_edited)
         else # # e+側でもconcertは存在しない → 普通にcreate
           unless Concert.find_by(place: place, date: date)
+            puts "created concert #{date} : #{concert_title}"
             Concert.create(title: concert_title, livefans_path: livefans_path,
-             place: place, prefecture_id: prefecture_id,
-             date: date, title_edited: title_edited)
+             place: place, prefecture_id: prefecture_id, date: date, title_edited: title_edited)
           end
         end
       end
