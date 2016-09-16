@@ -8,8 +8,8 @@ module Crawler::Livefans
     end
 
     def run
-      MediumArtistRelation.livefans.crawlable(3).reverse.each do |medium_artist_relation|
-      #MediumArtistRelation.where(medium_artist_id: ["1756", "100"], medium_id: 3).each do |medium_artist_relation|
+      MediumArtistRelation.livefans.crawlable(3).each do |medium_artist_relation| #.reverse
+      #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           setlist_array = []
           setlists = []
@@ -205,11 +205,13 @@ module Crawler::Livefans
         puts "foreign_concert"
         place = place_text.gsub(/\((.*)\)$/, "")
         country_name = place_text.match(/\((.*)\)$/)[1]
-        prefecture_id = Prefecture.find_or_create_by(name: country_name).update(area: "海外").id
+        prefecture = Prefecture.find_or_create_by(name: country_name)
+        prefecture.update(area: "海外")
+        prefecture_id = prefecture.id
       else
         place = place_text.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
-        prefecture = place_text.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
-        prefecture_id = Prefecture.find_by_name(prefecture).id
+        prefecture_name = place_text.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
+        prefecture_id = Prefecture.find_by_name(prefecture_name).id
       end
 
       title_edited = concert_title.present? ? true : false
