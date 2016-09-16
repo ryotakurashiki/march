@@ -68,21 +68,17 @@ module Crawler::Eplus
           begin
             elements =  doc.css('#performanceUnorderedList li')
             elements.each do |element|
+              puts title = element.css('a h3.title').inner_text.strip
+              next if title.match(/ライブ.*ビューイング/)
+
               puts element.css('a').first[:href]
               puts eplus_id = element.css('a').first[:href].match(/sys\/(.*)/)[1].gsub(/\?.*/, "")
-              puts title = element.css('a h3.title').inner_text.strip
               puts place_text = element.css('a dl dd:nth-child(2)').inner_text
               puts place = place_text.gsub(/（(.{2}|.{3}|.{4})）$/, "")
               puts prefecture = place_text.match(/（(.{2}|.{3}|.{4})）$/)[1].gsub(/(都|府|県)$/, "")
               puts element.css('a dl dd.date').inner_text
               puts self_planed = artist.name == title
               date_text = element.css('a dl dd.date').inner_text
-
-              artist_relation_list =  doc.css('#relativityWordUnorderedList li')
-              artist_relation_list.each do |element|
-                puts related_eplus_artist_id = element.css('a.favorite').first[:id].match(/0*([1-9][0-9]*)/)[1].to_i
-                artist.artist_relations.find_or_create_by(related_eplus_artist_id: related_eplus_artist_id)
-              end
 
               if date_text.include?("～") #複数日
                 dates = date_text.split("～")

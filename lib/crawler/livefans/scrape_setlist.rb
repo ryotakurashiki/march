@@ -187,12 +187,15 @@ module Crawler::Livefans
 
     def delete_eplus_concert(concert, artist)
       # eplus_concertが存在すれば、今見ているappearance_artistを削除
-      eplus_concert = artist.concerts.where.not(eplus_id: nil).find_by(date: concert.date, livefans_path: nil)
-      if eplus_concert.present?
+      # eplusだとplaceが違えば同日同アーティストでも複数公演が作成されうる（ライブビューイングなど）ので全部消す
+      eplus_concerts = artist.concerts.where.not(eplus_id: nil).where(date: concert.date, livefans_path: nil)
+      if eplus_concerts.present?
         puts "delete eplus concert appearance_artist"
-        eplus_concert.appearance_artists.find_by(artist_id: artist.id).destroy
-        # appearance_artistがnilになったらeplus_concertを消す
-        eplus_concert.destroy if eplus_concert.appearance_artists.empty?
+        eplus_concerts.each do |eplus_concert|
+          eplus_concert.appearance_artists.find_by(artist_id: artist.id).destroy
+          # appearance_artistがnilになったらeplus_concertを消す
+          eplus_concert.destroy if eplus_concert.appearance_artists.empty?
+        end
       end
     end
 
