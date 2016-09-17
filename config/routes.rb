@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   	resource :artists
   	resource :prefectures
     get '/tutorial', to: "statics#tutorial"
-    get '/timeline/future', to: "statics#timeline"
-    get '/timeline/past', to: "statics#timeline"
+    get '/timeline/future', to: "statics#timeline_future"
+    get '/timeline/past', to: "statics#timeline_past"
   end
 
   get '/:username', to: 'users#show', as: 'user_open'

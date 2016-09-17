@@ -8,14 +8,9 @@ html[lang="ja"]
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
-  body
-    header
-      nav
-        - if user_signed_in?
-          strong = current_user.email
-          = link_to 'ログアウト', destroy_user_session_path, method: :delete
-    p.notice = notice
-    p.alert = alert
-    = yield
+  body[class="#{controller_classes}"]
+    = render "header"
+    main#main
+      = yield
 
   = debug params if Rails.env.development?
