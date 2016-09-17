@@ -20,6 +20,7 @@ module Crawler::Livefans
             artist = medium_artist_relation.artist
             crawl_status = medium_artist_relation.crawl_status
             crawl_status.error_count = 0
+            stop_pagination = false
 
             url = medium_artist_relation.livefans_url
             puts "次のアーティスト #{artist.name}"
@@ -40,7 +41,20 @@ module Crawler::Livefans
                   a = element.at('h3 a').get_attribute(:href)
                   fes_flag = element.get_attribute(:class).match(/fes/)? 1 : nil
                   setlist_array << [a, fes_flag] if a.match(/event/)
+
+                  begin
+                    date_check = element.at('p[@class="date"]')
+                    if date_check
+                      stop_pagination = true if Date.parse(date_check.inner_text) <= Date.parse("1995/12/31")
+                    end
+                  rescue
+                  end
                 end
+              end
+
+              if stop_pagination
+                puts "古すぎるのでページめくり終了"
+                break
               end
 
               ## 既に1度スクレピング済みで最後の終演が1週間以上前（新規公演の追加ないだろうと判断）の場合はページめくり終了 ##
@@ -204,7 +218,7 @@ module Crawler::Livefans
 
     def create_concerts(livefans_path, concert_title, date_text, page, artist)
       if page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') ## 複数アーティストの場合
-        sleep(3)
+        sleep(2)
         page2 = @agent.get(@base_url+livefans_path)
         h2_date_text = page2.at('//*[@id="container"]/div[@class="col"]/h2[@class="date"]').inner_text
         place_text = h2_date_text
