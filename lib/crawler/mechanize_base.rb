@@ -9,6 +9,15 @@ module Crawler
 
     protected
 
+    def sleep_before_visit
+      hour = Time.zone.now.hour
+      if hour >= 1 && hour <= 7
+        sleep(1)
+      else
+        sleep(3)
+      end
+    end
+
     def update_or_create_ticket(ticket, params)
       if ticket
         puts "updated ticket"

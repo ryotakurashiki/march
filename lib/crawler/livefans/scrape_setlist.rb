@@ -30,7 +30,7 @@ module Crawler::Livefans
               puts url
               @logger.info "visit #{url}"
 
-              sleep(3)
+              sleep_before_visit
               # フェスかどうか見ておく
               page = @agent.get(url)
 
@@ -107,7 +107,7 @@ module Crawler::Livefans
               #if setlist doesn't exit. setlist = appearance_artist
               puts ""
               url = @base_url + setlist_path
-              sleep(2.5)
+              sleep_before_visit
               page = @agent.get(url)
               puts setlist_path
 
@@ -218,7 +218,7 @@ module Crawler::Livefans
 
     def create_concerts(livefans_path, concert_title, date_text, page, artist)
       if page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') ## 複数アーティストの場合
-        sleep(2)
+        sleep_before_visit
         page2 = @agent.get(@base_url+livefans_path)
         h2_date_text = page2.at('//*[@id="container"]/div[@class="col"]/h2[@class="date"]').inner_text
         place_text = h2_date_text
