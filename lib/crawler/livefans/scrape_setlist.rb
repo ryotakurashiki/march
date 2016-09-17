@@ -258,7 +258,13 @@ module Crawler::Livefans
         prefecture_id = Prefecture.find_by_name(prefecture_name).id
       end
 
-      title_edited = concert_title.present? ? true : false
+      #title_edited = concert_title.present? ? true : false
+      if concert_title.present?
+        title_edited = false
+      else
+        title_edited = true
+        concert_title = artist.name
+      end
       livefans_path = nil if livefans_path == "/groups/0"
       # 複数コンサートをcreate
       dates.each do |date|
