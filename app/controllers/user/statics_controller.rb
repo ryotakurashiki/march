@@ -1,4 +1,4 @@
-class User::StaticsController < User::ApplicationController
+class User::StaticsController < User::UserApplicationController
   def tutorial
   end
 

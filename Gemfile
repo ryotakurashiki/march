@@ -64,5 +64,10 @@ gem 'font-awesome-rails'
 gem 'parallel'
 gem 'slim-rails'
 gem 'whenever', require: false
+
+# user and admin registration
 gem 'devise'
 gem 'omniauth-twitter'
+
+gem 'meta-tags'
+

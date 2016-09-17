@@ -8,3 +8,7 @@ h2 Log in
       = f.input :remember_me, as: :boolean
     .form-actions
       = f.button :submit, "Log in"
+
+  = link_to "Twitterでログイン", omniauth_authorize_path(:user, :twitter), class: "btn btn-twitter"
+
+  = link_to "アカウントを作成する", new_user_registration_path, class: "btn btn-info"
