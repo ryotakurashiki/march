@@ -1,0 +1,19 @@
+div.nav.signed-in
+  div.menu-timeline-future
+    = link_to timeline_future_path, method: "get"
+      i.fa.fa-home
+  div.menu-timeline-past
+    = link_to timeline_past_path, method: "get"
+      i.fa.fa-history aria-hidden="true"
+  div.menu-search
+    i.fa.fa-search aria-hidden="true"
+  div.dropdown.menu-bar
+    a.dropdown-toggle href="#" data-toggle="dropdown"
+      i.fa.fa-bars aria-hidden="true"
+    ul.dropdown-menu
+      li = link_to "参加予定", root_path, method: "get"
+      li = link_to "参加履歴", root_path, method: "get"
+      li = link_to "プロフィール設定", '#'
+      li.divider
+      li = link_to "お問い合わせ", root_path
+      li = link_to "ログアウト",  destroy_user_session_path, method: "delete"
