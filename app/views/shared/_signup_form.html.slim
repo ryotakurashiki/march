@@ -1,0 +1,17 @@
+.form-group
+  h3.text-center アカウント作成
+  = link_to omniauth_authorize_path(:user, :twitter), class: "btn btn-twitter"
+    i.fa.fa-twitter
+    span Twitterで登録
+
+  .mail-login
+    p.text-center メールアドレスで登録
+    = simple_form_for(User.new, as: :user, url: registration_path(:user)) do |f|
+      .form-inputs
+        = f.input :email, required: true, autofocus: true, label: false, placeholder: "メールアドレス"
+        = f.input :password, required: true, label: false, placeholder: "パスワード"
+        = f.input :password_confirmation, label: false, required: true, placeholder: "パスワード確認用"
+      .form-actions
+        = f.button :submit, "登録"
+  .text-center
+    = link_to "ログインする", root_path
