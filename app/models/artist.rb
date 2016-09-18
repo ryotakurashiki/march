@@ -7,6 +7,7 @@ class Artist < ApplicationRecord
   has_many :media, through: :medium_artist_relations
   has_many :favorite_artists
   has_many :users, through: :favorite_artists
+  has_many :artists, through: :artist_relations, foreign_key: :related_artist_id
 
   scope :artist_relations_nil, -> {
     includes(:artist_relations, :medium_artist_relations).
@@ -24,6 +25,10 @@ class Artist < ApplicationRecord
 
   def eplus_url
     medium_artist_relations.find_by(medium_id: 1).eplus_url
+  end
+
+  def related_artist_ids
+    artist_relations.pluck(:related_artist_id).uniq
   end
 
   def self.find_or_create_by(params)

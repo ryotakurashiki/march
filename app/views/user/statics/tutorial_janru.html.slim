@@ -1,0 +1,18 @@
+.welcome-container
+  .welcome-text
+    p.welcome-message.janru ライブに行きたいアーティストを選ぼう
+
+  .form-group
+    input.string.optional.form-control#artist-search type="text" value="" placeholder="アーティスト名で探す"
+
+  p.artist-selector-title あなたにオススメのアーティスト
+  #related_artist-list
+    table.table.hidden
+      tbody
+  #artist-list
+    table.table
+      tbody
+        = render partial: "user/shared/artist_selector", collection: @artists, :as => "artist"
+
+#tutorial-notification.hidden
+  = link_to "Livelogを始める", root_path

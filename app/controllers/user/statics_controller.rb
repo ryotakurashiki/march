@@ -3,7 +3,8 @@ class User::StaticsController < User::UserApplicationController
   end
 
   def tutorial_janru
-    Artist.where(category: params[:id])
+    #render text: params[:janru]
+    @artists = Artist.where(category: params[:janru])
   end
 
   def timeline_future

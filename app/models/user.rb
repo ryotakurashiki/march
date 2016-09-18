@@ -23,6 +23,12 @@ class User < ApplicationRecord
     end
   end
 
+  def recommended_artist_ids
+    favorite_artists.map{|fa| fa.artist.related_artist_ids}.flatten.uniq
+    #favorite_artists.map{|favorite_artist| favorite_artist.artist.artists }.uniq
+    #Artist.where(id: favorite_artists.map{|favorite_artist| favorite_artist.artist.artists }.uniq)
+  end
+
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"]) do |user|

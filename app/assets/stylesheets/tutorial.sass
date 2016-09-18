@@ -1,32 +1,52 @@
 @import "constants"
 
-body.tutorial
+body.tutorial, body.tutorial_janru
   background-color: $thin_grey_color
   .welcome-container
     .welcome-message
       text-align: center
       margin-top: 30px
       margin-bottom: 10px
-    #janru-list
-      display: table
-      margin-right: auto
-      margin-left: auto
-      border-spacing : 15px 20px
-      .janru_box
-        background-color: $base_color
-        text-align: center
-        display: table-cell
-        width: 38%
-        margin: 5%
-        border: 1px solid $grey_color
-        border-radius: 4px
-        height: 50px
-        vertical-align: middle
+    .welcome-message.janru
+      margin-bottom: 20px
+  #janru-list
+    display: table
+    margin-right: auto
+    margin-left: auto
+    border-spacing : 15px 20px
+    .janru_box
+      display: table-cell
+      position: relative
+      background-color: $base_color
+      text-align: center
+      width: 38%
+      margin: 5%
+      border: 1px solid $grey_color
+      border-radius: 4px
+      height: 50px
+      vertical-align: middle
+      color: #fff
+      a
         color: #fff
-        h3, p, a
-          color: #fff
-  #artist-selecter
+  p.artist-selector-title
+    margin-bottom: 10px
+    text-align: center
+  #artist-list, #related_artist-list
+    .fa-star
+      color: $grey_color
     table
-      width: 90%
-      margin-right: auto
-      margin-left: auto
+      background-color: #fff
+      .favorite
+        width: 20px
+        background-color: #fff
+        text-align: left
+        padding-left: 15px
+  #tutorial-notification
+    z-index: 10
+    padding: 5px
+    background-color: $base_color
+    position: fixed
+    bottom: 10px
+    right: 0px
+    a
+      color: #fff

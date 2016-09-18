@@ -1,6 +1,6 @@
 header.navbar
   nav
-    - if action_name == "tutorial"
+    - if action_name.match(/^tutoria/)
       = render 'tutorial_header'
     - elsif user_signed_in?
       = render 'signin_header'

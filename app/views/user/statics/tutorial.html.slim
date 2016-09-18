@@ -4,22 +4,23 @@
 
   #janru-list
     .table-row
-      #pop.janru_box 邦楽POP
-      #rock.janru_box 邦楽ROCK
+      #pop.janru_box
+        = link_to tutorial_janru_path(2), class: "tabel-link"
+          span 邦楽POP
+      #rock.janru_box
+        = link_to tutorial_janru_path(3), class: "tabel-link"
+          span 邦楽ROCK
     .table-row
-      #ldh.janru_box LDH
-      #idol.janru_box アイドル
+      #ldh.janru_box
+        = link_to tutorial_janru_path(4), class: "tabel-link"
+          span LDH
+      #idol.janru_box
+        = link_to tutorial_janru_path(5), class: "tabel-link"
+          span アイドル
     .table-row
-      #anime.janru_box アニソン・声優
-      #korean.janru_box 韓流
-
-  #artist-selecter
-    検索フォーム
-    table.table
-      tbody
-        tr
-          td いきものがかり
-          td
-            i.fa.fa-star
-        tr
-          td みすちる
+      #anime.janru_box
+        = link_to tutorial_janru_path(6), class: "tabel-link"
+          span アニソン・声優
+      #korean.janru_box
+        = link_to tutorial_janru_path(7), class: "tabel-link"
+          span 韓流

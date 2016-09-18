@@ -1,0 +1,34 @@
+@import "constants"
+
+header.navbar
+  margin-bottom: 0px
+  position: fixed
+  top: 0
+  width: 100%
+  min-height: 40px
+  background-color: #fff
+  border-bottom: 1px solid #ddd
+  .nav div
+    text-align: center
+    font-size: 28px
+    i
+      color: $grey_color
+  .nav.signed-in div
+    width: 25%
+    float: left
+  .nav.unsigned-in
+    div
+    .menu-bar
+      float: right
+      padding-right: 20px
+
+#logo
+  float: left
+  padding-left: 10px
+  a
+    font-size: 28px
+    color: $base_color
+    letter-spacing: -1px
+    font-weight: bold
+  a:hover
+    text-decoration: none

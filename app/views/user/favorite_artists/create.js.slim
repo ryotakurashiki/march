@@ -1,0 +1,8 @@
+- if @favorite_counts > 4
+  | $("#tutorial-notification").removeClass('hidden').fadeIn()
+  |
+- if @related_artists.present?
+  | $("#related_artist-list table").removeClass('hidden')
+    $('#related_artist-list table tbody').append("#{j(render 'add_related_artists')}")
+
+| //$("#artist-#{@favorite_artist.artist_id}").fadeOut();
