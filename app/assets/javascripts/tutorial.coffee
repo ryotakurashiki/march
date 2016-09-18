@@ -21,12 +21,12 @@ $ ->
     $search_result_list.css('height', '112px')
 
     input_text = e.currentTarget.value
-    reg = new RegExp(input_text, "i")
+    #reg = new RegExp(input_text, "i")
 
     $searched_artists = $.grep( $all_artists, (artist) ->
-      return artist.innerText.match(reg)
+      #return artist.innerText.match(reg)
+      ~artist.innerText.indexOf(input_text)
     )
 
     $search_result_tbody.empty().append($searched_artists)
   )
-
