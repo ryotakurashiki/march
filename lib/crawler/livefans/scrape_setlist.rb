@@ -11,7 +11,7 @@ module Crawler::Livefans
     end
 
     def run
-      MediumArtistRelation.livefans.crawlable(3).each do |medium_artist_relation| #.reverse .shuffle
+      MediumArtistRelation.livefans.crawlable(7).each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           begin
