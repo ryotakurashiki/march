@@ -4,12 +4,16 @@
 
   .form-group
     input.string.optional.form-control#artist-search type="text" value="" placeholder="アーティスト名で探す"
+    #search-result-list.artist-selector
+      table.table.hidden
+        tbody
+           = render partial: "user/shared/artist_selector", collection: Artist.all, :as => "artist"
 
   p.artist-selector-title あなたにオススメのアーティスト
-  #related_artist-list
+  #related_artist-list.artist-selector
     table.table.hidden
       tbody
-  #artist-list
+  #artist-list.artist-selector
     table.table
       tbody
         = render partial: "user/shared/artist_selector", collection: @artists, :as => "artist"

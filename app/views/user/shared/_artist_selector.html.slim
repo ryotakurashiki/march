@@ -1,4 +1,4 @@
-tr.artist-item id = "artist-#{artist.id}"
+tr.artist-item id = "artist-#{artist.id}" class = "artist-#{artist.id}"
   td.favorite.star
     = link_to favorite_artists_path(artist_id: artist.id), class: "tabel-link", remote: true, method: :post
       i.fa.fa-star
