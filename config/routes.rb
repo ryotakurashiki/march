@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   	resource :prefectures
     get '/tutorial', to: "statics#tutorial"
     get '/tutorial/:janru', to: "statics#tutorial_janru", as: "tutorial_janru"
+    post '/tutorial/finish', to: "statics#tutorial_finish", as: "tutorial_finish"
     get '/timeline/future', to: "statics#timeline_future"
     get '/timeline/past', to: "statics#timeline_past"
     resource :favorite_artists

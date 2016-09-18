@@ -15,4 +15,4 @@
         = render partial: "user/shared/artist_selector", collection: @artists, :as => "artist"
 
 #tutorial-notification.hidden
-  = link_to "Livelogを始める", root_path
+  = link_to "Livelogを始める", tutorial_finish_path, method: :post
