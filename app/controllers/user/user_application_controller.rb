@@ -4,7 +4,7 @@ class User::UserApplicationController < ApplicationController
 
   def finish_tutorial
     unless current_user.tutorial_finished
-      unless action_name.match(/^tutoria/)
+      unless controller_name.match(/^tutoria/)
         redirect_to tutorial_path if request.get?
       end
     end
