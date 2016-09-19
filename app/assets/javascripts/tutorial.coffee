@@ -27,6 +27,5 @@ $ ->
       #return artist.innerText.match(reg)
       ~artist.innerText.indexOf(input_text)
     )
-
     $search_result_tbody.empty().append($searched_artists)
   )
