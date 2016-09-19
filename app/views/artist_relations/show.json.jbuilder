@@ -1,1 +1,0 @@
-json.partial! "artist_relations/artist_relation", artist_relation: @artist_relation

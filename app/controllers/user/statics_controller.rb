@@ -1,33 +1,16 @@
 class User::StaticsController < User::UserApplicationController
-  def tutorial
-    redirect_to root_path if current_user.tutorial_finished
-  end
-
-  def tutorial_janru
-    redirect_to root_path if current_user.tutorial_finished
-    @artists = Artist.where(category: params[:janru])
-  end
-
-  def tutorial_finish
-    current_user.update(tutorial_finished: true)
-    redirect_to root_path
-  end
-
   def profile
     @user = current_user
     @favorite_prefectures = @user.favorite_prefectures
   end
 
-  def timeline_future
-    @title = "開催前のライブ"
-    @concerts = Concert.all.limit(10)
-    render 'timeline'
-  end
+  def search
+    recommended_artist_ids = current_user.recommended_artist_ids
+    favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
+    recommended_artist_ids -= favorite_artist_ids
 
-  def timeline_past
-    @title = "開催後のライブ"
-    @concerts = Concert.all.limit(10)
-    render 'timeline'
+    #render text: recommended_artist_ids
+    @recommended_artists = Artist.where(id: recommended_artist_ids.shuffle[1..30])
   end
 end
 

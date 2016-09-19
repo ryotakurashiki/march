@@ -1,9 +1,0 @@
-h1.title ライブログ
-
-table.table
-  tbody
-  - @concerts.each do |concert|
-    tr
-      td = concert.try(:title)
-      td = concert.try(:place)
-      td = concert.try(:date)

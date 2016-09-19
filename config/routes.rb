@@ -13,13 +13,17 @@ Rails.application.routes.draw do
     get '/timeline/future', to: "timelines#future"
     get '/timeline/past', to: "timelines#past"
     get '/profile', to: "statics#profile"
+    get '/search', to: "statics#search"
     resource :favorite_artists
     resource :favorite_prefectures
   end
 
-  get '/:username', to: 'users#show', as: 'user_open'
+  #get '/:username', to: 'users#show', as: 'user_open'
   get '/:username/joined', to: 'users#joined', as: 'user_joined'
   get '/:username/joining', to: 'users#joining', as: 'user_joining'
+  resources :artists, only: [:show] do
+    resource :concerts, only: [:show]
+  end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :admins, only: [:sessions]

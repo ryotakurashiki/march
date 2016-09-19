@@ -16,4 +16,5 @@
  *= require bootstrap.min
  *= require base/btn
  *= require base/header
+ *= require module/artist_selector
  */

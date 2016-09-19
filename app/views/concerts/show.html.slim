@@ -1,0 +1,9 @@
+h1.title = "#{@artist.name}"
+
+table.table
+  tbody
+  - @concerts.each do |concert|
+    tr
+      td = concert.try(:title)
+      td = concert.try(:place)
+      td = concert.try(:date)

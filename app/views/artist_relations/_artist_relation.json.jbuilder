@@ -1,2 +1,0 @@
-json.extract! artist_relation, :id, :artist_id, :related_artist_id, :g, :scaffold, :MediumArtistRelation, :medium_id, :artist_id, :medium_artist_id, :created_at, :updated_at
-json.url artist_relation_url(artist_relation, format: :json)

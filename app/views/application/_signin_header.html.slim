@@ -6,7 +6,8 @@ div.nav.signed-in
     = link_to timeline_past_path, method: "get"
       i.fa.fa-history aria-hidden="true"
   div.menu-search
-    i.fa.fa-search aria-hidden="true"
+    = link_to search_path, method: "get"
+      i.fa.fa-search aria-hidden="true"
   div.dropdown.menu-bar
     a.dropdown-toggle href="#" data-toggle="dropdown"
       i.fa.fa-bars aria-hidden="true"
