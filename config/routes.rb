@@ -7,15 +7,14 @@ Rails.application.routes.draw do
   	omniauth_callbacks: "omniauth_callbacks"
   }
   scope module: :user do
-    resource :concerts
-  	resource :artists
-  	resource :prefectures
     get '/tutorial', to: "statics#tutorial"
     get '/tutorial/:janru', to: "statics#tutorial_janru", as: "tutorial_janru"
     post '/tutorial/finish', to: "statics#tutorial_finish", as: "tutorial_finish"
     get '/timeline/future', to: "statics#timeline_future"
     get '/timeline/past', to: "statics#timeline_past"
+    get '/profile', to: "statics#profile"
     resource :favorite_artists
+    resource :favorite_prefectures
   end
 
   get '/:username', to: 'users#show', as: 'user_open'

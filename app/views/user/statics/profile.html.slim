@@ -1,0 +1,26 @@
+h1.title アカウント
+
+.content-container
+  p = "ユーザーID : #{current_user.username}"
+
+  /p ユーザーIDを変更
+   span ※参加履歴と参加ログのURLにつきます
+
+  p.sub-title
+    span 都道府県を登録
+  p.small 登録した都道府県でのライブ情報のみがタイムラインに表示されるようになります
+
+  table.table.prefecture-seletor
+    tbody
+      tr
+        = simple_form_for(FavoritePrefecture.new, as: :favorite_prefecture, url: favorite_prefectures_path, remote:true) do |f|
+          td
+            .form-inputs
+              = f.input :prefecture_id, :collection => Prefecture.all, selected: 122, label: false
+          td
+            .form-actions
+              = f.button :submit, "登録", class: "btn-warning"
+
+  table#registered-prefectures.table.table-boder
+    tbody
+      = render partial: "user/favorite_prefectures/add_favorite_prefecture", collection: @favorite_prefectures, :as => "favorite_prefecture"

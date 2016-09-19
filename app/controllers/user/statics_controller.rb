@@ -13,6 +13,11 @@ class User::StaticsController < User::UserApplicationController
     redirect_to root_path
   end
 
+  def profile
+    @user = current_user
+    @favorite_prefectures = @user.favorite_prefectures
+  end
+
   def timeline_future
     @concerts = Concert.all.limit(10)
     render 'timeline'

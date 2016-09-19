@@ -1,0 +1,12 @@
+.pl8 id = "favorite_prefecture-#{favorite_prefecture.id}"
+  = link_to '解除', favorite_prefectures_path(id: favorite_prefecture.id), method: :delete, remote: true,
+  class: "btn btn-sm btn-default"
+  span.pl10
+    = favorite_prefecture.prefecture.name
+
+/tr id = "favorite_prefecture-#{favorite_prefecture.id}"
+  td.center
+    = link_to '解除', favorite_prefectures_path(id: favorite_prefecture.id), method: :delete, remote: true,
+    class: "btn btn-sm btn-default"
+    span.pl10
+      = favorite_prefecture.prefecture.name
