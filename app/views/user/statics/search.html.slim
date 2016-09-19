@@ -4,13 +4,13 @@
 
   .form-group
     input.string.optional.form-control#artist-search type="text" value="" placeholder="アーティスト名で探す" autofocus=true
-    #search-result-list.artist-selector
+    #search-result-list.artist-list
       table.table.hidden
         tbody
            = render partial: "user/shared/artist_list", collection: Artist.all, :as => "artist"
 
   p.artist-selector-title.text-center あなたにオススメのアーティスト
-  #related_artist-list.artist-selector
+  #related_artist-list.artist-list
     table.table
       tbody
         = render partial: "user/shared/artist_list", collection: @recommended_artists, :as => "artist"

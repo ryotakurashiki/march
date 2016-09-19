@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require turbolinks
+//= require lib/artist_search
 //= require_tree .
