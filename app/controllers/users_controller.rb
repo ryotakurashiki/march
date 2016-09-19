@@ -7,6 +7,14 @@ class UsersController < ApplicationController
     @prefectures = @this_user.prefectures
   end
 
+  def joining
+    @concerts = Concert.all.limit(10)
+  end
+
+  def joined
+    @concerts = Concert.all.limit(10)
+  end
+
   private
 
   def set_user

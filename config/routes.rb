@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   end
 
   get '/:username', to: 'users#show', as: 'user_open'
+  get '/:username/joined', to: 'users#joined', as: 'user_joined'
+  get '/:username/joining', to: 'users#joining', as: 'user_joining'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :admins, only: [:sessions]
   namespace :admin do

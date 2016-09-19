@@ -19,11 +19,13 @@ class User::StaticsController < User::UserApplicationController
   end
 
   def timeline_future
+    @title = "開催前のライブ"
     @concerts = Concert.all.limit(10)
     render 'timeline'
   end
 
   def timeline_past
+    @title = "開催後のライブ"
     @concerts = Concert.all.limit(10)
     render 'timeline'
   end

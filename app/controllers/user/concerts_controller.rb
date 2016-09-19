@@ -3,6 +3,7 @@ class User::ConcertsController < User::UserApplicationController
 
   # GET /concerts
   # GET /concerts.json
+
   def index
     @concerts = Concert.all
   end
