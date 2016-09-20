@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root to: "statics#welcome"
 
+  # お問い合わせ
+  get 'inquiry' => 'inquiry#index'              # 入力画面
+  post 'inquiry/thanks' => 'inquiry#thanks'     # 送信完了画面
+
   devise_for :users, controllers: {
   	confirmations: 'confirmations',
   	omniauth_callbacks: "omniauth_callbacks"
