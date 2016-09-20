@@ -18,3 +18,17 @@ $ ->
     )
     $search_result_tbody.empty().append($searched_artists)
   )
+
+
+#$.ajax({
+#    url: location.pathname + "/social_accounts",
+#    dataType: 'json',
+#    success: (json) ->
+#      return false  if json.length == 0
+#      if twitter = json.twitter
+#        $("#twitter_followers_count")
+#         .html(numberFormat(twitter.followers_count))
+#    if facebook = json.facebook
+#     $("#facebook_followers_count")
+#      .html(numberFormat(facebook.followers_count))
+#  })

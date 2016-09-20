@@ -6,6 +6,7 @@ class Artist < ApplicationRecord
   has_many :medium_artist_relations
   has_many :media, through: :medium_artist_relations
   has_many :favorite_artists
+  accepts_nested_attributes_for :favorite_artists
   has_many :users, through: :favorite_artists
   has_many :artists, through: :artist_relations, foreign_key: :related_artist_id
 
