@@ -4,8 +4,8 @@ tr.ticket-item
   td.media
     = link_to root_path, target: "_blank"
       span
-        p.ticket-media
-          = image_tag "media_logo/camp.png"
+        p.media-logo
+          = image_tag ticket.medium.logo_path
 
   td.info
     = link_to root_path, target: "_blank"

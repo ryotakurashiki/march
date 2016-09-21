@@ -1,5 +1,6 @@
 class Ticket < ApplicationRecord
   belongs_to :concert
+  belongs_to :medium
 
   scope :last_update_before, -> (start_date = Time.zone.now) { where(arel_table[:updated_at].lt(start_date)) }
 
