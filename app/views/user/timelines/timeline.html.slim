@@ -1,9 +1,27 @@
 h1.title = @title
 
-table.table
-  tbody
+section.concert-list
   - @concerts.each do |concert|
-    tr
-      td = concert.try(:title)
-      td = concert.try(:place)
-      td = concert.try(:date)
+    .concert-item.clearfix id = "concert-#{concert.id}"
+      .concert-info
+        span.title = concert.try(:title)
+        br
+        span.date = jp_date concert.try(:date)
+        span.place = "@#{concert.try(:place)}(#{concert.prefecture.name})"
+
+      .concert-widget
+        span.join
+          = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
+            i.fa.fa-check-circle aria-hidden="true"
+            |  参加する
+        span.ticket
+          a
+            i.fa.fa-ticket aria-hidden="true"
+            |  チケットを探す
+
+          /.ticket
+            i.fa.fa-ticket aria-hidden="true"
+            |  チケットを探す
+          /.join
+            i.fa.fa-check-circle aria-hidden="true"
+            |  参加予定

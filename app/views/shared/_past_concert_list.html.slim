@@ -1,0 +1,16 @@
+.concert-item.clearfix id = "concert-#{concert.id}"
+  .concert-info
+    span.title = concert.try(:title)
+    br
+    span.date = jp_date concert.try(:date)
+    span.place = "@#{concert.try(:place)}(#{concert.prefecture.name})"
+
+  .concert-widget
+    span.join
+      = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
+        i.fa.fa-check-circle aria-hidden="true"
+        |  参加した
+    span.setlist
+      a
+        i.fa.fa-music aria-hidden="true"
+        |  セトリを見る

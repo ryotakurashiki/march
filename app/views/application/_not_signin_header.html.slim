@@ -8,7 +8,7 @@ div.nav.unsigned-in
       li = link_to 'アカウント作成', new_user_registration_path
       li = link_to 'ログイン', root_path
       li.divider
-      li = link_to "お問い合わせ", root_path
+      li = link_to "お問い合わせ", inquiry_path
 - unless action_name == "welcome" || controller_path.match(/^devise/)
   div#signup-bar
     = link_to 'アカウント作成', new_user_registration_path, class: "btn signup-btn"

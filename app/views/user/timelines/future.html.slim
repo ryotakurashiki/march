@@ -1,0 +1,4 @@
+h1.title = @title
+
+section.concert-list
+  = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"

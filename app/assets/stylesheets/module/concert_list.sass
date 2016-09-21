@@ -1,0 +1,50 @@
+@import "constants"
+
+section.concert-list
+  .concert-item.highlight
+    background-color: #FFF5DE
+  .concert-item
+    border-collapse: collapse
+    padding-top: 10px
+    //margin-bottom: 5px
+    border-top: 1px solid #ddd
+    border-bottom: 1px solid #ddd
+    .concert-info
+      padding-left: 10px
+      padding-right: 10px
+      .title
+        font-weight: bold
+        font-size: 95%
+      .date, .place
+        font-size: 80%
+    .concert-widget
+      margin-top: 5px
+      margin-right: 10px
+      margin-left: 10px
+      padding: 5px 0
+      border-top: 1px solid #e5e5e5
+      .join, .ticket, .setlist
+        a
+          font-size: 90%
+        a:hover, a:focus
+          text-decoration: none
+      .join a
+        color: $grey_color
+      .join.active a
+        color: $base_color
+      .ticket a, .setlist a
+        margin-left: 15px
+        color: #489CDF
+
+/*
+  .join, .ticket
+    width: 50%
+    text-align: center
+    font-size: 95%
+    margin-top: 5px
+    padding: 5px 0 5px 0
+    border-top: 1px solid #ddd
+    float: left
+  .join
+    border-left: 1px solid #ddd
+/*

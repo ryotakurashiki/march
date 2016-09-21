@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get '/search', to: "statics#search"
     resource :favorite_artists
     resource :favorite_prefectures
+    resource :user_concert_joinings, only: [:create]
   end
 
   #get '/:username', to: 'users#show', as: 'user_open'
@@ -27,6 +28,9 @@ Rails.application.routes.draw do
   get '/:username/joining', to: 'users#joining', as: 'user_joining'
   resources :artists, only: [:show] do
     resource :concerts, only: [:show]
+  end
+  resources :concerts, only: [:show] do
+    resource :tickets, only: [:show]
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
