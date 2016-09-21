@@ -1,0 +1,10 @@
+h1.title
+  span.date = jp_date @concert.try(:date)
+  span.place = "@#{@concert.try(:place)}(#{@concert.prefecture.name})"
+  br
+  = "#{@concert.title}"
+  | のチケット一覧
+
+table.ticket-list.table-boder.table
+  tbody
+    = render partial: "shared/ticket_list", collection: @tickets, :as => "ticket"

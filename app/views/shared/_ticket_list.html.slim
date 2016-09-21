@@ -1,0 +1,15 @@
+- images = { "ヤフオク" => "site-logo/yahuoku_logo.png", "楽天オークション" => "site-logo/rakuten_logo.png", "モバオク" => "site-logo/mabaoku_logo.png", "チケット流通センター" => "site-logo/tikeryu_logo.gif", "チケットキャンプ" => "site-logo/tikecam_logo.png", "チケットストリート" => "site-logo/tikesuto_logo2.png"}
+
+tr.ticket-item
+  td.media
+    = link_to root_path, target: "_blank"
+      span
+        p.ticket-media
+          = image_tag "media_logo/camp.png"
+
+  td.info
+    = link_to root_path, target: "_blank"
+      span
+        p.seat = ticket.seat
+        p.price
+          span = "#{number_with_delimiter ticket.price}円"

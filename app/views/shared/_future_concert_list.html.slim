@@ -11,6 +11,6 @@
         i.fa.fa-check-circle aria-hidden="true"
         |  参加する
     span.ticket
-      a
+      = link_to concert_tickets_path(concert_id: concert.id)
         i.fa.fa-ticket aria-hidden="true"
         |  チケットを探す

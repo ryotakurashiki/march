@@ -1,0 +1,33 @@
+@import "constants"
+
+body.tickets
+  h1.title
+    .date, .place
+      font-size: 70%
+      color: $grey_color
+  .ticket-list
+    .ticket-item
+      .media, .info
+        height: 3em
+        background: #fff
+        a
+          display: table
+          width: 100%
+          height: 100%
+          span
+            display: table-cell
+            vertical-align: middle
+      .media
+        width: 20%
+        vertical-align: middle
+        img
+          width: 100%
+      .info
+        width: 80%
+        .seat
+          font-size: 80%
+          color: #000
+          margin-bottom: 5px
+        .price
+          color: #3391d6
+          margin-bottom: 0
