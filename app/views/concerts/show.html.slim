@@ -1,5 +1,9 @@
 h1.title = "#{@artist.name}"
 
+.concert-fileter
+  .form-inputs
+    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name)
+
 section.concert-list
   - @concerts.each do |concert|
     - if concert.close?
