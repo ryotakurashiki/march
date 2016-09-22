@@ -1,0 +1,6 @@
+h1.title お気に入りアーティスト
+
+.artist-list
+  table.table
+    tbody
+      = render partial: "user/shared/artist_list", collection: @artists, :as => "artist"

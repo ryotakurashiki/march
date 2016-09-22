@@ -1,9 +1,8 @@
 h1.title = "#{@artist.name}"
 
-table.table
-  tbody
+section.concert-list
   - @concerts.each do |concert|
-    tr
-      td = concert.try(:title)
-      td = concert.try(:place)
-      td = concert.try(:date)
+    - if concert.close?
+      = render "shared/past_concert_list", concert: concert
+    - else
+      = render "shared/future_concert_list", concert: concert

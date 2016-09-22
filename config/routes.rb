@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     get '/timeline/past', to: "timelines#past"
     get '/profile', to: "statics#profile"
     get '/search', to: "statics#search"
-    resource :favorite_artists
+    resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures
     resource :user_concert_joinings, only: [:create]
   end

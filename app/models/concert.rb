@@ -11,7 +11,7 @@ class Concert < ApplicationRecord
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
 
   def close?(days = 0)
-    date < days.days.ago
+    date < days.days.ago.to_date
   end
 
   def self.find_or_create_by(params)

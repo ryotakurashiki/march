@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user
+  before_action :set_concerts
   def show
   	#render text: params[:username]
     @concerts = @this_user.concerts
@@ -8,16 +9,20 @@ class UsersController < ApplicationController
   end
 
   def joining
-    @concerts = Concert.all.limit(10)
+    @concerts = @concerts.open.order("date")
   end
 
   def joined
-    @concerts = Concert.all.limit(10)
+    @concerts = @concerts.close.order("date DESC")
   end
 
   private
 
   def set_user
   	@this_user = User.find_by(username: params[:username])
+  end
+
+  def set_concerts
+    @concerts = @this_user.concerts
   end
 end

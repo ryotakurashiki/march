@@ -19,6 +19,7 @@ module Crawler::Livefans
             setlists = []
             artist = medium_artist_relation.artist
             crawl_status = medium_artist_relation.crawl_status
+            crawl_status.update(crawled_on: Time.zone.now)
             crawl_status.error_count = 0
             stop_pagination = false
 

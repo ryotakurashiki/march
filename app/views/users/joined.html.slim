@@ -1,9 +1,4 @@
 h1.title 参加ログ
 
-table.table
-  tbody
-  - @concerts.each do |concert|
-    tr
-      td = concert.try(:title)
-      td = concert.try(:place)
-      td = concert.try(:date)
+section.concert-list
+  = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"

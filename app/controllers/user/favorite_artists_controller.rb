@@ -1,6 +1,10 @@
 class User::FavoriteArtistsController < User::UserApplicationController
   # POST /artists
   # POST /artists.json
+  def show
+    @artists = current_user.artists
+  end
+
   def create
     #@favorite_artist = FavoriteArtist.new(artist_id: params[:artist_id], user_id: current_user.id)
     @favorite_artist = FavoriteArtist.find_by(artist_id: params[:artist_id], user_id: current_user.id)

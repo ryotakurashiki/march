@@ -13,7 +13,7 @@ class ConcertsController < ApplicationController
 
     def set_concert
       #@concert = Concert.find(params[:id])
-      @concerts = @artist.concerts
+      @concerts = @artist.concerts.order("date DESC")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

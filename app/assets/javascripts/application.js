@@ -15,4 +15,5 @@
 //= require bootstrap.min
 //= require turbolinks
 //= require lib/artist_search
+//= require lib/artist_list
 //= require_tree .
