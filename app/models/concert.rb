@@ -7,7 +7,7 @@ class Concert < ApplicationRecord
   has_many :users, through: :user_concert_joinings
   has_many :tickets
 
-  scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago)) }
+  scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
 
   def close?(days = 0)
