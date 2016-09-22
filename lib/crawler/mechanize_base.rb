@@ -36,7 +36,8 @@ module Crawler
 
     def create_agent
       @agent = Mechanize.new
-      @agent.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X)"
+      #@agent.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X)"
+      mech.user_agent_alias = 'Mac Safari'
       @agent.keep_alive = false
       @agent.open_timeout = 120
       @agent.read_timeout = 180
