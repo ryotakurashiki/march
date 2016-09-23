@@ -1,5 +1,9 @@
 h1.title = "#{@artist.name}"
 
+.content-divider
+  p.artist-ranking-cap
+    | 出演ライブ
+
 .concert-fileter
   .form-inputs
     = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, prompt: "都道府県で絞る")
