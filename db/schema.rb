@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921151918) do
+ActiveRecord::Schema.define(version: 20160923064455) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -191,13 +191,16 @@ ActiveRecord::Schema.define(version: 20160921151918) do
     t.string   "unconfirmed_email"
     t.string   "provider"
     t.string   "uid"
-    t.string   "username",               default: "名無し"
+    t.string   "username",               default: "",    null: false
+    t.string   "username_jp",            default: "なまえ"
+    t.string   "icon"
     t.boolean  "tutorial_finished"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
 end

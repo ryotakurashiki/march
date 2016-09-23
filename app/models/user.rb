@@ -19,6 +19,8 @@ class User < ApplicationRecord
       user.provider = auth["provider"]
       user.uid = auth["uid"]
       user.username = auth["info"]["nickname"]
+      user.username_jp = auth["info"]["name"]
+      user.icon = auth["info"]["image"]
       user.skip_confirmation!
     end
   end

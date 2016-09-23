@@ -1,5 +1,1 @@
-- @concerts.each do |concert|
-  - if concert.close?
-    = render "shared/past_concert_list", concert: concert
-  - else
-    = render "shared/future_concert_list", concert: concert
+= render partial: "user/shared/artist_selector", collection: @related_artists, :as => "artist"
