@@ -15,7 +15,7 @@ class Concert < ApplicationRecord
     date < days.days.ago.to_date
   end
 
-  def appearance_artists_filtered(user)
+  def appearance_artists_filtered(user = current_user)
     #artists.includes(:favorite_artists).where(favorite_artists: {user_id: user.id}).order("favorite_artists.artist_id")
     artists.find_by_sql(
       "SELECT artists.*, favorite_artists.id from artists LEFT OUTER JOIN favorite_artists

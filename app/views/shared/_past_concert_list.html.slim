@@ -7,7 +7,8 @@
     br
     - artists_num = concert.artists.size
     /- concert.artists.shuffle.each_with_index do |artist, i|
-    - concert.appearance_artists_filtered(@this_user).each_with_index do |artist, i|
+    - user = @this_user || current_user
+    - concert.appearance_artists_filtered(user).each_with_index do |artist, i|
       - if i == 3
         span.label-block.label-thin_base.mr3 = "他#{artists_num-3}アーティスト"
         - break
