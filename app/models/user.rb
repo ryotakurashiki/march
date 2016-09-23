@@ -31,8 +31,18 @@ class User < ApplicationRecord
       user.username = auth["info"]["nickname"]
       user.username_jp = auth["info"]["name"]
       user.description = auth["info"]["description"].to_s[0,255]
-      user.icon = auth["info"]["image"].to_s.sub('normal', 'bigger')
+      user.icon_tw = auth["info"]["image"].to_s.sub('normal', 'bigger')
       user.skip_confirmation!
+    end
+  end
+
+  def icon_path
+    if icon.present?
+      return icon
+    elsif icon_tw.present?
+      return icon_tw
+    else
+      return "default_icon.png"
     end
   end
 

@@ -1,5 +1,5 @@
 class ChangeIconToUser < ActiveRecord::Migration[5.0]
   def change
-    change_column :users, :icon, :string, default: "default_icon.png"
+    add_column :users, :icon_tw, :string, after: :icon
   end
 end

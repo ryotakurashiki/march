@@ -5,7 +5,7 @@ h1.title アカウント
     = f.error_notification
 
     .form-inputs
-      = image_tag(current_user.icon, size: "73x73")
+      = image_tag(current_user.icon_path, size: "73x73")
       = f.input :icon, label: "アイコン画像", input_html: { preview_version: :thumb }
       = f.input :username, required: true, autofocus: true, label: "ユーザーID"
       = f.input :username_jp, required: true, autofocus: true, label: "ユーザー名"
