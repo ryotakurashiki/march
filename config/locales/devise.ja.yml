@@ -1,6 +1,6 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
-en:
+ja:
   devise:
     confirmations:
       confirmed: "登録が完了しました"
@@ -59,4 +59,4 @@ en:
       not_locked: "was not locked"
       not_saved:
         one: "エラーが見つかりました:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+        other: "%{count}つのエラーが見つかりました"

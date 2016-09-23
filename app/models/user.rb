@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  before_create :set_usernames
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -13,9 +14,13 @@ class User < ApplicationRecord
   has_many :concerts, through: :user_concert_joinings
   mount_uploader :icon, ImageUploader
 
-  validates :email, presence: true
-  validates :username, presence: true
-  validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
+  #validates :email, presence: true
+  #validates :username, presence: true
+  #validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
+
+  def set_usernames
+    self.username = get_random_string(8)
+  end
 
   def self.from_omniauth(auth)
     where(provider: auth["provider"], uid: auth["uid"]).first_or_create do |user|
@@ -54,5 +59,14 @@ class User < ApplicationRecord
     else
       super
     end
+  end
+
+  private
+
+  def get_random_string (length = 8)
+    source = ("a".."z").to_a + ("A".."Z").to_a + (0..9).to_a
+    key = ""
+    length.times{ key += source[rand(source.size)].to_s }
+    return key
   end
 end
