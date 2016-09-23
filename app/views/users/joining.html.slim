@@ -1,4 +1,12 @@
-h1.title 参加予定
+
+= render "profile", user: @this_user
+
+= render "menu_bar", user: @this_user
+
+.content-divider
+  p
+    i.fa.fa-check-circle aria-hidden="true"
+    | 参加予定のライブ
 
 section.concert-list
   = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"

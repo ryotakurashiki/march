@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   #get '/:username', to: 'users#show', as: 'user_open'
   get '/:username/joined', to: 'users#joined', as: 'user_joined'
   get '/:username/joining', to: 'users#joining', as: 'user_joining'
+  get '/:username/favorite', to: 'users#favorite', as: 'user_favorite'
   resources :artists, only: [:show] do
     resource :concerts, only: [:show] do
       post '/filter', to: 'concerts#filter'

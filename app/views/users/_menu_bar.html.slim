@@ -1,0 +1,7 @@
+.nav.users-menu
+  .joining
+    = link_to "参加予定", user_joining_path(user.username), method: "get"
+  .joined
+    = link_to "参加ログ", user_joined_path(user.username), method: "get"
+  .favorite
+    = link_to "お気に入り", user_favorite_path(user.username), method: "get"

@@ -20,9 +20,18 @@ class User < ApplicationRecord
       user.uid = auth["uid"]
       user.username = auth["info"]["nickname"]
       user.username_jp = auth["info"]["name"]
-      user.icon = auth["info"]["image"]
+      user.description = auth["info"]["description"].to_s[0,255]
+      user.icon = auth["info"]["image"].to_s.sub('normal', 'bigger')
       user.skip_confirmation!
     end
+  end
+
+  def next_live
+    concerts.open.order("date").limit(1).first
+  end
+
+  def last_live
+    concerts.close.order("date desc").limit(1).first
   end
 
   def recommended_artist_ids

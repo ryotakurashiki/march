@@ -1,0 +1,9 @@
+
+= render "profile", user: @this_user
+
+= render "menu_bar", user: @this_user
+
+.artist-list
+  table.table
+    tbody
+      = render partial: "user/shared/artist_list", collection: @artists, :as => "artist"

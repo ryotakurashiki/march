@@ -1,11 +1,17 @@
-table.artist-ranking
-  tbody
-    - artist_ids_with_count.each do |a|
-      tr.ranking-item
-        td.artist-name
-          = Artist.find(a[0]).name
-        td.count
-          = "#{a[1]}回"
-    tr.fes
-      td.artist-name フェス・イベント
-      td.count n回
+.content-divider
+  p.artist-ranking-cap
+    i.fa.fa-trophy
+    | よく見たアーティストランキング
+
+.ptb5.pl10
+  table.artist-ranking
+    tbody
+      - artist_ids_with_count.each do |a|
+        tr.ranking-item
+          td.artist-name
+            = Artist.find(a[0]).name
+          td.count
+            = "#{a[1]} 回"
+      tr.fes
+        td.artist-name フェス・イベント
+        td.count n 回

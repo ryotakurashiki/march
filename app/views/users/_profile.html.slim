@@ -1,0 +1,22 @@
+.profile
+  .profile-header.clearfix
+    .icon
+      = image_tag(user.icon, size: "73x73")
+      /= image_tag("default_icon.png", size: "73x73")
+    .name
+      span.username_jp = user.username_jp
+      br
+      - if user.provider
+        = link_to 'https://twitter.com/#{user.username}'
+          span.twitter-iqon
+            i.fa.fa-twitter
+          span.username = user.username
+      - else
+        span.username = user.username
+  .description
+    = user.description
+  /.schedule
+    p 次の参加予定
+    = user.next_live.title
+    p 最近参加したライブ
+    = user.last_live.title

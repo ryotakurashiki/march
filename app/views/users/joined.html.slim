@@ -1,9 +1,21 @@
-h1.title 参加ログ
+= render "profile", user: @this_user
 
-= select :params, :year, @years, prompt: "全期間", selected: @year
+= render "menu_bar", user: @this_user
+
+.joined-head
+  p.select-yaer
+    span.select
+      = select :params, :year, @years, selected: @year
+    span.after-text
+     | のログ
 
 - if @artist_ids_with_count.size == 3
   = render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
+
+.content-divider
+  p
+    i.fa.fa-check-circle aria-hidden="true"
+    | 参加したライブ
 
 section.concert-list
   = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"

@@ -23,6 +23,10 @@ class UsersController < ApplicationController
     @concerts = @concerts.order("date DESC")
   end
 
+  def favorite
+    @artists = @this_user.artists
+  end
+
   private
 
   def set_user
