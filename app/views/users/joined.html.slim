@@ -18,5 +18,5 @@
     | 参加したライブ
 
 section.concert-list
-  = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
+  = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert", user: @this_user
 
