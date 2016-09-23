@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'ready turbolinks:load', ->
   if $('body.users.joined').length
 
     agent = navigator.userAgent

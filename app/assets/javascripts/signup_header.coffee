@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'ready turbolinks:load', ->
   signup_bar = $('#signup-bar')
   $(window).scroll( ->
     if ($(this).scrollTop() > 50)

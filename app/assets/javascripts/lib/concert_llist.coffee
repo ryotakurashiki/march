@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'ready turbolinks:load', ->
   $(".concert-item").on('click','.artist-item', ->
     $artist_search.val("")
     $class = $(this).attr('class').split(" ")[1]

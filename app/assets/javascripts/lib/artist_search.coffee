@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'ready turbolinks:load', ->
   $all_artists = $('#search-result-list table tbody').children('tr')
   $search_result_list = $('#search-result-list')
   $search_result_table = $('#search-result-list table')
