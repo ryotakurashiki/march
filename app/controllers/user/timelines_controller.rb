@@ -3,14 +3,14 @@ class User::TimelinesController < User::UserApplicationController
 
   def future
     @title = "開催前のライブ"
-    @concerts = @concerts.open.order("date")
+    @concerts = @concerts.open.limit(200).order("date")
     #@concerts = Concert.all.limit(10)
     #render 'timeline'
   end
 
   def past
     @title = "終了したライブ"
-    @concerts = @concerts.close.order("date DESC")
+    @concerts = @concerts.close.limit(200).order("date DESC")
     #@concerts = Concert.all.limit(10)
     #render 'timeline'
   end

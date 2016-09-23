@@ -9,7 +9,7 @@ class Concert < ApplicationRecord
 
   scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
-  scope :this_year, -> (year) { where(date: (Date.new(year, 1, 1))..(Date.new(year, 12, 31))).order }
+  scope :this_year, -> (year) { where(date: (Date.new(year, 1, 1))..(Date.new(year, 12, 31))) }
 
   def close?(days = 0)
     date < days.days.ago.to_date

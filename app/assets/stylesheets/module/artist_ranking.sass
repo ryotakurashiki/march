@@ -1,0 +1,67 @@
+@import "constants"
+
+.artist-ranking
+  position: relative
+  z-index: -100
+  margin: 10px
+  padding: 0
+
+  td.count
+    padding-left: 10px
+    text-align: right
+
+  td.artist-name
+    position: relative
+    margin: 0
+    padding: 0 0 0 18px
+
+  td.artist-name::before
+    position: absolute
+    top: 3px
+    left: 1px
+    color: #d05
+    content: "★"
+    font-size: 9px
+
+  .ranking-item:first-child, .ranking-item:nth-child(2), .ranking-item:nth-child(3)
+    td.artist-name::before
+      position: absolute
+      top: -2px
+      left: 0
+      width: 0
+      height: 0
+      border: 6px solid transparent
+      border-bottom: 10px solid #fb0
+      content: ""
+
+  .ranking-item:first-child, .ranking-item:nth-child(2), .ranking-item:nth-child(3)
+    td.artist-name::after
+      position: absolute
+      top: 6px
+      left: 0
+      width: 0
+      height: 0
+      border: 6px solid #fb0
+      border-top: 3px solid transparent
+      border-bottom: 6px solid #f90
+      content: ""
+
+  .ranking-item:nth-child(2)
+    td.artist-name::before
+      border-bottom: 10px solid #ccc
+
+  .ranking-item:nth-child(2)
+    td.artist-name::after
+      border: 6px solid #ccc
+      border-top: 3px solid transparent
+      border-bottom: 6px solid #aaa
+
+  .ranking-item:nth-child(3)
+    td.artist-name::before
+      border-bottom: 10px solid #d98
+
+  .ranking-item:nth-child(3)
+    td.artist-name::after
+      border: 6px solid #d98
+      border-top: 3px solid transparent
+      border-bottom: 6px solid #c76

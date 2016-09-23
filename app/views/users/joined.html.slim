@@ -1,4 +1,10 @@
 h1.title 参加ログ
 
+= select :params, :year, @years, prompt: "全期間", selected: @year
+
+- if @artist_ids_with_count.size == 3
+  = render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
+
 section.concert-list
   = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
+

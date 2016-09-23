@@ -13,7 +13,14 @@ class UsersController < ApplicationController
   end
 
   def joined
-    @concerts = @concerts.close.order("date DESC")
+    @concerts = @concerts.close
+    @years = @concerts.pluck(:date).sort.reverse.map{|date| ["#{date.year}年", date.year]}.uniq.unshift(["全期間", nil])
+    if params[:year].present?
+      @year = params[:year].to_i
+      @concerts = @concerts.this_year(@year)
+    end
+    @artist_ids_with_count = @concerts.joins(:appearance_artists).group("appearance_artists.artist_id").order("count(*) DESC").limit(3).count.to_a
+    @concerts = @concerts.order("date DESC")
   end
 
   private

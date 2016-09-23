@@ -1,0 +1,11 @@
+table.artist-ranking
+  tbody
+    - artist_ids_with_count.each do |a|
+      tr.ranking-item
+        td.artist-name
+          = Artist.find(a[0]).name
+        td.count
+          = "#{a[1]}回"
+    tr.fes
+      td.artist-name フェス・イベント
+      td.count n回
