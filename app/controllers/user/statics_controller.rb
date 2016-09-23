@@ -5,6 +5,7 @@ class User::StaticsController < User::UserApplicationController
   end
 
   def update
+    #if @inquiry.valid?
     @user = current_user.update(user_params)
     redirect_to account_path
   end

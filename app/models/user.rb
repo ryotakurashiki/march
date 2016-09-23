@@ -11,6 +11,11 @@ class User < ApplicationRecord
   has_many :prefectures, through: :favorite_prefectures
   has_many :user_concert_joinings
   has_many :concerts, through: :user_concert_joinings
+  mount_uploader :icon, ImageUploader
+
+  validates :email, presence: true
+  validates :username, presence: true
+  validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
 
   def self.from_omniauth(auth)
     where(provider: auth["provider"], uid: auth["uid"]).first_or_create do |user|

@@ -1,10 +1,12 @@
 h1.title アカウント
 
 .content-container
-  = simple_form_for(current_user, as: :user, url: account_path, html: { method: :put }) do |f|
+  = simple_form_for(@user, as: :user, url: account_path, html: { method: :put }) do |f|
     = f.error_notification
 
     .form-inputs
+      = image_tag(current_user.icon, size: "73x73")
+      = f.input :icon, label: "アイコン画像", input_html: { preview_version: :thumb }
       = f.input :username, required: true, autofocus: true, label: "ユーザーID"
       = f.input :username_jp, required: true, autofocus: true, label: "ユーザー名"
       = f.input :description, required: true, autofocus: true, as: :text, label: "自己紹介"
