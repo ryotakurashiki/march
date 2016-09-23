@@ -7,6 +7,18 @@ $ ->
       data: {
         prefecture_id: this.value
       },
-      dataType: 'json'
+      dataType: 'script'
+    })
+  )
+
+  $("#date_year").change( ->
+    console.log(this.value)
+    $.ajax({
+      url: location.pathname + "/filter",
+      method: "post",
+      data: {
+        year: this.value
+      },
+      dataType: 'script'
     })
   )

@@ -3,11 +3,19 @@ class ConcertsController < ApplicationController
   before_action :set_concert, only: [:show]
 
   def show
+    @years = @concerts.pluck(:date).map{|date| ["#{date.year}年", date.year]}.uniq
   end
 
   def filter
-    @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC")
-    #render json: @concerts, status: :ok
+    if params[:prefecture_id]
+      @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC")
+    elsif params[:year]
+      year = params[:year].to_i
+      #first_date = Date.new(2000, 1, 1)
+      #last_date = Date.new(2000, 12, 31)
+      @concerts = @artist.concerts.this_year(year).order("date DESC")
+      #where(arel_table[:date].lteq(last_date).gteq(first_date)).order("date DESC")
+    end
   end
 
   private
