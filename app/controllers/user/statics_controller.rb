@@ -1,7 +1,12 @@
 class User::StaticsController < User::UserApplicationController
-  def profile
+  def account
     @user = current_user
     @favorite_prefectures = @user.favorite_prefectures
+  end
+
+  def update
+    @user = current_user.update(user_params)
+    redirect_to account_path
   end
 
   def search
@@ -15,6 +20,12 @@ class User::StaticsController < User::UserApplicationController
      #Artist.where(id: [9160, 9180]).eager_load(:favorite_artists).merge(FavoriteArtist.where(user_id: 30))
 
     @recommended_artists = Artist.where(id: recommended_artist_ids.shuffle[1..30])
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:username, :username_jp, :description, :icon)
   end
 end
 

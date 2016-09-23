@@ -16,7 +16,8 @@ Rails.application.routes.draw do
     post '/tutorial/finish', to: "tutorials#finish"
     get '/timeline/future', to: "timelines#future"
     get '/timeline/past', to: "timelines#past"
-    get '/profile', to: "statics#profile"
+    get '/account', to: "statics#account"
+    put '/account', to: "statics#update"
     get '/search', to: "statics#search"
     resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures
