@@ -3,7 +3,13 @@ class User::TimelinesController < User::UserApplicationController
 
   def future
     @title = "開催前のライブ"
-    @concerts = @concerts.open.limit(200).order("date")
+    prefectures = current_user.prefectures
+    if prefectures.present?
+      @concerts = @concerts.joins(:prefecture).merge(current_user.prefectures).
+        open.limit(200).order("date")
+    else
+      @concerts = @concerts.open.limit(200).order("date")
+    end
     #@concerts = Concert.all.limit(10)
     #render 'timeline'
   end
