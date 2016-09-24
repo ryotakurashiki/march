@@ -5,4 +5,8 @@ class AppearanceArtist < ApplicationRecord
   def self.create_or_find(params)
     self.create(params) unless self.find_by()
   end
+
+  def setlist_url
+    "http://www.livefans.jp" + setlist_path
+  end
 end

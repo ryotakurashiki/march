@@ -15,6 +15,24 @@ class Concert < ApplicationRecord
     date < days.days.ago.to_date
   end
 
+  def setlist_url
+    if appearance_artists.size == 1
+      appearance_artists.first.setlist_url
+    elsif livefans_path.empty?
+      if appearance_artists.first.setlist_path.present?
+        appearance_artists.first.setlist_url
+      else
+        return nil
+      end
+    else
+      self.livefans_url
+    end
+  end
+
+  def livefans_url
+    "http://www.livefans.jp" + livefans_path
+  end
+
   def appearance_artists_filtered(user = current_user)
     #artists.includes(:favorite_artists).where(favorite_artists: {user_id: user.id}).order("favorite_artists.artist_id")
     artists.find_by_sql(

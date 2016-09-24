@@ -6,7 +6,6 @@
     span.place = "@#{concert.try(:place)}(#{concert.prefecture.name})"
     br
     - artists_num = concert.artists.size
-    /- concert.artists.shuffle.each_with_index do |artist, i|
     - user = @this_user || current_user
     - concert.appearance_artists_filtered(user).each_with_index do |artist, i|
       - if i == 3
@@ -19,7 +18,8 @@
       = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
         i.fa.fa-check-circle aria-hidden="true"
         |  参加した
-    span.setlist
-      a
-        i.fa.fa-music aria-hidden="true"
-        |  セトリを見る
+    - if concert.setlist_url.present?
+      span.setlist
+        = link_to concert.setlist_url, target: "_blank"
+          i.fa.fa-music aria-hidden="true"
+          |  セトリを見る
