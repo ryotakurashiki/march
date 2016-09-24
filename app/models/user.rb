@@ -14,9 +14,9 @@ class User < ApplicationRecord
   has_many :concerts, through: :user_concert_joinings
   mount_uploader :icon, ImageUploader
 
-  validates :email, presence: true
-  validates :username, presence: true
-  validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
+  #validates :email, presence: true
+  #validates :username, presence: true
+  #validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
 
   def set_usernames
     self.username = get_random_string(8)
