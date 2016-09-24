@@ -1,4 +1,4 @@
-$(document).on 'ready turbolinks:load', ->
+$(document).on 'turbolinks:load', ->
   $artist_search = $('#artist-search')
   $all_artists = $('#search-result-list table tbody').children('tr')
   if $('body.tutorials').length

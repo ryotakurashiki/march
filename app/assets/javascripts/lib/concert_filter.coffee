@@ -1,4 +1,4 @@
-$(document).on 'ready turbolinks:load', ->
+$(document).on 'turbolinks:load', ->
   $("#prefecture_prefecture_id").change( ->
     console.log(this.value)
     $.ajax({

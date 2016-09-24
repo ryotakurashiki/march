@@ -19,7 +19,8 @@ class UsersController < ApplicationController
       @year = params[:year].to_i
       @concerts = @concerts.this_year(@year)
     end
-    @artist_ids_with_count = @concerts.joins(:appearance_artists).group("appearance_artists.artist_id").order("count(*) DESC").limit(3).count.to_a
+    @artist_ids_with_count = @concerts.joins(:appearance_artists).group("appearance_artists.artist_id").order("count(*) DESC").count.to_a
+    #render text: @artist_ids_with_count
     @concerts = @concerts.order("date DESC")
   end
 

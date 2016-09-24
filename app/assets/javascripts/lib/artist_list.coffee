@@ -1,4 +1,4 @@
-$(document).on 'ready turbolinks:load', ->
+$(document).on 'turbolinks:load', ->
   $(".artist-list").on('click','.artist-item .favorite', ->
     $class = $(this).parent().attr('class').split(" ")[1]
     $target = $(".#{$class}")

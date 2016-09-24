@@ -3,15 +3,18 @@
     i.fa.fa-trophy
     | 参加回数ランキング
 
-.ptb5.pl10
-  table.artist-ranking
-    tbody
-      - artist_ids_with_count.each do |a|
-        tr.ranking-item
-          td.artist-name
-            = Artist.find(a[0]).name
-          td.count
-            = "#{a[1]} 回"
-      tr.fes
-        td.artist-name フェス・イベント
-        td.count n 回
+table.artist-ranking
+  tbody
+    - artist_ids_with_count.each_with_index do |array, i|
+      tr.ranking-item class="#{'hidden' if i >= 3}"
+        td.artist-name
+          = Artist.find(array[0]).name
+        td.count
+          = "#{array[1]} 回"
+    tr.fes
+      td.artist-name フェス・イベント
+      td.count n 回
+    tr.more
+      td colspan=2
+        i.fa.fa-refresh aria-hidden="true"
+        span.pl5 もっと見る

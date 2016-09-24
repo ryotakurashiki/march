@@ -12,7 +12,7 @@ a href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライ
     span.after-text
      | のログ
 
-- if @artist_ids_with_count.size == 3
+- if @artist_ids_with_count.size >= 3
   = render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
 
 .content-divider
