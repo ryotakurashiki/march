@@ -1,0 +1,9 @@
+site:
+  name: "Livelog"
+  page_title: Livelog
+  page_description: "Livelog(ライフログ）は参加したライブの管理・共有サービスです。"
+  keywords: "Livelog, ライフログ"
+  meta:
+    ogp:
+      type: "website"
+

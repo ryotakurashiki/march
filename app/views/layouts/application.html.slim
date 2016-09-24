@@ -3,7 +3,7 @@ html[lang="ja"]
   head
     title Rekhyt
     = csrf_meta_tags
-    = display_meta_tags(meta_tag_params)
+    = render "meta_tags"
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
