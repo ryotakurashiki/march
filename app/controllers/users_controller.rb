@@ -9,11 +9,11 @@ class UsersController < ApplicationController
   end
 
   def joining
-    @concerts = @concerts.open.order("date")
+    @concerts = @concerts.includes(:user_concert_joinings, :appearance_artists).open.order("date")
   end
 
   def joined
-    @concerts = @concerts.close
+    @concerts = @concerts.includes(:user_concert_joinings).close
     @years = @concerts.pluck(:date).sort.reverse.map{|date| ["#{date.year}年", date.year]}.uniq.unshift(["全期間", nil])
     if params[:year].present?
       @year = params[:year].to_i

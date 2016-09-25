@@ -15,10 +15,21 @@ class Concert < ApplicationRecord
     date < days.days.ago.to_date
   end
 
+  def joined_by?(user)
+    return false if user.nil?
+    user_concert_joinings.pluck(:user_id).include?(user.id)
+  end
+
+  def livefans_url
+    "http://www.livefans.jp" + livefans_path
+  end
+
   def setlist_url
-    if appearance_artists.size == 1
+    if appearance_artists.size == 0
+      return nil
+    elsif appearance_artists.size == 1
       appearance_artists.first.setlist_url
-    elsif livefans_path.empty?
+    elsif !livefans_path.present?
       if appearance_artists.first.setlist_path.present?
         appearance_artists.first.setlist_url
       else
@@ -27,10 +38,6 @@ class Concert < ApplicationRecord
     else
       self.livefans_url
     end
-  end
-
-  def livefans_url
-    "http://www.livefans.jp" + livefans_path
   end
 
   def appearance_artists_filtered(user = current_user)

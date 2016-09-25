@@ -1,14 +1,20 @@
 class User::TimelinesController < User::UserApplicationController
-  before_action :set_concerts, only: [:future, :past]
+  before_action :set_favorite_artist_ids, only: [:future, :past]
 
   def future
     @title = "開催前のライブ"
     prefectures = current_user.prefectures
     if prefectures.present?
-      @concerts = @concerts.joins(:prefecture).merge(current_user.prefectures).
-        open.limit(200).order("date")
+      @favorite_prefecture_ids = current_user.prefectures.pluck(:id)
+      @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
+        joins("AND user_concert_joinings.user_id = #{current_user.id}").
+        where(prefecture_id: @favorite_prefecture_ids, appearance_artists: {artist_id: @favorite_artist_ids}).
+        open.order("date").limit(200)
     else
-      @concerts = @concerts.open.limit(200).order("date")
+      @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
+        joins("AND user_concert_joinings.user_id = #{current_user.id}").
+        where(appearance_artists: {artist_id: @favorite_artist_ids}).
+        open.order("date").limit(200)
     end
     #@concerts = Concert.all.limit(10)
     #render 'timeline'
@@ -16,16 +22,18 @@ class User::TimelinesController < User::UserApplicationController
 
   def past
     @title = "終了したライブ"
-    @concerts = @concerts.close.limit(200).order("date DESC")
-    #@concerts = Concert.all.limit(10)
+    @concerts = Concert.includes(:appearance_artists).
+      where(appearance_artists: {artist_id: @favorite_artist_ids}).
+      close.limit(200).order("date DESC")
+
     #render 'timeline'
   end
 
   private
 
-  def set_concerts
-    favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
-    @concerts = Concert.includes(:appearance_artists).where(appearance_artists: {artist_id: favorite_artist_ids})
+  def set_favorite_artist_ids
+    @favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
+    #@concerts = Concert.includes(:appearance_artists).where(appearance_artists: {artist_id: favorite_artist_ids})
   end
 end
 

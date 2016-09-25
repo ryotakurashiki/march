@@ -14,10 +14,10 @@
       span.label-block.label-thin_base.mr3 = artist.name
 
   .concert-widget
-    span.join
+    span.join class="#{'active' if concert.joined_by?(current_user)}"
       = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
         i.fa.fa-check-circle aria-hidden="true"
-        |  参加する
+        |  参加予定
     span.ticket
       = link_to concert_tickets_path(concert_id: concert.id)
         i.fa.fa-ticket aria-hidden="true"
