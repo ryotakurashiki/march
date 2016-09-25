@@ -1,3 +1,7 @@
+| $target = $(".artist-#{@favorite_artist.artist_id}");
+| $target.find('i.fa-star').addClass('hidden');
+| $target.find('.favorite').addClass('star').addClass('active');
+|
 - if @favorite_counts > 4
   | $("#tutorial-notification").removeClass('hidden').animate({'right':'0'},500);
   |

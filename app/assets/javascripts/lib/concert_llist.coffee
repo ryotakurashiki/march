@@ -1,11 +1,8 @@
 $(document).on 'turbolinks:load', ->
-  $(".concert-item").on('click','.artist-item', ->
-    $artist_search.val("")
-    $class = $(this).attr('class').split(" ")[1]
-    $target = $(".#{$class}")
-    $target.find('i.fa-star').addClass('hidden')
-
-    $target.find('.favorite').addClass('star').addClass('active')
-    #$(this).find('i.fa-star').addClass('hidden')
-    #$(this).find('.favorite').addClass('star').addClass('active')
+  $('.concert-list').on("ajax:error", ".join a" , (event, jqXHR, ajaxSettings, thrownError) ->
+    if jqXHR.status == 401 # thrownError is 'Unauthorized'
+      #window.location.replace('/users/sign_in')
+      $('html,body').animate({scrollTop:0},'slow')
+      if $(".alert-danger").length == 0
+        $('.main-container').prepend('<div class="alert alert-danger">ログインしてください</div>')
   )

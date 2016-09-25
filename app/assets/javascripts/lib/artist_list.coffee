@@ -1,9 +1,8 @@
 $(document).on 'turbolinks:load', ->
-  $(".artist-list").on('click','.artist-item .favorite', ->
-    $class = $(this).parent().attr('class').split(" ")[1]
-    $target = $(".#{$class}")
-    $target.find('i.fa-star').addClass('hidden')
-    $target.find('.favorite').addClass('star').addClass('active')
-    #$(this).find('i.fa-star').addClass('hidden')
-    #$(this).find('.favorite').addClass('star').addClass('active')
+  $('.artist-list').on("ajax:error", ".favorite a" , (event, jqXHR, ajaxSettings, thrownError) ->
+    if jqXHR.status == 401 # thrownError is 'Unauthorized'
+      #window.location.replace('/users/sign_in')
+      $('html,body').animate({scrollTop:0},'slow')
+      if $(".alert-danger").length == 0
+        $('.main-container').prepend('<div class="alert alert-danger">ログインしてください</div>')
   )
