@@ -42,6 +42,7 @@ class Concert < ApplicationRecord
 
   def appearance_artists_filtered(user = current_user)
     #artists.includes(:favorite_artists).where(favorite_artists: {user_id: user.id}).order("favorite_artists.artist_id")
+    return artists if user.nil?
     artists.find_by_sql(
       "SELECT artists.*, favorite_artists.id from artists LEFT OUTER JOIN favorite_artists
        ON favorite_artists.artist_id = artists.id AND favorite_artists.user_id = #{user.id}
