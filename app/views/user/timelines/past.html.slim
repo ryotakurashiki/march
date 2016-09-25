@@ -1,4 +1,7 @@
 h1.title = @title
 
-section.concert-list
-  = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
+#concerts
+  section.concert-list
+    = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
+
+= paginate @concerts

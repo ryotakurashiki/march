@@ -9,12 +9,12 @@ class User::TimelinesController < User::UserApplicationController
       @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
         joins("AND user_concert_joinings.user_id = #{current_user.id}").
         where(prefecture_id: @favorite_prefecture_ids, appearance_artists: {artist_id: @favorite_artist_ids}).
-        open.order("date").limit(200)
+        open.order("date").limit(200).page(params[:page])
     else
       @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
         joins("AND user_concert_joinings.user_id = #{current_user.id}").
         where(appearance_artists: {artist_id: @favorite_artist_ids}).
-        open.order("date").limit(200)
+        open.order("date").limit(200).page(params[:page])
     end
     #@concerts = Concert.all.limit(10)
     #render 'timeline'
@@ -24,7 +24,7 @@ class User::TimelinesController < User::UserApplicationController
     @title = "終了したライブ"
     @concerts = Concert.includes(:appearance_artists).
       where(appearance_artists: {artist_id: @favorite_artist_ids}).
-      close.limit(200).order("date DESC")
+      close.limit(200).order("date DESC").page(params[:page])
 
     #render 'timeline'
   end

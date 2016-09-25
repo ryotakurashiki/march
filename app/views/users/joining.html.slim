@@ -8,5 +8,8 @@
     i.fa.fa-check-circle aria-hidden="true"
     | 参加予定のライブ
 
-section.concert-list
-  = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"
+#concerts
+  section.concert-list
+    = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"
+
+= paginate @concerts

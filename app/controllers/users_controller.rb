@@ -9,7 +9,8 @@ class UsersController < ApplicationController
   end
 
   def joining
-    @concerts = @concerts.includes(:user_concert_joinings, :appearance_artists).open.order("date")
+    @concerts = @concerts.includes(:user_concert_joinings, :appearance_artists).
+      open.order("date").page(params[:page])
   end
 
   def joined
@@ -21,7 +22,7 @@ class UsersController < ApplicationController
     end
     @artist_ids_with_count = @concerts.joins(:appearance_artists).group("appearance_artists.artist_id").order("count(*) DESC").count.to_a
     #render text: @artist_ids_with_count
-    @concerts = @concerts.order("date DESC")
+    @concerts = @concerts.order("date DESC").page(params[:page])
   end
 
   def favorite

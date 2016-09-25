@@ -76,3 +76,6 @@ gem 'carrierwave'
 gem 'rmagick', require: 'RMagick'
 
 gem 'config'
+
+# pagenation
+gem "kaminari"

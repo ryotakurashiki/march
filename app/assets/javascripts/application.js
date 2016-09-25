@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.infinitescroll
 //= require bootstrap.min
 //= require turbolinks
 //= require lib/artist_search

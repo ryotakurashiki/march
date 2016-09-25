@@ -20,6 +20,8 @@ a href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライ
     i.fa.fa-check-circle aria-hidden="true"
     | 参加したライブ
 
-section.concert-list
-  = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert", user: @this_user
+#concerts
+  section.concert-list
+    = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
 
+= paginate @concerts
