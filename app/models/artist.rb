@@ -32,6 +32,11 @@ class Artist < ApplicationRecord
     artist_relations.pluck(:related_artist_id).uniq
   end
 
+  def favorite_by?(user)
+    return false if user.nil?
+    favorite_artists.pluck(:user_id).include?(user.id)
+  end
+
   def self.find_or_create_by(params)
   	self.find_by(name: params[:name]) || self.create(params)
   end

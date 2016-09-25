@@ -2,7 +2,7 @@ class User::FavoriteArtistsController < User::UserApplicationController
   # POST /artists
   # POST /artists.json
   def show
-    @artists = current_user.artists
+    @artists = current_user.artists.includes(:favorite_artists).resources(:favorite_artists)
   end
 
   def create

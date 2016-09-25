@@ -25,7 +25,8 @@ class UsersController < ApplicationController
   end
 
   def favorite
-    @artists = @this_user.artists
+    @artists = @this_user.artists.includes(:favorite_artists).references(:favorite_artists)
+    @favorite_artist_ids = user_signed_in? ? current_user.artists.pluck(:artist_id) : []
   end
 
   private
