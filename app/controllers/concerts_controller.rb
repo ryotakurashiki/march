@@ -9,12 +9,12 @@ class ConcertsController < ApplicationController
 
   def filter
     if params[:prefecture_id]
-      @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC").page(params[:page])
+      @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC")
     elsif params[:year]
       year = params[:year].to_i
       #first_date = Date.new(2000, 1, 1)
       #last_date = Date.new(2000, 12, 31)
-      @concerts = @artist.concerts.this_year(year).order("date DESC").page(params[:page])
+      @concerts = @artist.concerts.this_year(year).order("date DESC")
       #where(arel_table[:date].lteq(last_date).gteq(first_date)).order("date DESC")
     end
   end

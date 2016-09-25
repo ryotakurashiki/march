@@ -17,4 +17,5 @@ h1.title.overflow = "#{@artist.name}"
       - else
         = render "shared/future_concert_list", concert: concert
 
-= paginate @concerts
+.hidden
+  = paginate @concerts

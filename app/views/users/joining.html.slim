@@ -12,4 +12,5 @@
   section.concert-list
     = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"
 
-= paginate @concerts
+.hidden
+  = paginate @concerts

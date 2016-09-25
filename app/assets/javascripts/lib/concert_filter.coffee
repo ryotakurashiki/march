@@ -7,7 +7,9 @@ $(document).on 'turbolinks:load', ->
       data: {
         prefecture_id: this.value
       },
-      dataType: 'script'
+      dataType: 'script',
+      success: ->
+        stop_infinitescroll()
     })
   )
 
@@ -19,6 +21,14 @@ $(document).on 'turbolinks:load', ->
       data: {
         year: this.value
       },
-      dataType: 'script'
+      dataType: 'script',
+      success: ->
+        stop_infinitescroll()
     })
   )
+
+  stop_infinitescroll = ->
+    $("#concerts .concert-list").infinitescroll
+      navSelector: "dummy"
+      nextSelector: "dummy"
+      itemSelector: "dummy"
