@@ -9,9 +9,12 @@ h1.title.overflow = "#{@artist.name}"
     = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, prompt: "都道府県で絞る")
     = select :date, :year, @years, prompt: "開催年で絞る"
 
-section.concert-list
-  - @concerts.each do |concert|
-    - if concert.close?
-      = render "shared/past_concert_list", concert: concert
-    - else
-      = render "shared/future_concert_list", concert: concert
+#concerts
+  section.concert-list
+    - @concerts.each do |concert|
+      - if concert.close?
+        = render "shared/past_concert_list", concert: concert
+      - else
+        = render "shared/future_concert_list", concert: concert
+
+= paginate @concerts

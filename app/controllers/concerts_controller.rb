@@ -4,16 +4,17 @@ class ConcertsController < ApplicationController
 
   def show
     @years = @concerts.pluck(:date).map{|date| ["#{date.year}年", date.year]}.uniq
+    @concerts = @concerts.page(params[:page])
   end
 
   def filter
     if params[:prefecture_id]
-      @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC")
+      @concerts = @artist.concerts.where(prefecture_id: params[:prefecture_id]).order("date DESC").page(params[:page])
     elsif params[:year]
       year = params[:year].to_i
       #first_date = Date.new(2000, 1, 1)
       #last_date = Date.new(2000, 12, 31)
-      @concerts = @artist.concerts.this_year(year).order("date DESC")
+      @concerts = @artist.concerts.this_year(year).order("date DESC").page(params[:page])
       #where(arel_table[:date].lteq(last_date).gteq(first_date)).order("date DESC")
     end
   end
