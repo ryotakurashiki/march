@@ -82,8 +82,8 @@ module Crawler::Livefans
             end # アーティストの出演情報終了
           rescue
             puts "scraping error"
-            @logger.warn "Can't scraping : #{$!}"
-            crawl_status.error_message = "#{$!}"
+            @logger.warn "Can't scraping : #{$!} at #{url}"
+            crawl_status.error_message = "#{$!} at #{url}"
             crawl_status.error_count = 0 if crawl_status.error_count.nil?
             crawl_status.error_count += 1
             crawl_status.save
@@ -175,8 +175,8 @@ module Crawler::Livefans
               end
             rescue
               puts "scraping error"
-              @logger.warn "Can't scraping setlist : #{$!}"
-              crawl_status.error_message = "#{$!}"
+              @logger.warn "Can't scraping setlist : #{$!} at #{url}"
+              crawl_status.error_message = "#{$!} at #{url}"
               crawl_status.error_count += 1
               crawl_status.save
             end
