@@ -29,11 +29,17 @@ module Crawler::Livefans
             while true
               puts "↓次見に行くページ↓"
               puts url
+              puts "crawl_satus_id #{crawl_status.id}"
               @logger.info "visit #{url}"
 
               sleep_before_visit
               # フェスかどうか見ておく
-              page = @agent.get(url)
+              begin
+                page = @agent.get(url)
+              rescue
+                puts "page visitでエラ → retry"
+                retry
+              end
 
               #セトリURL（出演情報)の取得
               elements = page.search('//*[@id="schBox"]/div')
@@ -109,7 +115,12 @@ module Crawler::Livefans
               puts ""
               url = @base_url + setlist_path
               sleep_before_visit
-              page = @agent.get(url)
+              begin
+                page = @agent.get(url)
+              rescue
+                puts "page visitでエラ → retry"
+                retry
+              end
               puts setlist_path
 
               ###### どんなページかで場合分け必要? ######
@@ -220,7 +231,13 @@ module Crawler::Livefans
     def create_concerts(livefans_path, concert_title, date_text, page, artist)
       if page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') ## 複数アーティストの場合
         sleep_before_visit
-        page2 = @agent.get(@base_url+livefans_path)
+        #page2 = @agent.get(@base_url+livefans_path)
+        begin
+          page2 = @agent.get(@base_url+livefans_path)
+        rescue
+          puts "page visitでエラ → retry"
+          retry
+        end
         h2_date_text = page2.at('//*[@id="container"]/div[@class="col"]/h2[@class="date"]').inner_text
         place_text = h2_date_text
         date_text = h2_date_text.gsub(/＠(.*)/,"")
