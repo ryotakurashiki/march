@@ -4,7 +4,7 @@ require 'csv'
 module Crawler
   class MechanizeBase
     def initialize
-      create_agent
+      #create_agent
     end
 
     protected
@@ -14,7 +14,7 @@ module Crawler
       if hour >= 1 && hour <= 6
         sleep(0.5)
       else
-        sleep(10)
+        sleep(20)
       end
     end
 
@@ -32,18 +32,18 @@ module Crawler
       session.evaluate_script('jQuery.active').zero?
     end
 
-    private
+    #private
 
     def create_agent
-      @agent = Mechanize.new
+      agent = Mechanize.new
       #@agent.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X)"
-      @agent.user_agent_alias = 'Mac Safari'
-      @agent.keep_alive = false
-      @agent.open_timeout = 120
-      @agent.read_timeout = 180
-      @agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      @agent.set_proxy('220.141.112.28', 8080) #61.230.75.2
-      @agent
+      agent.user_agent_alias = 'Mac Safari'
+      agent.keep_alive = false
+      agent.open_timeout = 120
+      agent.read_timeout = 180
+      agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      agent.set_proxy('220.141.112.28', 8080) #61.230.75.2
+      agent
     end
 	end
 end

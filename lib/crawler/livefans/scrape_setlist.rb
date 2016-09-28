@@ -15,27 +15,29 @@ module Crawler::Livefans
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           begin
+            agent = create_agent
             setlist_array = []
             setlists = []
             artist = medium_artist_relation.artist
             crawl_status = medium_artist_relation.crawl_status
             crawl_status.update(crawled_on: Time.zone.now)
             crawl_status.error_count = 0
+            crawl_status.error_message = ""
             stop_pagination = false
 
             url = medium_artist_relation.livefans_url
             puts "次のアーティスト #{artist.name}"
+            puts "crawl_satus_id #{crawl_status.id}"
 
             while true
               puts "↓次見に行くページ↓"
               puts url
-              puts "crawl_satus_id #{crawl_status.id}"
               @logger.info "visit #{url}"
 
               sleep_before_visit
               # フェスかどうか見ておく
               begin
-                page = @agent.get(url)
+                page = agent.get(url)
               rescue
                 puts "page visitでエラ → retry"
                 retry
@@ -71,7 +73,7 @@ module Crawler::Livefans
                 if appearance_artists.first.attachable
                   if appearance_artists.first.attachable.close?(7)
                     puts "stop pagination"
-                    break
+                    #break
                   end
                 end
               end
@@ -89,107 +91,120 @@ module Crawler::Livefans
           rescue
             puts "scraping error"
             @logger.warn "Can't scraping : #{$!} at #{url}"
-            crawl_status.error_message = "#{$!} at #{url}"
+            crawl_status.error_message += ", #{$!} at #{url}"
             crawl_status.error_count = 0 if crawl_status.error_count.nil?
             crawl_status.error_count += 1
             crawl_status.save
           end
 
-          setlist_array.each do |setlist_component|
-            begin
-              setlist_path = setlist_component[0]
-              fes_flag = setlist_component[1]
-              appearance_artists = AppearanceArtist.where(setlist_path: setlist_path, artist_id: artist.id)
-
-              #### 存在していて終演している場合はスキップ ###
-              if appearance_artists.present?
-                if appearance_artists.first.attachable
-                  if appearance_artists.first.attachable.close?
-                    puts "this setlist have already been scraped and concert closed"
-                    next
-                  end
-                end
-              end
-
-              #if setlist doesn't exit. setlist = appearance_artist
-              puts ""
-              url = @base_url + setlist_path
-              sleep_before_visit
+          #setlist_array.each do |setlist_component|
+          Parallel.each(setlist_array, in_threads: 4) do |setlist_component|
+            ActiveRecord::Base.connection_pool.with_connection do
               begin
-                page = @agent.get(url)
-              rescue
-                puts "page visitでエラ → retry"
-                retry
-              end
-              puts setlist_path
+                setlist_path = setlist_component[0]
+                fes_flag = setlist_component[1]
+                appearance_artists = AppearanceArtist.where(setlist_path: setlist_path, artist_id: artist.id)
 
-              ###### どんなページかで場合分け必要? ######
-
-              ##### 普通にセトリページの場合 #####
-              puts a_livename = page.at('//*[@id="content"]/div/div/div/h3[@class="liveName"]/a')
-              a_livename = page.at('//*[@id="content"]/div/div/div/h3[@class="liveName2"]/a') unless a_livename
-              livefans_path = a_livename.get_attribute(:href)
-              concert_title = a_livename.inner_text
-              date_text = page.at('//*[@id="content"]/div/div/div/p[@class="date"]').inner_text
-
-              ## appearance_artistの有無で場合分け
-              if appearance_artists.present? # 1回以上スクレピングしたことある場合
-                puts "this setlist have been scraped once"
-                if appearance_artists.first.not_decided
-                  puts "appearance date have not been decided yet"
-                  puts date_text = page.at('//*[@id="content"]/div/div/div/p[@class="date"]').inner_text
-                  date_decided(appearance_artists, Date.parse(date_text)) if date_text != "出演日未定"
-                  # 出演日未定がありえるフェスの場合は、livefans_url変わらないのでそこの処理入れない #
-                else
-                  # concertが変わっている場合は更新 / appearance_artistが存在する時concertも存在
-                  appearance_artists.first.attachable.update(livefans_path: livefans_path)
-                end
-
-              else # 初めてのスクレピング→appearance_artistが存在しない → どのコンサートに紐付けていくか
-                puts "new setlist"
-                # 出演日決まってるか、コンサート存在するか、複数アーティスト出演かどうか
-                if livefans_path.match(/group/)
-                  puts "this page has group link"
-                  date = Date.parse(date_text)
-                  concerts = Concert.where(livefans_path: livefans_path, date: date)
-                else
-                  puts "this page has event link"
-                  concerts = Concert.where(livefans_path: livefans_path)
-                end
-
-                if concerts.present? # live_fansと紐付いたコンサートが存在しない場合 → コンサートを作成
-                  puts "not new concert"
-                else
-                  puts "new concert"
-                  concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
-                end
-                if date_text == "出演日未定"# 出演日決まってない → not_decidedで全部にappearance_artistを作成
-                  puts "appearance date have not been decided yet"
-                  if concerts.present?
-                    concerts.each do |concert|
-                      delete_eplus_concert(concert, artist)
-                      concert.appearance_artists.find_or_create_by(artist_id: artist.id).
-                      update(not_decided: true, setlist_path: setlist_path)
+                #### 存在していて終演している場合はスキップ ###
+                if appearance_artists.present?
+                  if appearance_artists.first.attachable
+                    if appearance_artists.first.attachable.close?
+                      puts "this setlist have already been scraped and concert closed"
+                      next
                     end
                   end
-                else # 出演日決まっている → 決まっている日に作成
-                  date = Date.parse(date_text)
-                  # 出演予定を追加
-                  if concerts.present?
-                    puts "create new appearance_artist"
-                    concert = concerts.find_by(date: date)
-                    delete_eplus_concert(concert, artist)
-                    concert.appearance_artists.
-                    find_or_create_by(artist_id: artist.id).update(setlist_path: setlist_path)
+                end
+
+                #if setlist doesn't exit. setlist = appearance_artist
+                puts ""
+                agent = create_agent
+                url = @base_url + setlist_path
+                sleep_before_visit
+                begin
+                  page = agent.get(url)
+                rescue
+                  puts "page visitでエラ → retry"
+                  retry
+                end
+                puts setlist_path
+
+                ###### どんなページかで場合分け必要? ######
+
+                ##### 普通にセトリページの場合 #####
+                puts a_livename = page.at('//*[@id="content"]/div/div/div/h3[@class="liveName"]/a')
+                a_livename = page.at('//*[@id="content"]/div/div/div/h3[@class="liveName2"]/a') unless a_livename
+                livefans_path = a_livename.get_attribute(:href)
+                concert_title = a_livename.inner_text
+                date_text = page.at('//*[@id="content"]/div/div/div/p[@class="date"]').inner_text
+
+                ## appearance_artistの有無で場合分け
+                if appearance_artists.present? # 1回以上スクレピングしたことある場合
+                  puts "this setlist have been scraped once"
+                  if appearance_artists.first.not_decided
+                    puts "appearance date have not been decided yet"
+                    puts date_text = page.at('//*[@id="content"]/div/div/div/p[@class="date"]').inner_text
+                    date_decided(appearance_artists, Date.parse(date_text)) if date_text != "出演日未定"
+                    # 出演日未定がありえるフェスの場合は、livefans_url変わらないのでそこの処理入れない #
+                  else
+                    # concertが変わっている場合は更新 / appearance_artistが存在する時concertも存在
+                    appearance_artists.first.attachable.update(livefans_path: livefans_path)
+                  end
+
+                else # 初めてのスクレピング→appearance_artistが存在しない → どのコンサートに紐付けていくか
+                  puts "new setlist"
+                  # 出演日決まってるか、コンサート存在するか、複数アーティスト出演かどうか
+                  if livefans_path.match(/group/)
+                    puts "this page has group link"
+                    date = Date.parse(date_text)
+                    concerts = Concert.where(livefans_path: livefans_path, date: date)
+                  else
+                    puts "this page has event link"
+                    concerts = Concert.where(livefans_path: livefans_path)
+                  end
+
+                  if concerts.present? # live_fansと紐付いたコンサートが存在しない場合 → コンサートを作成
+                    puts "not new concert"
+                  else
+                    puts "new concert"
+                    unless page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') || livefans_path.match(/event|groups\/0$/)
+                      puts "one man tourのようだ"
+                      if Concert.find_by(livefans_path: livefans_path).nil? || date < Date.today
+                        next_flag = create_oneman_tour(livefans_path, concert_title, date_text, page, artist)
+                        next if next_flag
+                      end
+                      concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
+                    else
+                      concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
+                    end
+                  end
+                  if date_text == "出演日未定"# 出演日決まってない → not_decidedで全部にappearance_artistを作成
+                    puts "appearance date have not been decided yet"
+                    if concerts.present?
+                      concerts.each do |concert|
+                        delete_eplus_concert(concert, artist)
+                        concert.appearance_artists.find_or_create_by(artist_id: artist.id).
+                        update(not_decided: true, setlist_path: setlist_path)
+                      end
+                    end
+                  else # 出演日決まっている → 決まっている日に作成
+                    date = Date.parse(date_text)
+                    # 出演予定を追加
+                    if concerts.present?
+                      puts "create new appearance_artist"
+                      concert = concerts.find_by(date: date)
+                      delete_eplus_concert(concert, artist)
+                      concert.appearance_artists.
+                      find_or_create_by(artist_id: artist.id).update(setlist_path: setlist_path)
+                    end
                   end
                 end
+              rescue
+                puts "scraping error"
+                @logger.warn "Can't scraping setlist : #{$!} at #{url}"
+                crawl_status.error_message += ", #{$!} at #{url}"
+                crawl_status.error_count += 1
+                crawl_status.save
               end
-            rescue
-              puts "scraping error"
-              @logger.warn "Can't scraping setlist : #{$!} at #{url}"
-              crawl_status.error_message = "#{$!} at #{url}"
-              crawl_status.error_count += 1
-              crawl_status.save
             end
           end
           if crawl_status.error_count == 0
@@ -228,12 +243,82 @@ module Crawler::Livefans
       end
     end
 
+    def create_oneman_tour(livefans_path, concert_title, date_text, page, artist)
+      if concert_title.present?
+        title_edited = false
+      else
+        title_edited = true
+        concert_title = artist.name
+      end
+
+      begin
+        agent = create_agent
+        sleep_before_visit
+        page2 = agent.get(@base_url+livefans_path)
+      rescue
+        puts "page visitでエラ → retry"
+        retry
+      end
+
+      begin
+        doc = Nokogiri::HTML.parse(page2.content.toutf8)
+        rows = doc.css('div.scheduleBlock > table > tbody > tr')
+        rows.each do |row|
+          date_text2 = row.at('td[1]').inner_text
+          place_text2 = row.at('td[3]').inner_text
+          date2 = Date.parse(date_text2)
+          foreign_concert = !place_text2.match(/\(.*(都|道|府|県)\)$/)
+          if foreign_concert
+            puts "foreign_concert"
+            place2 = place_text2.gsub(/\((.*)\)$/, "")
+            country_name2 = place_text2.match(/\((.*)\)$/)[1]
+            prefecture2 = Prefecture.find_or_create_by(name: country_name2)
+            prefecture2.update(area: "海外")
+            prefecture_id2 = prefecture2.id
+          else
+            place2 = place_text2.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
+            prefecture_name2 = place_text2.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
+            prefecture_id2 = Prefecture.find_by_name(prefecture_name2).id
+          end
+
+          concert = artist.concerts.where.not(eplus_id: nil).find_by(date: date2)
+          if concert.present? # e+側でconcertは存在する → livefansの情報で上書き
+            puts "updated eplus oneman tour concert #{date2} : #{concert_title}"
+            concert.update(title: concert_title, livefans_path: livefans_path,
+             place: place2, prefecture_id: prefecture_id2, date: date2, title_edited: title_edited)
+          else # # e+側でもconcertは存在しない → 普通にcreate
+            unless Concert.find_by(place: place2, date: date2)
+              puts "created oneman tour concert #{date2} : #{concert_title}"
+              Concert.create(title: concert_title, livefans_path: livefans_path,
+                place: place2, prefecture_id: prefecture_id2, date: date2, title_edited: title_edited)
+            end
+          end
+          concert = Concert.find_by(place: place2, date: date2)
+          puts "ceate_or_find oneman tour appearance_artist"
+          begin
+            setlist_path2 = row.at('td.icons span.list a').get_attribute(:href)
+          rescue
+            puts "ワンマンツアーでsetlistがないパターン"
+            next
+          end
+          concert.appearance_artists.
+            find_or_create_by(artist_id: artist.id).update(setlist_path: setlist_path2)
+        end
+        # エラーがなければそのセトリのスクレピングを終了
+        return true #next
+      rescue
+        puts "oneman tourのスクレピングでエラー"
+      end
+    end
+
+
     def create_concerts(livefans_path, concert_title, date_text, page, artist)
       if page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') ## 複数アーティストの場合
+        agent = create_agent
         sleep_before_visit
         #page2 = @agent.get(@base_url+livefans_path)
         begin
-          page2 = @agent.get(@base_url+livefans_path)
+          page2 = agent.get(@base_url+livefans_path)
         rescue
           puts "page visitでエラ → retry"
           retry
