@@ -11,7 +11,9 @@ module Crawler::Livefans
     end
 
     def run
-      MediumArtistRelation.livefans.crawlable(30).each do |medium_artist_relation| #.reverse .shuffle
+      medium_artist_relations = MediumArtistRelation.livefans.crawlable(30)
+      #Parallel.each(medium_artist_relations, in_threads: 4) do |medium_artist_relation|
+      medium_artist_relations.each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           begin
@@ -97,8 +99,8 @@ module Crawler::Livefans
             crawl_status.save
           end
 
-          #setlist_array.each do |setlist_component|
-          Parallel.each(setlist_array, in_threads: 4) do |setlist_component|
+          setlist_array.each do |setlist_component|
+          #Parallel.each(setlist_array, in_threads: 4) do |setlist_component|
             ActiveRecord::Base.connection_pool.with_connection do
               begin
                 setlist_path = setlist_component[0]
@@ -220,7 +222,7 @@ module Crawler::Livefans
 
     def date_decided(appearance_artists, date)
       concerts = appearance_artists.map{ |a| a.concert }
-      concert.each do |concert|
+      concerts.each do |concert|
         if concert.date = date
           concert.appearance_artist.update(not_decided: false)
         else
@@ -268,7 +270,7 @@ module Crawler::Livefans
           place_text2 = row.at('td[3]').inner_text
           date2 = Date.parse(date_text2)
           foreign_concert = !place_text2.match(/\(.*(都|道|府|県)\)$/)
-          if foreign_concert
+          if foreign_concert # ()はあるけど都道府県のいずれの文字も存在しない
             puts "foreign_concert"
             place2 = place_text2.gsub(/\((.*)\)$/, "")
             country_name2 = place_text2.match(/\((.*)\)$/)[1]
