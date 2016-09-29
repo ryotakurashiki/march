@@ -277,10 +277,13 @@ module Crawler::Livefans
             prefecture2 = Prefecture.find_or_create_by(name: country_name2)
             prefecture2.update(area: "海外")
             prefecture_id2 = prefecture2.id
-          else
+          elsif place_text.match(/\(.*(都|道|府|県)\)$/)
             place2 = place_text2.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
             prefecture_name2 = place_text2.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
             prefecture_id2 = Prefecture.find_by_name(prefecture_name2).id
+          else
+            place2 = place_text2
+            prefecture_id2 = nil
           end
 
           concert = artist.concerts.where.not(eplus_id: nil).find_by(date: date2)
@@ -357,10 +360,13 @@ module Crawler::Livefans
         prefecture = Prefecture.find_or_create_by(name: country_name)
         prefecture.update(area: "海外")
         prefecture_id = prefecture.id
-      else
+      elsif place_text.match(/\(.*(都|道|府|県)\)$/)
         place = place_text.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
         prefecture_name = place_text.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
         prefecture_id = Prefecture.find_by_name(prefecture_name).id
+      else
+        place = place_text
+        prefecture_id = nil
       end
 
       #title_edited = concert_title.present? ? true : false

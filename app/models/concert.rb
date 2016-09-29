@@ -2,7 +2,7 @@ class Concert < ApplicationRecord
   has_many :appearance_artists, as: :attachable, dependent: :delete_all
   accepts_nested_attributes_for :appearance_artists
   has_many :artists, through: :appearance_artists
-  belongs_to :prefecture
+  belongs_to :prefecture, optional: true
   has_many :user_concert_joinings
   has_many :users, through: :user_concert_joinings
   has_many :tickets
