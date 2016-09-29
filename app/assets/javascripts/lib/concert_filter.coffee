@@ -1,34 +1,29 @@
 $(document).on 'turbolinks:load', ->
-  $("#prefecture_prefecture_id").change( ->
+  $("#prefecture_prefecture_id, #date_year").change( ->
     console.log(this.value)
+    prefecture_id = $("#prefecture_prefecture_id")[0].value
+    year = $("#date_year")[0].value
+    console.log(prefecture_id)
+    console.log(year)
     $.ajax({
       url: location.pathname + "/filter",
       method: "post",
       data: {
-        prefecture_id: this.value
+        prefecture_id: prefecture_id,
+        year: year
       },
       dataType: 'script',
       success: ->
-        stop_infinitescroll()
-    })
-  )
-
-  $("#date_year").change( ->
-    console.log(this.value)
-    $.ajax({
-      url: location.pathname + "/filter",
-      method: "post",
-      data: {
-        year: this.value
-      },
-      dataType: 'script',
-      success: ->
-        stop_infinitescroll()
+        if prefecture_id || year
+          stop_infinitescroll()
+        else
+          restart_infinitescroll()
     })
   )
 
   stop_infinitescroll = ->
-    $("#concerts .concert-list").infinitescroll
-      navSelector: "dummy"
-      nextSelector: "dummy"
-      itemSelector: "dummy"
+    $("#concerts .concert-list").infinitescroll('unbind')
+
+  restart_infinitescroll = ->
+    $("#concerts .concert-list").infinitescroll('bind')
+    $("#concerts .concert-list").infinitescroll('update', state: {currPage: 1})
