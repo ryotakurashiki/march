@@ -5,13 +5,15 @@
     span.date = jp_date concert.try(:date)
     span.place = "@#{concert.try(:place)}(#{concert.prefecture.name})"
     br
-    - artists_num = concert.artists.size
     - user = @this_user || current_user
-    - concert.appearance_artists_filtered(user).each_with_index do |artist, i|
-      - if i == 3
+    - appearance_artists = concert.appearance_artists_filtered(user)
+    - artists_num = appearance_artists.size
+    - appearance_artists.each.with_index do |appearance_artist, i|
+      - if i == 4
         span.label-block.label-thin_base.mr3 = "他#{artists_num-3}アーティスト"
         - break
-      span.label-block.label-thin_base.mr3 = artist.name
+      span.label-block.label-thin_base.mr3
+        = "#{appearance_artist.artist.name}#{'（出演日未定）' if appearance_artist.not_decided}"
 
   .concert-widget
     span.join class="#{'active' if concert.joined_by?(current_user)}"

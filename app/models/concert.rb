@@ -41,15 +41,9 @@ class Concert < ApplicationRecord
   end
 
   def appearance_artists_filtered(user = current_user)
-    #artists.includes(:favorite_artists).where(favorite_artists: {user_id: user.id}).order("favorite_artists.artist_id")
-    return artists if user.nil?
-    artists.find_by_sql(
-      "SELECT artists.*, favorite_artists.id from artists LEFT OUTER JOIN favorite_artists
-       ON favorite_artists.artist_id = artists.id AND favorite_artists.user_id = #{user.id}
-       INNER JOIN appearance_artists ON artists.id = appearance_artists.artist_id
-       WHERE appearance_artists.attachable_id = #{self.id} AND appearance_artists.attachable_type = 'Concert'
-       ORDER BY favorite_artists.id DESC"
-    )
+    return appearance_artists.eager_load(:artist) if user.nil?
+    appearance_artists.eager_load(:artist, :favorite_artists).
+      joins("AND favorite_artists.user_id = #{user.id}").order("favorite_artists.id DESC")
   end
 
   def self.find_or_create_by(params)

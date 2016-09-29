@@ -6,12 +6,12 @@ class User::TimelinesController < User::UserApplicationController
     prefectures = current_user.prefectures
     if prefectures.present?
       @favorite_prefecture_ids = current_user.prefectures.pluck(:id)
-      @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
+      @concerts = Concert.eager_load(:prefecture, :appearance_artists, :user_concert_joinings).
         joins("AND user_concert_joinings.user_id = #{current_user.id}").
         where(prefecture_id: @favorite_prefecture_ids, appearance_artists: {artist_id: @favorite_artist_ids}).
         open.order("date").limit(200).page(params[:page])
     else
-      @concerts = Concert.eager_load(:appearance_artists, :user_concert_joinings).
+      @concerts = Concert.eager_load(:prefecture, :appearance_artists, :user_concert_joinings).
         joins("AND user_concert_joinings.user_id = #{current_user.id}").
         where(appearance_artists: {artist_id: @favorite_artist_ids}).
         open.order("date").limit(200).page(params[:page])
@@ -22,7 +22,7 @@ class User::TimelinesController < User::UserApplicationController
 
   def past
     @title = "終了したライブ"
-    @concerts = Concert.includes(:appearance_artists).
+    @concerts = Concert.includes(:prefecture, :appearance_artists).
       where(appearance_artists: {artist_id: @favorite_artist_ids}).
       close.limit(200).order("date DESC").page(params[:page])
 
