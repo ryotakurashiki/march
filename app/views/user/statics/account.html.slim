@@ -1,26 +1,32 @@
 h1.title アカウント
 
+.content-divider
+  p プロフィール編集
+
 .content-container
-  = simple_form_for(@user, as: :user, url: account_path, html: { method: :put }) do |f|
-    = f.error_notification
+  .form-group
+    = simple_form_for(@user, as: :user, url: account_path, html: { method: :put }) do |f|
+      = f.error_notification
 
-    .form-inputs
-      = image_tag(current_user.icon_path, size: "73x73")
-      = f.input :icon, label: "アイコン画像", input_html: { preview_version: :thumb }
-      = f.input :username, required: true, autofocus: true, label: "ユーザーID"
-      = f.input :username_jp, required: true, autofocus: true, label: "ユーザー名"
-      = f.input :description, required: true, autofocus: true, as: :text, label: "自己紹介"
+      .form-inputs
+        = image_tag(current_user.icon_path, size: "73x73")
+        = f.input :icon, label: "アイコン画像", input_html: { preview_version: :thumb }
+        = f.input :username, required: true, autofocus: true, label: "ユーザーID"
+        = f.input :username_jp, required: true, autofocus: true, label: "ユーザー名"
+        = f.input :description, required: true, autofocus: true, as: :text, label: "自己紹介"
 
-    .form-actions
-      = f.button :submit, "保存"
+      .form-actions
+        = f.button :submit, "保存", class: "btn btn-info"
 
   /p ユーザーIDを変更
    span ※参加履歴と参加ログのURLにつきます
 
-  p.sub-title
-    span 都道府県を登録
-  p.small 登録した都道府県でのライブ情報のみがタイムラインに表示されるようになります
 
+.content-divider
+  p 都道府県を登録
+
+.content-container
+  p.small 登録した都道府県でのライブ情報のみがタイムラインに表示されるようになります
   table.table.prefecture-seletor
     tbody
       tr
@@ -30,7 +36,7 @@ h1.title アカウント
               = f.input :prefecture_id, :collection => Prefecture.all, selected: 122, label: false
           td
             .form-actions
-              = f.button :submit, "登録", class: "btn-warning"
+              = f.button :submit, "登録", class: "btn-info"
 
   table#registered-prefectures.table.table-boder
     tbody
