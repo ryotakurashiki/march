@@ -55,9 +55,7 @@ class User < ApplicationRecord
   end
 
   def recommended_artist_ids
-    favorite_artists.map{|fa| fa.artist.related_artist_ids}.flatten.uniq
-    #favorite_artists.map{|favorite_artist| favorite_artist.artist.artists }.uniq
-    #Artist.where(id: favorite_artists.map{|favorite_artist| favorite_artist.artist.artists }.uniq)
+    ArtistRelation.joins(:artist).merge(artists).group(:related_artist_id).pluck(:related_artist_id)
   end
 
   def self.new_with_session(params, session)

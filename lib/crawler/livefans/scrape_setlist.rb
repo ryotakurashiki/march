@@ -277,7 +277,7 @@ module Crawler::Livefans
             prefecture2 = Prefecture.find_or_create_by(name: country_name2)
             prefecture2.update(area: "海外")
             prefecture_id2 = prefecture2.id
-          elsif place_text.match(/\(.*(都|道|府|県)\)$/)
+          elsif place_text2.match(/\(.*(都|道|府|県)\)$/)
             place2 = place_text2.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
             prefecture_name2 = place_text2.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
             prefecture_id2 = Prefecture.find_by_name(prefecture_name2).id
@@ -313,6 +313,7 @@ module Crawler::Livefans
         return true #next
       rescue
         puts "oneman tourのスクレピングでエラー"
+        puts "#{$!}"
       end
     end
 

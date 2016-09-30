@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     get '/account', to: "statics#account"
     put '/account', to: "statics#update"
     get '/search', to: "statics#search"
+    post '/search/filter', to: "statics#search_filter"
     resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures
     resource :user_concert_joinings, only: [:create]
@@ -43,7 +44,6 @@ Rails.application.routes.draw do
     resources :deactive_concerts
     resources :concerts
     resources :artists
-
     resources :medium_artist_relations
     resources :artist_relations
     resources :media

@@ -15,8 +15,13 @@ class User::StaticsController < User::UserApplicationController
     favorite_artists = current_user.favorite_artists
     @favorite_artist_ids = favorite_artists.pluck(:artist_id)
     recommended_artist_ids -= @favorite_artist_ids
-    @all_artists = Artist.all
     @recommended_artists = Artist.where(id: recommended_artist_ids.shuffle[1..30])
+  end
+
+  def search_filter
+    match_text = '%'+params[:input_text]+'%'
+    @artists = Artist.where(Artist.arel_table[:name].matches(match_text)).limit(5)
+    @favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
   end
 
   private
