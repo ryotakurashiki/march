@@ -170,7 +170,7 @@ module Crawler::Livefans
                     puts "new concert"
                     unless page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') || livefans_path.match(/event|groups\/0$/)
                       puts "one man tourのようだ"
-                      if Concert.find_by(livefans_path: livefans_path).nil? || date < Date.today
+                      if (Concert.find_by(livefans_path: livefans_path).nil? || date < Date.today) && date > Date.parse("2010/01/01")
                         next_flag = create_oneman_tour(livefans_path, concert_title, date_text, page, artist)
                         next if next_flag
                       end
