@@ -168,6 +168,8 @@ module Crawler::Livefans
                     puts "not new concert"
                   else
                     puts "new concert"
+                    concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
+=begin # groupでも複数アーティスト出演の場合があるので一旦ワンマンツアー用のcreate使わない
                     unless page.at('//*[@id="content"]/div/div/div/p[@class="parentNavi"]/a') || livefans_path.match(/event|groups\/0$/)
                       puts "one man tourのようだ"
                       if (Concert.find_by(livefans_path: livefans_path).nil? || date < Date.today) && date > Date.parse("2010/01/01")
@@ -178,6 +180,7 @@ module Crawler::Livefans
                     else
                       concerts = create_concerts(livefans_path, concert_title, date_text, page, artist)
                     end
+=end
                   end
                   if date_text == "出演日未定"# 出演日決まってない → not_decidedで全部にappearance_artistを作成
                     puts "appearance date have not been decided yet"
@@ -267,6 +270,14 @@ module Crawler::Livefans
         rows = doc.css('div.scheduleBlock > table > tbody > tr')
         rows.each do |row|
           date_text2 = row.at('td[1]').inner_text
+=begin
+          place_html = row.at('td[3]').inner_html
+          if place_html.match(/eventname/)
+            place_text2 = place_html.match(/<span.*span><br>(.*)/)[1]
+          else
+            place_text2 = place_html
+          end
+=end
           place_text2 = row.at('td[3]').inner_text
           date2 = Date.parse(date_text2)
           foreign_concert = !place_text2.match(/\(.*(都|道|府|県)\)$/)
