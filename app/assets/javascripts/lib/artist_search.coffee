@@ -9,7 +9,8 @@ $(document).on 'turbolinks:load', ->
     input_text = e.currentTarget.value
 
     $.ajax({
-      url: location.pathname + '/filter',
+      #url: location.pathname + '/filter',
+      url: "#{location.protocol}//#{location.host}/search/filter",
       type: 'POST',
       data: {
         input_text: input_text
