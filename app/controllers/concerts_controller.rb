@@ -4,7 +4,7 @@ class ConcertsController < ApplicationController
 
   def show
     @years = @concerts.pluck(:date).map{|date| ["#{date.year}年", date.year]}.uniq
-    @concerts = @concerts.page(params[:page])
+    @concerts = @concerts.includes_for_list.page(params[:page])
   end
 
   def filter

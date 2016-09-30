@@ -10,6 +10,10 @@ class Concert < ApplicationRecord
   scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
   scope :this_year, -> (year) { where(date: (Date.new(year, 1, 1))..(Date.new(year, 12, 31))) }
+  scope :includes_for_list, -> {
+    includes(:prefecture, user_concert_joinings: :user,
+      appearance_artists: {artist: :favorite_artists})
+  }
 
   def close?(days = 0)
     date < days.days.ago.to_date
@@ -17,7 +21,7 @@ class Concert < ApplicationRecord
 
   def joined_by?(user)
     return false if user.nil?
-    user_concert_joinings.pluck(:user_id).include?(user.id)
+    users#.include?(user)
   end
 
   def livefans_url
