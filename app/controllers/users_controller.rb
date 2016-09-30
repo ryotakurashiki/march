@@ -1,11 +1,5 @@
 class UsersController < ApplicationController
   before_action :set_user
-  def show
-  	#render text: params[:username]
-    @concerts = @this_user.concerts
-    @artists = @this_user.artists
-    @prefectures = @this_user.prefectures
-  end
 
   def joining
     @concerts = @this_user.concerts.includes_for_list.
