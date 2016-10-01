@@ -18,7 +18,7 @@ ja:
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Livelog登録のお知らせ"
+        subject: "#{Settings.site.name}登録のお知らせ"
       reset_password_instructions:
         subject: "Reset password instructions"
       unlock_instructions:

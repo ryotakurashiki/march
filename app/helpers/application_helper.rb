@@ -18,9 +18,9 @@ module ApplicationHelper
         locale: 'ja_JP'
       },
       twitter: {
-        site: '@livelog__jp',
+        site: '@OTOLOG_official',
         card: 'photo',
-        creator: '@livelog__jp',
+        creator: '@OTOLOG_official',
         image: {
           width: 800,
           height: 600

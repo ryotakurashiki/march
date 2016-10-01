@@ -1,5 +1,5 @@
 .form-group
-  h3.text-center LiveLogにログイン
+  h3.text-center = "#{Settings.site.name}にログイン"
   = link_to omniauth_authorize_path(:user, :twitter), class: "btn btn-twitter"
     i.fa.fa-twitter
     span Twitterでログイン
