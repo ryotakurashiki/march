@@ -364,7 +364,8 @@ module Crawler::Livefans
       end
       place_text = place_text.match(/＠(.*)/)[1]
 
-      foreign_concert = !place_text.match(/\(.*(都|道|府|県)\)$/)
+      # ()はあるけど都道府県のいずれもないときは海外公演とみなす
+      foreign_concert = !place_text.match(/\(.*(都|道|府|県)\)$/) && place_text.match(/\(.*\)$/)
       if foreign_concert
         puts "foreign_concert"
         place = place_text.gsub(/\((.*)\)$/, "")
