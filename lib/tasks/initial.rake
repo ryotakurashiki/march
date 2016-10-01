@@ -10,6 +10,22 @@ namespace :initial do
     end
   end
 
+  desc 'フェスかどうかの判定'
+  task :fes_check => :environment do
+    Concert.all.each do |c|
+      if c.appearance_artists.size >= Settings.fes_concerts_num
+        puts c.title
+        puts "フェス"
+        c.update(category: 1)
+      else
+        puts c.title
+        puts "フェス以外"
+        c.update(category: 2)
+      end
+      puts ""
+    end
+  end
+
   desc "CSVから最初のアーティストデータ登録"
   task :artist_from_eplus => :environment do
     eplus = Medium.find(1)
