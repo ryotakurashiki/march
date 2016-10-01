@@ -6,7 +6,12 @@
   | $("#tutorial-notification").removeClass('hidden').animate({'right':'0'},500);
   |
 - if @related_artists.present?
-  | $("#related_artist-list table").removeClass('hidden')
-    $('#related_artist-list table tbody').append("#{j(render 'add_related_artists')}")
+  | if (location.pathname.match(/tutorial/)) {
+      $('#related_artist-list table tbody').append("#{j(render 'add_related_artist_selector')}");
+    }else{
+      $('#related_artist-list table tbody').append("#{j(render 'add_related_artist_list')}");
+    }
+    $("#related_artist-list table").removeClass('hidden');
+    $("#related_artist-list").slideDown(500);
 
 | //$("#artist-#{@favorite_artist.artist_id}").fadeOut();

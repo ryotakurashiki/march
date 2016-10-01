@@ -1,7 +1,8 @@
 $(document).on 'turbolinks:load', ->
-  $artist_search = $('#artist-search')
-  $all_artists = $('#search-result-list table tbody').children('tr')
   if $('body.tutorials').length
+    $("#related_artist-list").slideUp(0)
+    $artist_search = $('#artist-search')
+    $all_artists = $('#search-result-list table tbody').children('tr')
     $(".artist-selector").on('click','.artist-item', ->
       $artist_search.val("")
       $class = $(this).attr('class').split(" ")[1]
