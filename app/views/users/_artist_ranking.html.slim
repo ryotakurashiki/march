@@ -13,7 +13,8 @@ table.artist-ranking
           = "#{array[1]} 回"
     tr.fes
       td.artist-name フェス・イベント
-      td.count n 回
+      td.count
+        = "#{@fes_count} 回"
     tr.more
       td colspan=2
         i.fa.fa-refresh aria-hidden="true"

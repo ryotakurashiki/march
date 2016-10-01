@@ -13,10 +13,11 @@ class UsersController < ApplicationController
       @year = params[:year].to_i
       @concerts = @concerts.this_year(@year)
     end
-    @artist_ids_with_count = @concerts.joins(:appearance_artists).
+    @artist_ids_with_count = @concerts.joins(:appearance_artists).where("category >= 10").
     #@artist_ids_with_count = @concerts.includes(appearance_artists: :artist).
                              #references(appearance_artists: :artist).
                              group("appearance_artists.artist_id").order("count(*) DESC").count.to_a
+    @fes_count = @concerts.where("category >= 10").size
     @concerts = @concerts.includes_for_list.
                 order("date DESC").page(params[:page])
   end
