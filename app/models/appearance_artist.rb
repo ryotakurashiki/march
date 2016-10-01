@@ -20,7 +20,7 @@ class AppearanceArtist < ApplicationRecord
     if concert.appearance_artists.size >= Settings.fes_concerts_num
       concert.update(category: 1)
     else
-      concert.update(category: 2)
+      concert.update(category: 10)
     end
   end
 end

@@ -20,7 +20,7 @@ namespace :initial do
       else
         puts c.title
         puts "フェス以外"
-        c.update(category: 2)
+        c.update(category: 10)
       end
       puts ""
     end
