@@ -1,4 +1,7 @@
 .concert-info
+  - if concert.category < 10
+    span.label-block.label-thin_base.mr3 = "フェス・イベント"
+    br
   span.title = concert.try(:title)
   br
   span.date = jp_date concert.try(:date)
