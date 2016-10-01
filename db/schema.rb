@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923131842) do
+ActiveRecord::Schema.define(version: 20161001031801) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -203,6 +203,15 @@ ActiveRecord::Schema.define(version: 20160923131842) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
+  end
+
+  create_table "watched_artists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "appearance_artist_id"
+    t.integer  "user_concert_joining_id"
+    t.boolean  "watched"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["appearance_artist_id", "user_concert_joining_id"], name: "appearance_artist_user_unique", unique: true, using: :btree
   end
 
 end

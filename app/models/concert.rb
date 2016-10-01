@@ -19,6 +19,10 @@ class Concert < ApplicationRecord
     date < days.days.ago.to_date
   end
 
+  def fes?
+    category == 1
+  end
+
   def joined_by?(user)
     return false if user.nil?
     users#.include?(user)

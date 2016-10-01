@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :prefectures, through: :favorite_prefectures
   has_many :user_concert_joinings
   has_many :concerts, through: :user_concert_joinings
+  has_many :watched_artists, through: :user_concert_joinings
   mount_uploader :icon, ImageUploader
 
   #validates :email, presence: true
