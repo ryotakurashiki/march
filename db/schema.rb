@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001031801) do
+ActiveRecord::Schema.define(version: 20161002162253) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(version: 20161001031801) do
   create_table "artists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "category"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "kana_done",  default: false
     t.index ["name"], name: "index_artists_on_name", unique: true, using: :btree
   end
 
@@ -113,6 +114,14 @@ ActiveRecord::Schema.define(version: 20161001031801) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["user_id", "prefecture_id"], name: "index_favorite_prefectures_on_user_id_and_prefecture_id", unique: true, using: :btree
+  end
+
+  create_table "kanas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "artist_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artist_id", "name"], name: "index_kanas_on_artist_id_and_name", unique: true, using: :btree
   end
 
   create_table "livefan_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

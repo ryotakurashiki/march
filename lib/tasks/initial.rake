@@ -26,6 +26,15 @@ namespace :initial do
     end
   end
 
+  desc "ふりがなの登録"
+  task :kanas => :environment do
+    kanas = CSV.table("#{Rails.public_path}/csv/initial_kanas.csv")
+    kanas.each do |kana|
+      Kana.create(artist_id: kana[:artist_id], name: kana[:kana_name])
+      Artist.find(kana[:artist_id]).update(kana_done: true)
+    end
+  end
+
   desc "CSVから最初のアーティストデータ登録"
   task :artist_from_eplus => :environment do
     eplus = Medium.find(1)

@@ -1,4 +1,6 @@
 class Artist < ApplicationRecord
+  after_create :create_kana, dependent: :destroy
+
   has_many :appearance_artists, dependent: :destroy
   accepts_nested_attributes_for :appearance_artists
   has_many :concerts, through: :appearance_artists, source: 'attachable', source_type: 'Concert'
@@ -9,6 +11,7 @@ class Artist < ApplicationRecord
   accepts_nested_attributes_for :favorite_artists
   has_many :users, through: :favorite_artists
   has_many :artists, through: :artist_relations, foreign_key: :related_artist_id
+  has_many :kanas
 
   scope :artist_relations_nil, -> {
     includes(:artist_relations, :medium_artist_relations).
@@ -35,6 +38,11 @@ class Artist < ApplicationRecord
   def favorite_by?(user)
     return false if user.nil?
     favorite_artists.pluck(:user_id).include?(user.id)
+  end
+
+  def create_kana
+    kana_name = self.name.gsub(/(\s|　)+/, '')
+    Kana.create(name: kana_name, artist_id: self.id)
   end
 
   def self.find_or_create_by(params)
