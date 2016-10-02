@@ -33,6 +33,9 @@ namespace :initial do
       Kana.create(artist_id: kana[:artist_id], name: kana[:kana_name])
       Artist.find(kana[:artist_id]).update(kana_done: true)
     end
+    Artist.where(kana_done: false).each do |artist|
+      artist.create_kana
+    end
   end
 
   desc "CSVから最初のアーティストデータ登録"
