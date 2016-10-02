@@ -10,6 +10,12 @@ class Concert < ApplicationRecord
   scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
   scope :this_year, -> (year) { where(date: (Date.new(year, 1, 1))..(Date.new(year, 12, 31))) }
+  scope :ids_joined_by, -> (user, concerts) {
+    includes(user_concert_joinings: :user).
+    merge(concerts).where(users: {id: user.id}).
+    group("concerts.id, users.id").pluck("concerts.id")
+  }
+
   scope :includes_for_list, -> {
     includes(:prefecture, user_concert_joinings: :user,
       appearance_artists: {artist: :favorite_artists})

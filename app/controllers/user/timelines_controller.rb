@@ -8,15 +8,15 @@ class User::TimelinesController < User::UserApplicationController
       concert_ids = Concert.includes(:prefecture, :appearance_artists).
                     where(prefecture_id: @favorite_prefecture_ids, appearance_artists: {artist_id: @favorite_artist_ids}).
                     open.order("date").take(200).pluck(:id)
-
       @concerts = Concert.includes_for_list.where(id: concert_ids).page(params[:page])
-
+      @join_concert_ids = Concert.ids_joined_by(current_user, @concerts)
     else
       concert_ids = Concert.includes(:prefecture, :appearance_artists).
                     where(appearance_artists: {artist_id: @favorite_artist_ids}).
                     open.order("date").take(200).pluck(:id)
 
       @concerts = Concert.includes_for_list.where(id: concert_ids).page(params[:page])
+      @join_concert_ids = Concert.ids_joined_by(current_user, @concerts)
     end
   end
 
@@ -24,9 +24,8 @@ class User::TimelinesController < User::UserApplicationController
     concert_ids = Concert.includes(:prefecture, :appearance_artists).
                   where(appearance_artists: {artist_id: @favorite_artist_ids}).
                   close.order("date DESC").take(200).pluck(:id)
-    @concerts = Concert.includes(:prefecture, user_concert_joinings: :user,
-                appearance_artists: {artist: :favorite_artists}).
-                where(id: concert_ids).page(params[:page])
+    @concerts = Concert.includes_for_list.where(id: concert_ids).page(params[:page])
+    @join_concert_ids = Concert.ids_joined_by(current_user, @concerts)
   end
 
   private
