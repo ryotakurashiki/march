@@ -283,17 +283,17 @@ module Crawler::Livefans
           foreign_concert = !place_text2.match(/\(.*(都|道|府|県)\)$/)
           if foreign_concert # ()はあるけど都道府県のいずれの文字も存在しない
             puts "foreign_concert"
-            place2 = place_text2.gsub(/\((.*)\)$/, "")
+            place2 = place_text2.gsub(/\((.*)\)$/, "").strip
             country_name2 = place_text2.match(/\((.*)\)$/)[1]
             prefecture2 = Prefecture.find_or_create_by(name: country_name2)
             prefecture2.update(area: "海外")
             prefecture_id2 = prefecture2.id
           elsif place_text2.match(/\(.*(都|道|府|県)\)$/)
-            place2 = place_text2.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
+            place2 = place_text2.gsub(/\((.{2}|.{3}|.{4})\)$/, "").strip
             prefecture_name2 = place_text2.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
             prefecture_id2 = Prefecture.find_by_name(prefecture_name2).id
           else
-            place2 = place_text2
+            place2 = place_text2.strip
             prefecture_id2 = nil
           end
 
@@ -368,17 +368,17 @@ module Crawler::Livefans
       foreign_concert = !place_text.match(/\(.*(都|道|府|県)\)$/) && place_text.match(/\(.*\)$/)
       if foreign_concert
         puts "foreign_concert"
-        place = place_text.gsub(/\((.*)\)$/, "")
+        place = place_text.gsub(/\((.*)\)$/, "").strip
         country_name = place_text.match(/\((.*)\)$/)[1]
         prefecture = Prefecture.find_or_create_by(name: country_name)
         prefecture.update(area: "海外")
         prefecture_id = prefecture.id
       elsif place_text.match(/\(.*(都|道|府|県)\)$/)
-        place = place_text.gsub(/\((.{2}|.{3}|.{4})\)$/, "")
+        place = place_text.gsub(/\((.{2}|.{3}|.{4})\)$/, "").strip
         prefecture_name = place_text.match(/\((.{2}|.{3}|.{4})\)$/)[1].gsub(/(都|府|県)$/, "")
         prefecture_id = Prefecture.find_by_name(prefecture_name).id
       else
-        place = place_text
+        place = place_text.strip
         prefecture_id = nil
       end
 
