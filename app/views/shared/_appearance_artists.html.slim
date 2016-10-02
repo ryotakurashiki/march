@@ -1,0 +1,7 @@
+- artists_num = appearance_artists.size
+- appearance_artists.each.with_index do |appearance_artist, i|
+  - if i == 3
+    span.label-block.label-thin_base.mr3 = "他#{artists_num-3}アーティスト"
+    - break
+  span.label-block.label-thin_base.mr3
+    = "#{appearance_artist.artist.name}#{'（出演日未定）' if appearance_artist.not_decided}"

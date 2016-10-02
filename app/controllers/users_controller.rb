@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def joining
     @concerts = @this_user.concerts.includes_for_list.
                 open.order("date").page(params[:page])
+    @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
   end
 
   def joined
@@ -20,6 +21,7 @@ class UsersController < ApplicationController
     @fes_count = @concerts.where("category >= 10").size
     @concerts = @concerts.includes_for_list.
                 order("date DESC").page(params[:page])
+    @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
   end
 
   def favorite

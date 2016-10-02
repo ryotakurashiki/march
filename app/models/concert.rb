@@ -54,12 +54,6 @@ class Concert < ApplicationRecord
     end
   end
 
-  def appearance_artists_filtered(user = current_user)
-    return appearance_artists.eager_load(:artist) if user.nil?
-    appearance_artists.eager_load(:artist, :favorite_artists).
-      joins("AND favorite_artists.user_id = #{user.id}").order("favorite_artists.id DESC")
-  end
-
   def self.find_or_create_by(params)
     #self.find_by(title: params[:title], date: params[:date], place: params[:place]) || self.create(params)
     if concert = self.find_by(date: params[:date], place: params[:place])

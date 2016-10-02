@@ -25,10 +25,10 @@ Rails.application.routes.draw do
     resource :user_concert_joinings, only: [:create]
   end
 
-  #get '/:username', to: 'users#show', as: 'user_open'
   get '/:username/joined', to: 'users#joined', as: 'user_joined'
   get '/:username/joining', to: 'users#joining', as: 'user_joining'
   get '/:username/favorite', to: 'users#favorite', as: 'user_favorite'
+  post '/appearance_artists/sort', to: 'appearance_artists#sort'
   resources :artists, only: [:show] do
     resource :concerts, only: [:show] do
       post '/filter', to: 'concerts#filter'
