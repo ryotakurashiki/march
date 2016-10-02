@@ -30,8 +30,10 @@ namespace :initial do
   task :kanas => :environment do
     kanas = CSV.table("#{Rails.public_path}/csv/initial_kanas.csv")
     kanas.each do |kana|
-      Kana.create(artist_id: kana[:artist_id], name: kana[:kana_name])
-      Artist.find(kana[:artist_id]).update(kana_done: true)
+      unless Kana.find_by(artist_id: kana[:artist_id], name: kana[:kana_name])
+        Kana.create(artist_id: kana[:artist_id], name: kana[:kana_name])
+        Artist.find(kana[:artist_id]).update(kana_done: true)
+      end
     end
     Artist.where(kana_done: false).each do |artist|
       artist.create_kana

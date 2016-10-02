@@ -17,7 +17,13 @@ class Artist < ApplicationRecord
     includes(:artist_relations, :medium_artist_relations).
     where(artist_relations: {related_eplus_artist_id: nil}, medium_artist_relations: {medium_id: 1})
   }
-
+  scope :search_match_artists, -> (match_text) {
+    find_by_sql(
+      "SELECT artists.* from artists
+       LEFT OUTER JOIN kanas ON artists.id = kanas.artist_id
+       WHERE kanas.name LIKE \'#{match_text}\' limit 10"
+    ).uniq
+  }
   scope :artist_relations_small, -> (num) {
     find_by_sql(
       "SELECT * FROM artists WHERE id not in (

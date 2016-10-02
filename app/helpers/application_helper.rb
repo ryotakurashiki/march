@@ -36,4 +36,5 @@ module ApplicationHelper
   def jp_date(date)
     date.strftime("%y/%m/%d(#{%w(日 月 火 水 木 金 土)[date.wday]})")
   end
+
 end

@@ -19,10 +19,11 @@ class User::StaticsController < User::UserApplicationController
   end
 
   def search_filter
-    match_text = '%'+params[:input_text]+'%'
     @favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
     if params[:input_text].present?
-      @artists = Artist.where(Artist.arel_table[:name].matches(match_text)).limit(5)
+      input_space_deleted = delete_space(params[:input_text])
+      match_text = '%'+input_space_deleted+'%'
+      @artists = Artist.search_match_artists(match_text)
     else
       @artists = nil
     end
