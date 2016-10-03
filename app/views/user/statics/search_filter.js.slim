@@ -1,1 +1,6 @@
-| $('#search-result-list table tbody').empty().append("#{j(render partial: "user/shared/artist_list", collection: @artists, as: "artist")}")
+| if ($('body.tutorials').length) {
+    $('#search-result-list table tbody').empty().append("#{j(render partial: "user/shared/artist_selector", collection: @artists, as: "artist")}");
+  }
+  else{
+    $('#search-result-list table tbody').empty().append("#{j(render partial: "user/shared/artist_list", collection: @artists, as: "artist")}");
+  }

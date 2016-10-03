@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161003065109) do
+ActiveRecord::Schema.define(version: 20161003065643) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 20161003065109) do
     t.string   "medium_artist_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.index ["medium_id", "medium_artist_id"], name: "index_medium_artist_relations_on_medium_id_and_medium_artist_id", using: :btree
+    t.index ["medium_id", "artist_id", "medium_artist_id"], name: "artist_relations_uniq", unique: true, using: :btree
   end
 
   create_table "prefectures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
