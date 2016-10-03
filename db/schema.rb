@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161003043238) do
+ActiveRecord::Schema.define(version: 20161003065109) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -122,16 +122,6 @@ ActiveRecord::Schema.define(version: 20161003043238) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["artist_id", "name"], name: "index_kanas_on_artist_id_and_name", unique: true, using: :btree
-  end
-
-  create_table "livefan_tests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "livefans_artist_id"
-    t.string   "result_text"
-    t.string   "artist_name"
-    t.string   "eplus_artist_id"
-    t.string   "search_url"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
