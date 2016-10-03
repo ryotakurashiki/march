@@ -73,7 +73,7 @@ gem 'meta-tags'
 
 # imageupload
 gem 'carrierwave'
-gem 'rmagick', require: 'RMagick'
+gem 'rmagick', require: 'rmagick'
 
 gem 'config'
 
