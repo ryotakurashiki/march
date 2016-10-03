@@ -1,5 +1,5 @@
 require 'phantomjs'
-require 'csv'
+require 'csv' # herokuでCSV.table使うとバグる
 
 namespace :initial do
 
@@ -28,11 +28,13 @@ namespace :initial do
 
   desc "ふりがなの登録"
   task :kanas => :environment do
-    kanas = CSV.table("#{Rails.public_path}/csv/initial_kanas.csv")
+    kanas = CSV.read("#{Rails.public_path}/csv/initial_kanas.csv", headers: true)
     kanas.each do |kana|
-      unless Kana.find_by(artist_id: kana[:artist_id], name: kana[:kana_name])
-        Kana.create(artist_id: kana[:artist_id], name: kana[:kana_name])
-        Artist.find(kana[:artist_id]).update(kana_done: true)
+      artist_id = kana[1]
+      kana_name = kana[2]
+      unless Kana.find_by(artist_id: artist_id, name: kana_name)
+        Kana.create(artist_id: artist_id, name: kana_name)
+        Artist.find(artist_id).update(kana_done: true)
       end
     end
     Artist.where(kana_done: false).each do |artist|
