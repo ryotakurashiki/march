@@ -2,7 +2,8 @@ h1.title 開催前のライブ
 
 #concerts
   section.concert-list
-    = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert"
+    = render partial: "shared/future_concert_list", collection: @concerts, :as => "concert",
+      locals: { join_concert_ids: @join_concert_ids }
 
 .hidden
   = paginate @concerts

@@ -2,7 +2,7 @@
   = render 'shared/concert_info', concert: concert
 
   .concert-widget
-    span.join class="#{'active' if @join_concert_ids.include?(concert.id)}"
+    span.join class="#{'active' if join_concert_ids.include?(concert.id)}"
       = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
         i.fa.fa-check-circle aria-hidden="true"
         |  参加した

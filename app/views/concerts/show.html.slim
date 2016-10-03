@@ -13,9 +13,9 @@ h1.title.overflow = "#{@artist.name}"
   section.concert-list
     - @concerts.each do |concert|
       - if concert.close?
-        = render "shared/past_concert_list", concert: concert
+        = render "shared/past_concert_list", concert: concert, join_concert_ids: @join_concert_ids
       - else
-        = render "shared/future_concert_list", concert: concert
+        = render "shared/future_concert_list", concert: concert, join_concert_ids: @join_concert_ids
 
 .hidden
   = paginate @concerts

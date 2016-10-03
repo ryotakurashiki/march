@@ -22,7 +22,8 @@ a href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライ
 
 #concerts
   section.concert-list
-    = render partial: "shared/past_concert_list", collection: @concerts, :as => "concert"
+    = render partial: "shared/past_concert_list", collection: @concerts, as: "concert",
+      locals: { join_concert_ids: @join_concert_ids }
 
 .hidden
   = paginate @concerts

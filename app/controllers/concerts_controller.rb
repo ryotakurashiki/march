@@ -23,6 +23,7 @@ class ConcertsController < ApplicationController
         @concerts = @artist.concerts.order("date DESC").page(params[:page])
       end
     end
+    @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
   end
 
   private
