@@ -18,6 +18,7 @@ $(document).on 'turbolinks:load', ->
           stop_infinitescroll()
         else
           restart_infinitescroll()
+        SortAppearanceArtist.run()
     })
   )
 
