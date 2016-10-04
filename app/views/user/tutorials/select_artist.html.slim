@@ -3,7 +3,7 @@
     p.welcome-message.janru 好きなアーティストをお気に入りに登録しよう
 
   .form-group.search
-    input.string.optional.form-control#artist-search type="text" value="" placeholder="アーティスト名で探す"
+    = render "shared/search_box"
     #search-result-list.artist-selector
       table.table.hidden
         tbody
