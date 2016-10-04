@@ -31,6 +31,3 @@ $(document).on 'turbolinks:load', ->
     $("#concerts .concert-list").empty()
     loading_img = "<img alt='Loading...' src='" + image_path('loading.gif') + "'/>"
     $("#concerts .concert-list").append("<div id='loading-concerts'>" + loading_img + "</div>")
-  removeLoading = ->
-    $("#loading").remove()
-
