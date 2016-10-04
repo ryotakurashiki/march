@@ -1,10 +1,8 @@
 $(document).on 'turbolinks:load', ->
   $("#prefecture_prefecture_id, #date_year").change( ->
-    console.log(this.value)
     prefecture_id = $("#prefecture_prefecture_id")[0].value
     year = $("#date_year")[0].value
-    console.log(prefecture_id)
-    console.log(year)
+    display_loading_image()
     $.ajax({
       url: location.pathname + "/filter",
       method: "post",
@@ -28,3 +26,11 @@ $(document).on 'turbolinks:load', ->
   restart_infinitescroll = ->
     $("#concerts .concert-list").infinitescroll('bind')
     $("#concerts .concert-list").infinitescroll('update', state: {currPage: 1})
+
+  display_loading_image = ->
+    $("#concerts .concert-list").empty()
+    loading_img = "<img alt='Loading...' src='" + image_path('loading.gif') + "'/>"
+    $("#concerts .concert-list").append("<div id='loading-concerts'>" + loading_img + "</div>")
+  removeLoading = ->
+    $("#loading").remove()
+
