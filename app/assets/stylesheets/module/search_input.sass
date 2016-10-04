@@ -1,0 +1,30 @@
+@import "constants"
+
+.form-group.search
+  padding-left: 10px
+  padding-right: 10px
+  #artist-search
+    margin-top: 20px
+    height: 39px
+    border: none
+    box-shadow: none
+    background: #f5f8fa
+  #artist-search:placeholder-shown
+    color: #555
+  /* Google Chrome, Safari, Opera 15+, Android, iOS */
+  #artist-search::-webkit-input-placeholder
+    color: #555
+  /* Firefox 18- */
+  #artist-search:-moz-placeholder
+    color: #555
+    opacity: 1
+  /* Firefox 19+ */
+  #artist-search::-moz-placeholder
+    color: #555
+    opacity: 1
+  /* IE 10+ */
+  #artist-search:-ms-input-placeholder
+    color: #555
+  #search-result-list
+    tr:nth-child(1) td
+      border-top: none

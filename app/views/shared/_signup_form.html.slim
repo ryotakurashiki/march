@@ -9,7 +9,7 @@
     = simple_form_for(User.new, as: :user, url: registration_path(:user)) do |f|
       = f.error_notification
       .form-inputs
-        = f.input :email, required: true, autofocus: true, label: false, placeholder: "メールアドレス"
+        = f.input :email, required: true, label: false, placeholder: "メールアドレス"
         = f.input :password, required: true, label: false, placeholder: "パスワード"
         = f.input :password_confirmation, label: false, required: true, placeholder: "パスワード確認用"
       .form-actions

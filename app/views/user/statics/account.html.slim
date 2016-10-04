@@ -11,9 +11,9 @@ h1.title アカウント
       .form-inputs
         = image_tag(current_user.icon_path, size: "73x73")
         = f.input :icon, label: "アイコン画像", input_html: { preview_version: :thumb }
-        = f.input :username, required: true, autofocus: true, label: "ユーザーID"
-        = f.input :username_jp, required: true, autofocus: true, label: "ユーザー名"
-        = f.input :description, required: true, autofocus: true, as: :text, label: "自己紹介"
+        = f.input :username, required: true, label: "ユーザーID"
+        = f.input :username_jp, required: true, label: "ユーザー名"
+        = f.input :description, required: true, as: :text, label: "自己紹介"
 
       .form-actions
         = f.button :submit, "保存", class: "btn btn-info"
