@@ -11,11 +11,15 @@ section.concert-list
     .concert-info
       padding-left: 10px
       padding-right: 10px
+      .title-wrap
+        .title
+          vertical-align: middle
       .title
         font-weight: bold
         font-size: 95%
       .date, .place
         font-size: 80%
+        line-height: 1
     .concert-widget
       margin-top: 5px
       margin-right: 10px
@@ -25,15 +29,16 @@ section.concert-list
       .join, .ticket, .setlist
         a
           font-size: 90%
+          color: #657786
         a:hover, a:focus
           text-decoration: none
       .join a
-        color: $grey_color
+        //color: $grey_color
       .join.active a
         color: $base_color
       .ticket a, .setlist a
         margin-left: 15px
-        color: #489CDF
+        //color: #489CDF
   #infscr-loading
     text-align: center
     padding: 10px
