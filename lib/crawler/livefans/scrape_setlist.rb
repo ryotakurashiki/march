@@ -8,6 +8,7 @@ module Crawler::Livefans
       @logger.level = Logger::INFO
       @logger.warn "=> Booting LiveFans Crawler..."
       @base_url = 'http://www.livefans.jp'
+      @end_at = 1.hour.from_now
     end
 
     def run
@@ -217,6 +218,7 @@ module Crawler::Livefans
             @logger.info "successfly scraped #{url}"
             crawl_status.update(crawled_on: Time.zone.now)
           end
+          break if time_up?
         end
       end
     end
@@ -407,6 +409,10 @@ module Crawler::Livefans
         end
       end
       Concert.where(livefans_path: livefans_path,date: dates)
+    end
+
+    def timeup?
+      Time.zone.now > @end_at
     end
 
   end
