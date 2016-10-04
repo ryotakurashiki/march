@@ -1,12 +1,8 @@
 .concert-info
-  /- if concert.category < 10
-    span.label-block.label-thin_base.mr3 = "フェス・イベント"
-    br
   .title-wrap
     span.title.pr5 = concert.try(:title)
     - if concert.category < 10
       span.label-block.label-fes.mr3 = "フェス・イベント"
-  /br
   span.date = jp_date concert.try(:date)
   span.place = "@#{concert.try(:place)}(#{concert.prefecture.name})"
   .appearance-artists cid = "#{concert.id}"
