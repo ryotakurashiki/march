@@ -1,18 +1,37 @@
 @import "constants"
 
 .artist-selector, .artist-list
-  .fa-star
-    color: $grey_color
   table
     background-color: #fff
+    .favorite, .artist-name, .chevron
+      vertical-align: middle
     .favorite
       background-color: #fff !important
-      text-align: left
+      text-align: center
       padding-left: 15px
+    .favorite, .chevron
+      .tabel-link
+        padding-top: 50%
+    .star
+      width: 40px
+      height: 43px
+      background: image-url("star_animation.png")
+      background-repeat: no-repeat
+      background-position: 6px 7px
+      background-size: auto 25px
+      cursor: pointer
+      vertical-align: middle
+    .star.active
+      background-position: -1950px 7px
+      -webkit-transition: background 1s steps(55)
+      transition: background 1s steps(55)
+    .fa-star
+      color: $grey_color
     tr:last-child td
       border-bottom: 1px solid #ddd
 .artist-list
   .chevron
     width: 35px
+    height: 43px
 #search-result-list
   overflow: scroll

@@ -5,7 +5,7 @@ $(document).on 'turbolinks:load', ->
 
   $artist_search.bind('keydown keyup',(e) ->
     $search_result_table.removeClass('hidden')
-    $search_result_list.css('height', '112px')
+    $search_result_list.css('height', '132px')
     input_text = e.currentTarget.value
 
     $.ajax({
