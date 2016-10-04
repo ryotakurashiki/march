@@ -1,6 +1,34 @@
-.welcome-container
-  .welcome-text
-    p.welcome-message ライブの参加予定・履歴を管理しよう
-
-  .signin-box
-    = render 'shared/signin_form'
+#jumbotron
+  .top-container
+    .container
+      p.top-message
+        | 参加したライブを記録して
+        br
+        | 新しいライブと出会おう
+      p.top-description
+       = Settings.site.name
+       | はライブの参加履歴や予定を管理できるサービスです。
+       br
+       | 好きなアーティストからライブを探したり、これまで参加したライブをまとめて共有することができます。
+      = render "twitter_or_mail"
+.features
+  .container
+    .content
+      .heading
+        p 主な機能
+      .row
+        .col-md-4
+          p 好きなアーティストをお気に入り登録
+          = image_tag("welcome/features1.png")
+        .col-md-4
+          p 開催予定のライブをチェック
+          = image_tag("welcome/features2.png")
+        .col-md-4
+          p 自分だけのライブ参加ログを作ろう
+          = image_tag("welcome/features3.png")
+    .content
+      .heading
+        p
+          = Settings.site.name
+          | を始める
+      = render "twitter_or_mail"

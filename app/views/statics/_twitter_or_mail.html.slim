@@ -1,0 +1,11 @@
+.form-group
+  = link_to omniauth_authorize_path(:user, :twitter), class: "btn btn-twitter"
+    i.fa.fa-twitter.fa-lg
+    span Twitterで新規登録・ログイン
+p.text-center
+  | OR
+  br
+  | メールアドレスで
+#signup-bar
+  = link_to 'アカウント作成', new_user_registration_path, class: "btn signup-btn"
+  = link_to 'ログイン', root_path, class: "btn signin-btn"
