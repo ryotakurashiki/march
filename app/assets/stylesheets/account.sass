@@ -5,8 +5,23 @@ body.account
     margin-bottom: 0
     tbody tr td
       padding-bottom: 0px
-
-  textarea.form-control
-    height: 5em
-  .form-actions .btn
-    width: 100%
+  .form-group
+    label
+      color: #777
+      padding-left: 3px
+      abbr
+        display: none
+    .form-control
+      color: #222
+    .form-control.string, .form-control.file
+      border: none
+      border-bottom: 1px solid #ddd
+      padding: 0px 12px 3px 5px
+      box-shadow: none
+      height: auto
+    .form-control.file
+      padding: 0px 12px 3px 0px
+    textarea.form-control
+      height: 5em
+    .form-actions .btn
+      width: 100%
