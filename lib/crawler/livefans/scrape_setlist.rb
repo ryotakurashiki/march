@@ -362,7 +362,7 @@ module Crawler::Livefans
         dates = [Date.parse(date_text)]
         place_text = page.at('//*[@id="content"]/div/div/div/address').inner_text
       end
-      place_text = place_text.match(/＠(.*)/)[1]
+      place_text = place_text.match(/＠(.*)/)[1].gsub(/出演：.*/, "")
 
       # ()はあるけど都道府県のいずれもないときは海外公演とみなす
       foreign_concert = !place_text.match(/\(.*(都|道|府|県)\)$/) && place_text.match(/\(.*\)$/)
