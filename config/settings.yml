@@ -3,7 +3,7 @@ site:
   page_title: オトログ
   page_description: "OTOLOG(オトログ)は参加したライブを記録し、思い出を共有できるサービスです"
   keywords: "OTOLOG, オトログ"
-  message: 参加したライブを記録して、新しいライブと出会おう
+  message: 参加したライブを記録して<br>新しいライブと出会おう
   meta:
     ogp:
       type: "website"
