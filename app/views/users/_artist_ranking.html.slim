@@ -11,11 +11,13 @@ table.artist-ranking
           = Artist.find(array[0]).name
         td.count
           = "#{array[1]} 回"
+    tr.more.text-center
+      td colspan=2
+        span.label-block.label-more
+          i.fa.fa-chevron-down.pr5 aria-hidden="true"
+          | もっと見る
+          i.fa.fa-times aria-hidden="true"
     tr.fes
       td.artist-name フェス・イベント
       td.count
         = "#{@fes_count} 回"
-    tr.more
-      td colspan=2
-        i.fa.fa-refresh aria-hidden="true"
-        span.pl5 もっと見る

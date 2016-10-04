@@ -4,3 +4,8 @@ $(document).on 'turbolinks:load', ->
     if !$(".artist-ranking tbody .ranking-item.hidden")[0]
       $(this).addClass("hidden")
   )
+
+  $(".artist-ranking").on('click','tbody .more td .label-more .fa-times', (e) ->
+    e.stopPropagation()
+    $(".more").remove()
+  )
