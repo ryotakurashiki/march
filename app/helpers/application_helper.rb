@@ -22,8 +22,8 @@ module ApplicationHelper
         card: 'photo',
         creator: '@OTOLOG_official',
         image: {
-          width: 800,
-          height: 600
+          width: 392,
+          height: 525
         }
       }
     }
