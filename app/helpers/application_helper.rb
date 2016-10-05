@@ -20,11 +20,8 @@ module ApplicationHelper
       twitter: {
         site: '@OTOLOG_official',
         card: 'photo',
-        creator: '@OTOLOG_official',
-        image: {
-          width: 392,
-          height: 525
-        }
+        image: image_url("og_test.png"),
+        creator: '@OTOLOG_official'
       }
     }
   end
