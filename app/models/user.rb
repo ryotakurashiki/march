@@ -20,7 +20,7 @@ class User < ApplicationRecord
   #validates :username_jp, :presence => {:message => 'ユーザー名を入力してください'}
 
   def set_usernames
-    self.username = get_random_string(8)
+    self.username = self.username || get_random_string(8)
   end
 
   def self.from_omniauth(auth)
