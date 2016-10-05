@@ -3,9 +3,10 @@
 h1.title お問い合わせ
 
 .content-container
-  = simple_form_for(@inquiry, as: :inquiry, url: inquiry_thanks_path) do |f|
-    = simple_format(@inquiry.message)
-    .form-inputs
-      = f.input :message, as: :text, required: true, label: false
-    .form-actions
-      = f.button :submit, "送信", class: 'btn btn-warning'
+  .form-group
+    = simple_form_for(@inquiry, as: :inquiry, url: inquiry_thanks_path) do |f|
+      = simple_format(@inquiry.message)
+      .form-inputs
+        = f.input :message, as: :text, required: true, label: false
+      .form-actions
+        = f.button :submit, "送信", class: 'btn btn-info'
