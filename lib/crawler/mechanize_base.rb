@@ -3,7 +3,7 @@ require 'csv'
 
 module Crawler
   class MechanizeBase
-    def initialize
+    def initialize(use_proxy = true)
       #create_agent
     end
 
@@ -41,7 +41,6 @@ module Crawler
       agent.open_timeout = 120
       agent.read_timeout = 180
       agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      agent.set_proxy('61.228.41.80', 8080) #61.230.75.2
       agent
     end
 	end

@@ -11,9 +11,14 @@ namespace :eplus_crawler do
 end
 
 namespace :livefans_crawler do
-  desc "セットリストの取得"
+  desc "セットリストの取得:プロキシ利用"
   task :setlists => :environment do
     Crawler::Livefans::ScrapeSetlist.new.run
+  end
+
+  desc "セットリストの取得:プロキシ利用しない"
+  task :setlists_proxy_false => :environment do
+    Crawler::Livefans::ScrapeSetlist.new(false).run
   end
 end
 

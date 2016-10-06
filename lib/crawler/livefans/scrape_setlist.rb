@@ -2,23 +2,27 @@ require 'phantomjs'
 
 module Crawler::Livefans
   class ScrapeSetlist < Crawler::MechanizeBase
-    def initialize
+    def initialize(use_proxy = true)
       super
       @logger = Logger.new(Rails.root.join('log', 'mechanize.log'))
       @logger.level = Logger::INFO
       @logger.warn "=> Booting LiveFans Crawler..."
       @base_url = 'http://www.livefans.jp'
       @end_at = 1.hour.from_now
+      @use_proxy = use_proxy
+      @proxy_list = get_proxy_list
     end
 
     def run
+      threads_num = @use_proxy ? 5 : 1
       medium_artist_relations = MediumArtistRelation.livefans.crawlable(30)
-      #Parallel.each(medium_artist_relations, in_threads: 4) do |medium_artist_relation|
-      medium_artist_relations.each do |medium_artist_relation| #.reverse .shuffle
+      Parallel.each(medium_artist_relations, in_threads: threads_num) do |medium_artist_relation|
+      #medium_artist_relations.each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
         ActiveRecord::Base.connection_pool.with_connection do
           begin
             agent = create_agent
+            set_proxy(agent) if @use_proxy
             setlist_array = []
             setlists = []
             artist = medium_artist_relation.artist
@@ -43,6 +47,7 @@ module Crawler::Livefans
                 page = agent.get(url)
               rescue
                 puts "page visitでエラ → retry"
+                set_proxy(agent)
                 retry
               end
 
@@ -127,6 +132,7 @@ module Crawler::Livefans
                   page = agent.get(url)
                 rescue
                   puts "page visitでエラ → retry"
+                  set_proxy(agent)
                   retry
                 end
                 puts setlist_path
@@ -264,6 +270,7 @@ module Crawler::Livefans
         page2 = agent.get(@base_url+livefans_path)
       rescue
         puts "page visitでエラ → retry"
+        set_proxy(agent)
         retry
       end
 
@@ -340,6 +347,7 @@ module Crawler::Livefans
           page2 = agent.get(@base_url+livefans_path)
         rescue
           puts "page visitでエラ → retry"
+          set_proxy(agent)
           retry
         end
         h2_date_text = page2.at('//*[@id="container"]/div[@class="col"]/h2[@class="date"]').inner_text
@@ -413,6 +421,36 @@ module Crawler::Livefans
 
     def timeup?
       Time.zone.now > @end_at
+    end
+
+    def get_proxy_list
+      proxy_list = []
+      session = Crawler::CapybaraBase.new.create_session
+      session.visit "http://www.cybersyndrome.net/search.cgi?q=&a=A&f=l&s=new&n=200"
+
+      while true
+        break if session.all("#div_result ul li a").count >= 1
+        puts "wait for #div_result"
+        sleep(2)
+      end
+
+      doc = Nokogiri::HTML.parse(session.html)
+      rows = doc.css('div#div_result ul li a')
+      puts rows
+      rows.each do |row|
+        host = row.inner_text.match(/(.*):/)[1]
+        port = row.inner_text.match(/:(.*)/)[1].to_i
+        proxy_list << {host: host, port: port}
+      end
+      puts proxy_list
+      session.driver.quit
+      proxy_list
+    end
+
+    def set_proxy(agent)
+      proxy = @proxy_list.sample
+      puts "#{proxy}を設定"
+      agent.set_proxy(proxy[:host], proxy[:port])
     end
 
   end

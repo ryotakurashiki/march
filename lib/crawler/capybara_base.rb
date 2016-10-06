@@ -10,8 +10,6 @@ module Crawler
       set_capybara()
     end
 
-    protected
-
     def create_session
       session = Capybara::Session.new(:poltergeist)
       session.driver.headers = {
@@ -19,6 +17,8 @@ module Crawler
       }
       session
     end
+
+    protected
 
     def js_finish?(session)
       session.evaluate_script('jQuery.active').zero?
