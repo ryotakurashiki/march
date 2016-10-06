@@ -19,6 +19,7 @@ class UsersController < ApplicationController
                              #references(appearance_artists: :artist).
                              group("appearance_artists.artist_id").order("count(*) DESC").count.to_a
     @fes_count = @concerts.where("category < 10").size
+    @joined_count = @concerts.size
     @concerts = @concerts.includes_for_list.
                 order("date DESC").page(params[:page])
     @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []

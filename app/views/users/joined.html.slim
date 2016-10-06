@@ -12,6 +12,15 @@ a href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライ
     span.after-text
      | のログ
 
+.content-divider
+  p
+    i.fa.fa-calculator aria-hidden="true"
+    - year = @year || "全期間"
+    = "#{year}のライブ参加数"
+.joined-count
+  p
+    = "#{@joined_count} 回"
+
 - if @artist_ids_with_count.size >= 3
   = render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
 
