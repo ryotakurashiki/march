@@ -5,7 +5,7 @@ class AppearanceArtist < ApplicationRecord
   belongs_to :attachable, polymorphic: true
   belongs_to :artist
   has_many :favorite_artists, primary_key: "artist_id", foreign_key: "artist_id"
-  has_many :watched_artists
+  has_many :watched_artists, dependent: :destroy
 
   scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :sorted_by_user_with_concert, -> (user, concert) {

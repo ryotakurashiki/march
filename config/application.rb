@@ -18,5 +18,8 @@ module March
     # Avoid "Circular dependency detected while autoloading constant" Error
     #config.autoload_paths += %W(#{config.root}/lib)
     config.eager_load_paths += %W(#{config.root}/lib/)
+    config.eager_load_paths += %W(#{config.root}/app/models/MediumArtistRelation.rb)
+    config.eager_load_paths += %W(#{config.root}/app/models/Artist.rb)
+    config.eager_load_paths += %W(#{config.root}/app/models/AppearanceArtist.rb)
   end
 end
