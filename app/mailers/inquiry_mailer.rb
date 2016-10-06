@@ -1,6 +1,6 @@
 class InquiryMailer < ActionMailer::Base
-  default from: '"Rekhyt事務局" <rekhyt.info@gmail.com>'   # 送信元アドレス
-  default to: "rekhyt.info@gmail.com"     # 送信先アドレス
+  default from: '"OTOLOG事務局" <otolog.officail@gmail.com>'   # 送信元アドレス
+  default to: "otolog.officail@gmail.com"     # 送信先アドレス
 
   def received_email(inquiry, user_id)
     @inquiry = inquiry

@@ -54,10 +54,10 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "rekhyt_#{Rails.env}"
+  # config.active_job.queue_name_prefix = "otolog_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: "rekhyt.herokuapp.com" }
+  config.action_mailer.default_url_options = { host: "otolog.herokuapp.com" }
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
