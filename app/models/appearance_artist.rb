@@ -3,6 +3,7 @@ class AppearanceArtist < ApplicationRecord
   after_destroy :update_concert_category
 
   belongs_to :attachable, polymorphic: true
+  accepts_nested_attributes_for :attachable
   belongs_to :artist
   has_many :favorite_artists, primary_key: "artist_id", foreign_key: "artist_id"
   has_many :watched_artists, dependent: :destroy
@@ -25,7 +26,10 @@ class AppearanceArtist < ApplicationRecord
   end
 
   def setlist_url
-    "http://www.livefans.jp" + setlist_path
+    if setlist_path
+      "http://www.livefans.jp" + setlist_path
+    else
+      nil
   end
 
   def update_concert_category

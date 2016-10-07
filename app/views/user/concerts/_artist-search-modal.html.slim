@@ -1,0 +1,26 @@
+
+#modal-wrapper
+  #artist-search-modal
+    .close-modal
+      i.fa.fa-2x.fa-times
+    h2 出演アーティストを追加
+    .form-group.search
+      = render "shared/search_box"
+      #search-result-list.artist-list
+        table.table.hidden
+          tbody
+
+    #not-found
+      p.text-center アーティストが見つからない場合は…
+      = simple_form_for(Artist.new, remote: true, method: :post) do |f|
+        .form-inputs
+          = f.input :name, label: false, placeholder: "アーティスト名を入力してください"
+        .form-actions
+          = f.button :submit, value: "アーティストを新規作成", class: "btn-info", id: "create_artist_submit", disabled: "disabled"
+
+    #create-artist-success-msg.success-msg
+      span アーティストを作成しました
+    #add-artist-success-msg.success-msg
+      span 出演アーティストを追加しました
+    .error-msg
+      span エラーです

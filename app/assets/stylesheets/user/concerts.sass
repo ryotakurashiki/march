@@ -1,0 +1,74 @@
+@import "constants"
+
+body.user.concerts
+  .appearance_artists
+    padding-bottom: 5px
+    div input[disabled]
+      padding-left: 10px
+  .auto-join-register
+    display: table
+    input[type=checkbox], label
+      display: table-cell
+      vertical-align: middle
+      margin-top: 0
+    label
+      font-size: 95%
+      font-weight: normal
+      padding-left: 5px
+  .btn
+    width: 100%
+  #modal-wrapper
+    position: fixed
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    background-color: rgba(0, 0, 0, 0.6)
+    z-index: 100
+    display: none
+    .fa-times
+      position: absolute
+      top: 12px
+      right: 12px
+      color: rgba(128, 128, 128, 0.46)
+      cursor: pointer
+  #artist-search-modal
+    position: absolute
+    top: 10%
+    margin-right: 5%
+    margin-left: 5%
+    height: auto
+    width: 90%
+    background-color: #fff
+    padding: 0px 0 20px
+    border: 1px solid #ddd
+    border-radius: 10px
+    text-align: center
+    font-size: 95%
+    h2
+      font-size: 15px
+      text-align: center
+    #artist-search
+      width: 85%
+    td.artist-name
+      text-align: left
+    #not-found
+      margin-top: 30px
+      padding-left: 10px
+      padding-right: 10px
+    .success-msg, .error-msg
+      display: none
+      position: absolute
+      top: 50%
+      text-align: center
+      width: 100%
+      background-color: $base_color
+      padding: 15px 10px 15px 10px
+      color: #fff
+    .error-msg
+      background-color: red
+
+  #show-artist-search-modal
+    padding-top: 5px
+    border-top: 1px solid #ddd
+

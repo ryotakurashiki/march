@@ -7,10 +7,23 @@ body.welcome
     background-repeat: no-repeat
     background-size: cover
     background-position: 40% 70%
-    color: #fff
+    color: #333
     padding-top: 60px
     padding-bottom: 50px
+    position: relative
+  #jumbotron:after
+    z-index: 0
+    content: ""
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-color: rgba(255,255,255,0.15)
   .top-container
+    position: relative
+    z-index: 10
     .top-message
       text-align: center
       padding-bottom: 20px

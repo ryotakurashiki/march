@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures
     resource :user_concert_joinings, only: [:create]
+    resource :concerts, only: [:create, :new, :update]
+    resource :artists, only: [:create]
   end
 
   get '/:username/joined', to: 'users#joined', as: 'user_joined'

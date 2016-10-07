@@ -16,6 +16,7 @@ div.nav.signed-in
       li = link_to "参加ログ", user_joined_path(current_user.username), method: "get"
       li = link_to "お気に入り", user_favorite_path(current_user.username), method: "get"
       li = link_to "アカウント", account_path, method: "get"
+      li = link_to "ライブの新規作成", new_concerts_path, method: "get"
       li.divider
       li = link_to "お問い合わせ", inquiry_path, method: "get"
       li = link_to "ログアウト",  destroy_user_session_path, method: "delete"

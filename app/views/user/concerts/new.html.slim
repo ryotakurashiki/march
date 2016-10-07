@@ -1,0 +1,26 @@
+h1.title ライブの新規作成
+
+.content-container
+  .form-group
+    /, html: { class: "form-horizontal" }
+    = simple_form_for(@concert) do |f|
+      = f.error_notification
+
+      .form-inputs
+        = f.input :title, label: "公演名"
+        = f.input :place, label: "会場"
+        = f.input :prefecture_id, :collection => Prefecture.all.limit(47), selected: 122, label: "都道府県"
+        = f.input :date, as: :calendar, placeholder: 'mm/dd/yyyy', label: "公演日"
+        .auto-join-register.form-group
+          input type="checkbox" checked=true id="auto-register-check" name="auto_register" value="1"
+          label for="auto-register-check" このライブに参加登録する
+        .appearance_artists
+          label 出演アーティスト
+        #show-artist-search-modal
+          i.fa.fa-plus
+          span.pl10 出演アーティストを追加する
+      .fixed-bottom
+        .form-actions
+          = f.button :submit, class: "btn-info", value: "作成する"
+
+    = render "artist-search-modal"

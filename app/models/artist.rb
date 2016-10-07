@@ -13,6 +13,8 @@ class Artist < ApplicationRecord
   has_many :artists, through: :artist_relations, foreign_key: :related_artist_id
   has_many :kanas
 
+  validates :name, uniqueness: true
+
   scope :artist_relations_nil, -> {
     includes(:artist_relations, :medium_artist_relations).
     where(artist_relations: {related_eplus_artist_id: nil}, medium_artist_relations: {medium_id: 1})

@@ -1,0 +1,7 @@
+tr.artist-item id = "artist-#{artist.id}" class = "artist-#{artist.id}"
+  td.favorite.star
+    = link_to "#", class: "tabel-link", remote: true
+      i.fa.fa-plus
+  td.artist-name
+    = link_to "#", class: "tabel-link", remote: true
+      span = artist.name
