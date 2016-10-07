@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005010142) do
+ActiveRecord::Schema.define(version: 20161007004158) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20161005010142) do
     t.integer  "artist_id"
     t.string   "setlist_path"
     t.boolean  "not_decided",     default: false
+    t.integer  "creator_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.index ["attachable_id", "attachable_type", "artist_id"], name: "appearance_artist_unique", unique: true, using: :btree
@@ -52,9 +53,11 @@ ActiveRecord::Schema.define(version: 20161005010142) do
   create_table "artists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "category"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "kana_done",  default: false
+    t.integer  "creator_id"
+    t.boolean  "admin_denied", default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "kana_done",    default: false
     t.index ["name"], name: "index_artists_on_name", unique: true, using: :btree
   end
 
@@ -66,6 +69,7 @@ ActiveRecord::Schema.define(version: 20161005010142) do
     t.integer  "category"
     t.string   "eplus_id"
     t.string   "livefans_path"
+    t.integer  "creator_id"
     t.boolean  "self_planed",   default: false
     t.boolean  "title_edited",  default: false
     t.datetime "created_at",                    null: false
