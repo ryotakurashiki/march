@@ -30,6 +30,7 @@ class AppearanceArtist < ApplicationRecord
       "http://www.livefans.jp" + setlist_path
     else
       nil
+    end
   end
 
   def update_concert_category
