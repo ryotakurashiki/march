@@ -23,7 +23,7 @@ class User::StaticsController < User::UserApplicationController
     if params[:input_text].present?
       input_space_deleted = delete_space(params[:input_text])
       match_text = '%'+input_space_deleted+'%'
-      @artists = Artist.search_match_artists(match_text)
+      @artists = Artist.search_match_artists(match_text).sort_by { |a| a.name.size }
     else
       @artists = nil
     end

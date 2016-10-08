@@ -23,7 +23,7 @@ class Artist < ApplicationRecord
     find_by_sql(
       "SELECT artists.* from artists
        LEFT OUTER JOIN kanas ON artists.id = kanas.artist_id
-       WHERE kanas.name LIKE \'#{match_text}\' limit 10"
+       WHERE kanas.name LIKE \'#{match_text}\' limit 20"
     ).uniq
   }
   scope :artist_relations_small, -> (num) {
