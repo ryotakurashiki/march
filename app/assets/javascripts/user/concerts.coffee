@@ -17,6 +17,8 @@ $(document).on 'turbolinks:load', ->
     # 登録した出演アーティストの解除
     $('.appearance_artists').on('click', 'div .fa-times',  ->
       $(this).parent('div').remove()
+      if $('.appearance_artists div').length == 0
+        $('#create-concert').prop("disabled", true)
     )
 
     # 出演アーティストの追加
@@ -39,6 +41,7 @@ $(document).on 'turbolinks:load', ->
           , 1000)
           appearance_artist_item = create_appearance_artist_item(artist_id, artist_name)
           $('.appearance_artists').append(appearance_artist_item)
+          $('#create-concert').prop("disabled", false)
       else if $('body.edit').length
         create_appearance_artist(artist_id)
     )

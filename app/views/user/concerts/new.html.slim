@@ -22,6 +22,6 @@ section.concert-list
           span.pl10 出演アーティストを追加する
       .fixed-bottom
         .form-actions
-          = f.button :submit, class: "btn-info", value: "作成する"
+          = f.button :submit, class: "btn-info", value: "作成する", disabled: "disabled", id: "create-concert"
 
     = render "artist-search-modal"
