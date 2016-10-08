@@ -1,7 +1,6 @@
 class User::StaticsController < User::UserApplicationController
   def account
     @user = current_user
-    @favorite_prefectures = @user.favorite_prefectures
   end
 
   def update

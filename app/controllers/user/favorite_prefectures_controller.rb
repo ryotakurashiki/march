@@ -1,7 +1,6 @@
 class User::FavoritePrefecturesController < User::UserApplicationController
-  before_action :set_favorite_prefecture, only: [:show, :edit, :update, :destroy]
-  # POST /artists
-  # POST /artists.json
+  before_action :set_favorite_prefecture, only: [:destroy]
+
   def create
     @favorite_prefecture = current_user.favorite_prefectures.new(favorite_prefecture_params)
     @favorite_prefecture.save
@@ -9,6 +8,11 @@ class User::FavoritePrefecturesController < User::UserApplicationController
 
   def destroy
     @favorite_prefecture.destroy
+  end
+
+  def show
+    @user = current_user
+    @favorite_prefectures = @user.favorite_prefectures
   end
 
   private

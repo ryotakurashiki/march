@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     get '/search', to: "statics#search"
     post '/search/filter', to: "statics#search_filter"
     resource :favorite_artists, only: [:create, :destroy, :show]
-    resource :favorite_prefectures
+    resource :favorite_prefectures, only: [:create, :destroy, :show]
     resource :user_concert_joinings, only: [:create]
     resources :concerts, only: [:create, :new, :update, :edit]
     resource :artists, only: [:create]

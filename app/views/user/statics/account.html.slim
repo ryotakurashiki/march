@@ -17,22 +17,3 @@ h1.title アカウント
 
       .form-actions
         = f.button :submit, "保存", class: "btn btn-info"
-
-.content-divider
-  p 都道府県を登録
-.content-container
-  p.small 登録した都道府県でのライブ情報のみがタイムラインに表示されるようになります
-  table.table.prefecture-seletor
-    tbody
-      tr
-        = simple_form_for(FavoritePrefecture.new, as: :favorite_prefecture, url: favorite_prefectures_path, remote:true) do |f|
-          td
-            .form-inputs
-              = f.input :prefecture_id, :collection => Prefecture.all, selected: 122, label: false
-          td
-            .form-actions
-              = f.button :submit, "登録", class: "btn-info"
-
-  table#registered-prefectures.table.table-boder
-    tbody
-      = render partial: "user/favorite_prefectures/add_favorite_prefecture", collection: @favorite_prefectures, :as => "favorite_prefecture"
