@@ -1,0 +1,6 @@
+- if @concerts.present?
+  | $('.concert-list').empty().append("<div class='duplicate-concert'><span>このライブではないですか？</span></div>");
+  | $('html,body').animate({scrollTop:0},'fast');
+  | $('.concert-list').append("#{j(render 'show_duplicate_concert')}");
+  | $('.concert-widget').append("<span class='ticket'><a href='/concerts/" + "#{@concerts.first.id}" + "/edit'><i aria-hidden='true' class='fa fa-pencil-square-o'></i> 編集</a></span>");
+

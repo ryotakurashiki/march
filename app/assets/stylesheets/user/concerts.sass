@@ -1,6 +1,10 @@
 @import "constants"
 
 body.user.concerts
+  .duplicate-concert
+    padding: 10px
+    background-color: red
+    color: #fff
   .appearance_artists
     padding-bottom: 5px
     div input[disabled]
@@ -72,3 +76,32 @@ body.user.concerts
     padding-top: 5px
     border-top: 1px solid #ddd
 
+body.user.concerts.edit
+  .concert-item
+    padding-bottom: 10px
+  #modal-wrapper
+    display: block
+    position: static
+    top: auto
+    right: auto
+    bottom: auto
+    left: auto
+    background-color: inherit
+    .success-msg, .error-msg
+      display: none
+      text-align: center
+      width: 100%
+      background-color: $base_color
+      color: #fff
+      padding: 15px 5% 15px 5%
+      max-width: 970px
+      z-index: 1000
+      position: fixed
+      top: 0px
+    .error-msg
+      background-color: red
+    .fa-times
+      display: none
+  #artist-search-modal
+    position: static
+    border: none

@@ -1,9 +1,12 @@
 class User::ConcertsController < User::UserApplicationController
-  before_action :set_concert, only: [:update]
+  before_action :set_concert, only: [:update, :edit]
 
   def new
     @concert = Concert.new
     @concert.appearance_artists.build
+  end
+
+  def edit
   end
 
   def create
@@ -17,7 +20,7 @@ class User::ConcertsController < User::UserApplicationController
       end
       @concert.appearance_artists.update_all(creator_id: current_user.id)
       flash[:info] = "ライブを作成しました"
-      redirect_to new_concerts_path
+      redirect_to new_concert_path
     else
       render :new
     end
@@ -34,10 +37,31 @@ class User::ConcertsController < User::UserApplicationController
     end
   end
 
+  def check_duplicate
+    date = Date.parse(params[:date_text])
+    prefecture_id = params[:prefecture_id].to_i
+
+    concert_ids = Concert.includes(:appearance_artists).
+                  where(date: date, appearance_artists: {artist_id: params[:aids]}).pluck(:id)
+    @concerts = Concert.includes_for_list.where(id: concert_ids).limit(1)
+    @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
+    #render "check_duplicate.js"
+  end
+
+  def add_appearance_artist
+    concert_id = params[:concert_id].to_i
+    artist_id = params[:artist_id].to_i
+    @appearance_artist = Concert.find(concert_id).appearance_artists.build(artist_id: artist_id)
+    if @appearance_artist.save
+      @appearance_artist.update(creator_id: current_user.id)
+    else
+    end
+  end
+
   private
 
     def set_concert
-      @concert = Concert.find(params[:id])
+      @concert = Concert.includes_for_list.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

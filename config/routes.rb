@@ -23,8 +23,10 @@ Rails.application.routes.draw do
     resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures
     resource :user_concert_joinings, only: [:create]
-    resource :concerts, only: [:create, :new, :update]
+    resources :concerts, only: [:create, :new, :update, :edit]
     resource :artists, only: [:create]
+    post 'concerts/check_duplicate', to: "concerts#check_duplicate"
+    post 'concerts/add_appearance_artist', to: "concerts#add_appearance_artist"
   end
 
   get '/:username/joined', to: 'users#joined', as: 'user_joined'

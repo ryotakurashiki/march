@@ -1,0 +1,41 @@
+h1.title ライブ情報の編集
+section.concert-list
+  .concert-item cid = "#{@concert.id}"
+    .concert-info
+      .title-wrap
+        span.title.pr5 = @concert.try(:title)
+        - if @concert.category
+          - if @concert.category < 10
+            span.label-block.label-fes.mr3 = "フェス・イベント"
+      span.date = jp_date @concert.try(:date)
+      span.place = "@#{@concert.try(:place)}(#{@concert.prefecture.name})"
+      .all-appearance-artists cid = "#{@concert.id}"
+        - @concert.appearance_artists.each do |appearance_artist|
+          span.label-block.label-thin_base.mr3
+            = "#{appearance_artist.artist.name}#{'（出演日未定）' if appearance_artist.not_decided}"
+
+#modal-wrapper
+  #add-artist-success-msg.success-msg
+    span 出演アーティストを追加しました
+  #create-artist-success-msg.success-msg
+    span アーティストを作成しました
+  .error-msg
+    span エラーです
+
+  #artist-search-modal
+    .close-modal
+      i.fa.fa-2x.fa-times
+    h2 出演アーティストを追加
+    .form-group.search
+      = render "shared/search_box"
+      #search-result-list.artist-list
+        table.table.hidden
+          tbody
+
+    #not-found
+      p.text-center アーティストが見つからない場合は…
+      = simple_form_for(Artist.new, remote: true, method: :post) do |f|
+        .form-inputs
+          = f.input :name, label: false, placeholder: "アーティスト名を入力してください"
+        .form-actions
+          = f.button :submit, value: "アーティストを新規作成", class: "btn-info", id: "create_artist_submit", disabled: "disabled"

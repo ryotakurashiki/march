@@ -1,0 +1,13 @@
+.concert-item id = "concert-#{concert.id}"
+  = render 'shared/concert_info', concert: concert
+
+  .concert-widget
+    span.join class="#{'active' if join_concert_ids.include?(concert.id)}"
+      = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
+        i.fa.fa-check-circle aria-hidden="true"
+        |  参加した
+    - if concert.setlist_url.present?
+      span.setlist
+        = link_to concert.setlist_url, target: "_blank"
+          i.fa.fa-music aria-hidden="true"
+          |  セトリを見る

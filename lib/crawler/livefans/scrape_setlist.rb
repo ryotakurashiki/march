@@ -419,8 +419,9 @@ module Crawler::Livefans
       Concert.where(livefans_path: livefans_path,date: dates)
     end
 
-    def timeup?
-      Time.zone.now > @end_at
+    def time_up?
+      #Time.zone.now > @end_at
+      false
     end
 
     def get_proxy_list

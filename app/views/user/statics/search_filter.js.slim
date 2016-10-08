@@ -1,7 +1,7 @@
 | if ($('body.tutorials').length) {
     $('#search-result-list table tbody').empty().append("#{j(render partial: "user/shared/artist_selector", collection: @artists, as: "artist")}");
   }
-  else if ($('body.concerts.new').length){
+  else if ($('body.concerts.user').length){
     $('#search-result-list table tbody').empty().append("#{j(render partial: "user/shared/appearance_artist_selector", collection: @artists, as: "artist")}");
   }
   else{
