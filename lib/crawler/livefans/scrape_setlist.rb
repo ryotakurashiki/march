@@ -193,7 +193,7 @@ module Crawler::Livefans
                     puts "appearance date have not been decided yet"
                     if concerts.present?
                       concerts.each do |concert|
-                        delete_eplus_concert(concert, artist)
+                        delete_existing_concert(concert, artist)
                         concert.appearance_artists.find_or_create_by(artist_id: artist.id).
                         update(not_decided: true, setlist_path: setlist_path)
                       end
@@ -204,7 +204,7 @@ module Crawler::Livefans
                     if concerts.present?
                       puts "create new appearance_artist"
                       concert = concerts.find_by(date: date)
-                      delete_eplus_concert(concert, artist)
+                      delete_existing_concert(concert, artist)
                       concert.appearance_artists.
                       find_or_create_by(artist_id: artist.id).update(setlist_path: setlist_path)
                     end
@@ -242,16 +242,24 @@ module Crawler::Livefans
       end
     end
 
-    def delete_eplus_concert(concert, artist)
-      # eplus_concertが存在すれば、今見ているappearance_artistを削除
+    def delete_existing_concert(concert, artist)
+      # そのアーティストが同じ日に出演するコンサート（livefans_path: nilで見る）が存在すれば、それを消去
+      # 消したコンサートのappearance_artistとuser_concert_joiningsを新しいconcertに紐付ける
       # eplusだとplaceが違えば同日同アーティストでも複数公演が作成されうる（ライブビューイングなど）ので全部消す
-      eplus_concerts = artist.concerts.where.not(eplus_id: nil).where(date: concert.date, livefans_path: nil)
-      if eplus_concerts.present?
-        puts "delete eplus concert appearance_artist"
-        eplus_concerts.each do |eplus_concert|
-          eplus_concert.appearance_artists.find_by(artist_id: artist.id).destroy
-          # appearance_artistがnilになったらeplus_concertを消す
-          eplus_concert.destroy if eplus_concert.appearance_artists.empty?
+      exisiting_concerts = artist.concerts.where(date: concert.date, livefans_path: nil)
+      if exisiting_concerts.present?
+        puts "delete exisiting concert appearance_artist"
+        # 新規作成するconcertと紐付いてる参加user, 出演artistのidを配列で取得
+        user_ids = concert.users.pluck(:id)
+        artist_ids = concert.artists.pluck(:id)
+        exisiting_concerts.each do |exisiting_concert|
+          # e+とかユーザーによって作成されたconcertを消す
+          # 消すconcertに紐付いてる参加userと出演アーティストを新規作成するconcertに変更する
+          existing_concert.user_concert_joinings.
+            where.not(user_id: user_ids).update_all(concert_id: concert.id)
+          exiting_concert.appearance_artist.
+            where.not(artist_id: artist_ids).update_all(concert_id: concert.id)
+          exisiting_concert.destroy
         end
       end
     end
