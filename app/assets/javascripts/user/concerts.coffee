@@ -6,7 +6,15 @@ $(document).on 'turbolinks:load', ->
     # モーダルの表示・非表示
     $('#show-artist-search-modal').on('click', ->
       $("#modal-wrapper").fadeIn()
+      $("header.navbar").css('position','static')
     )
+    # モーダルを閉じる
+    $('.close-modal').on('click', ->
+      $("#modal-wrapper").fadeOut()
+      $("header.navbar").css("position", "fixed")
+    )
+
+    # 登録した出演アーティストの解除
     $('.appearance_artists').on('click', 'div .fa-times',  ->
       $(this).parent('div').remove()
     )
@@ -34,9 +42,6 @@ $(document).on 'turbolinks:load', ->
       else if $('body.edit').length
         create_appearance_artist(artist_id)
     )
-
-    # モーダルを閉じる
-    $('.close-modal').on('click', -> $("#modal-wrapper").fadeOut())
 
     # textareaが空だったらアーティストの新規作成submitできない
     $create_artist_input.bind('keydown keyup',(e) ->
