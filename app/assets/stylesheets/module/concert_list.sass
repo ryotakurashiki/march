@@ -37,6 +37,13 @@ section.concert-list
       .join.active a
         color: $base_color
         transition: color .2s
+        i
+          animation: expansion 0.3s 1 alternate linear
+          @keyframes expansion
+            50%
+              transform: scale(1.2)
+            100%
+              transform: scale(1.0)
       .ticket a, .setlist a
         margin-left: 15px
         //color: #489CDF
