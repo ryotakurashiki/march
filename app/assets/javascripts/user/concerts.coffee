@@ -6,12 +6,10 @@ $(document).on 'turbolinks:load', ->
     # モーダルの表示・非表示
     $('#show-artist-search-modal').on('click', ->
       $("#modal-wrapper").fadeIn()
-      $("header.navbar").css('position','static')
     )
     # モーダルを閉じる
     $('.close-modal').on('click', ->
       $("#modal-wrapper").fadeOut()
-      $("header.navbar").css("position", "fixed")
     )
 
     # 登録した出演アーティストの解除
