@@ -1,9 +1,10 @@
-/h1.title.overflow = "#{@artist.name}"
-
-h1.title.overflow
-  .concert-fileter
-    .form-inputs
-      = collection_select(:artist, :id, current_user.artists, :id, :name, prompt: "アーティストを選択")
+- if user_signed_in?
+  h1.title.overflow
+    .concert-fileter
+      .form-inputs
+        = collection_select(:artist, :id, current_user.artists, :id, :name, prompt: "アーティストを選択")
+- else
+  h1.title.overflow = @artist.name
 
 .content-divider
   p.artist-ranking-cap
