@@ -1,0 +1,30 @@
+= render "step_count", step: 3
+
+.welcome-container
+  .welcome-text
+    p.welcome-message.janru 参加したライブを登録してみよう
+
+.content-divider
+  p.artist-ranking-cap
+    | 出演ライブ
+
+.concert-fileter
+  .form-inputs
+    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, prompt: "都道府県で絞る")
+    = select :date, :year, @years, prompt: "開催年で絞る"
+
+#concerts
+  section.concert-list
+    - @concerts.each do |concert|
+      - if concert.close?
+        = render "shared/past_concert_list", concert: concert, join_concert_ids: @join_concert_ids
+      - else
+        = render "shared/future_concert_list", concert: concert, join_concert_ids: @join_concert_ids
+
+.hidden
+  = paginate @concerts
+
+#tutorial-notification.hidden
+  = link_to tutorial_finish_path, method: :post
+    span = "#{Settings.site.name}を始める"
+    i.fa.fa-arrow-right.pl10

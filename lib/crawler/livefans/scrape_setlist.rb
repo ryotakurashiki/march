@@ -246,20 +246,20 @@ module Crawler::Livefans
       # そのアーティストが同じ日に出演するコンサート（livefans_path: nilで見る）が存在すれば、それを消去
       # 消したコンサートのappearance_artistとuser_concert_joiningsを新しいconcertに紐付ける
       # eplusだとplaceが違えば同日同アーティストでも複数公演が作成されうる（ライブビューイングなど）ので全部消す
-      exisiting_concerts = artist.concerts.where(date: concert.date, livefans_path: nil)
-      if exisiting_concerts.present?
-        puts "delete exisiting concert appearance_artist"
+      existing_concerts = artist.concerts.where(date: concert.date, livefans_path: nil)
+      if existing_concerts.present?
+        puts "delete existing concert appearance_artist"
         # 新規作成するconcertと紐付いてる参加user, 出演artistのidを配列で取得
         user_ids = concert.users.pluck(:id)
         artist_ids = concert.artists.pluck(:id)
-        exisiting_concerts.each do |exisiting_concert|
+        exisiting_concerts.each do |existing_concert|
           # e+とかユーザーによって作成されたconcertを消す
           # 消すconcertに紐付いてる参加userと出演アーティストを新規作成するconcertに変更する
           existing_concert.user_concert_joinings.
             where.not(user_id: user_ids).update_all(concert_id: concert.id)
-          exiting_concert.appearance_artist.
+          existing_concert.appearance_artist.
             where.not(artist_id: artist_ids).update_all(concert_id: concert.id)
-          exisiting_concert.destroy
+          existing_concert.destroy
         end
       end
     end

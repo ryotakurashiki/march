@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   	omniauth_callbacks: "omniauth_callbacks"
   }
   scope module: :user do
-    get '/tutorial', to: "tutorials#select_janru"
-    get '/tutorial/:janru', to: "tutorials#select_artist", as: "tutorial_select_artist"
+    get '/tutorial', to: "tutorials#top"
+    get '/tutorial/select_janru', to: "tutorials#select_janru"
+    get '/tutorial/select_artist/:janru', to: "tutorials#select_artist", as: "tutorial_select_artist"
+    get '/tutorial/select_concert', to: "tutorials#select_concert", as: "tutorial_select_concert"
     post '/tutorial/finish', to: "tutorials#finish"
     get '/timeline/future', to: "timelines#future"
     get '/timeline/past', to: "timelines#past"
