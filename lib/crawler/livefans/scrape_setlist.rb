@@ -252,7 +252,7 @@ module Crawler::Livefans
         # 新規作成するconcertと紐付いてる参加user, 出演artistのidを配列で取得
         user_ids = concert.users.pluck(:id)
         artist_ids = concert.artists.pluck(:id)
-        exisiting_concerts.each do |existing_concert|
+        existing_concerts.each do |existing_concert|
           # e+とかユーザーによって作成されたconcertを消す
           # 消すconcertに紐付いてる参加userと出演アーティストを新規作成するconcertに変更する
           existing_concert.user_concert_joinings.
@@ -407,7 +407,7 @@ module Crawler::Livefans
         title_edited = true
         concert_title = artist.name
       end
-      livefans_path = nil if livefans_path == "/groups/0"
+      #livefans_path = nil if livefans_path == "/groups/0"
       # 複数コンサートをcreate
       dates.each do |date|
         # livefans_pathは存在しないが
@@ -424,7 +424,7 @@ module Crawler::Livefans
           end
         end
       end
-      Concert.where(livefans_path: livefans_path,date: dates)
+      Concert.where(livefans_path: livefans_path,date: dates, place: place, title: concert_title)
     end
 
     def time_up?
