@@ -3,12 +3,20 @@ $(document).on 'turbolinks:load', ->
     prefecture_id = $("#prefecture_prefecture_id")[0].value
     year = $("#date_year")[0].value
     display_loading_image()
+
+    if $('body.tutorials').length
+      artist_id = $("#artist_id")[0].value
+      url = "#{location.protocol}//#{location.host}/artists/#{artist_id}/concerts/filter"
+    else
+      url = location.pathname + "/filter"
+
     $.ajax({
-      url: location.pathname + "/filter",
+      url: url,
       method: "post",
       data: {
         prefecture_id: prefecture_id,
         year: year
+        artist_id: artist_id
       },
       dataType: 'script',
       success: ->
@@ -24,7 +32,7 @@ $(document).on 'turbolinks:load', ->
     $("#concerts .concert-list").infinitescroll('unbind')
 
   restart_infinitescroll = ->
-    $("#concerts .concert-list").infinitescroll('bind')
+    #$("#concerts .concert-list").infinitescroll('bind')
     $("#concerts .concert-list").infinitescroll('update', state: {currPage: 1})
 
   display_loading_image = ->

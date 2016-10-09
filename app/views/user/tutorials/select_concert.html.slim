@@ -4,6 +4,10 @@
   .welcome-text
     p.welcome-message.janru 参加したライブを登録してみよう
 
+.concert-fileter
+  .form-inputs
+    = collection_select(:artist, :id, current_user.artists, :id, :name, prompt: "アーティストを選択")
+
 .content-divider
   p.artist-ranking-cap
     | 出演ライブ

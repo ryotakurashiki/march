@@ -1,2 +1,5 @@
-| $target = $("#concert-#{@user_concert_joining.concert_id}")
-  $target.find('.concert-widget span.join').addClass('active')
+| $target = $("#concert-#{@user_concert_joining.concert_id}");
+| $target.find('.concert-widget span.join').addClass('active');
+|
+- if @join_counts > 2
+  | $("#tutorial-notification").removeClass('hidden').animate({'right':'0'},500);

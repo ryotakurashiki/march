@@ -1,19 +1,21 @@
 @import "constants"
 
-body.concerts
+body.concerts, body.tutorials
   .concert-fileter
     padding: 5px
     border-bottom: 1px solid #ddd
-    #prefecture_prefecture_id, #date_year
+    #prefecture_prefecture_id, #date_year, #artist_id
       width: 48%
       border: 1px solid #ccc
       background-color: #fff
       border-radius: 4px
       padding: 3px 0 3px 5px
+    #artist_id
+      width: 100%
     #date_year
       margin-left: 10px
       //margin-left: 20px //after使うとき
-    .sp.select:after, #prefecture_prefecture_id, #date_year
+    .sp.select:after, #prefecture_prefecture_id, #date_year, #artist_id
       color: #337ab7
     .sp.select:after
       margin-left: -20px
