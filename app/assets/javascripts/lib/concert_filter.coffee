@@ -30,6 +30,17 @@ $(document).on 'turbolinks:load', ->
       })
     )
 
+  $("#artist_id").change( ->
+    display_loading_image()
+    if $('body.tutorials').length
+      location.href = "#{location.protocol}//#{location.host}/tutorial/select_concert/" + this.value
+    if $('body.concerts').length
+      if this.value
+        location.href = "#{location.protocol}//#{location.host}/artists/" + this.value + "/concerts"
+      else
+        location.href = "#{location.protocol}//#{location.host}/concerts"
+  )
+
   stop_infinitescroll = ->
     $("#concerts .concert-list").infinitescroll('unbind')
 

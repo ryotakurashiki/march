@@ -13,8 +13,3 @@ $(document).on 'turbolinks:load', ->
       #$(this).find('i.fa-star').addClass('hidden')
       #$(this).find('.favorite').addClass('star').addClass('active')
     )
-
-    $("#artist_id").change( ->
-      location.href= location.pathname + "/" + this.value
-      location.href = "#{location.protocol}//#{location.host}/tutorial/select_concert/" + this.value
-    )
