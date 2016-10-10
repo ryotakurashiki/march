@@ -1,6 +1,6 @@
 class @SortAppearanceArtist
   @run: ->
-    if $("header nav .signed-in").length
+    if $("header nav .signed-in, body.tutorials").length
       $(".appearance-artists").each( (index, ele) ->
         cid = $(ele).attr("cid")
         $.ajax({
