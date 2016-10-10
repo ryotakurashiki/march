@@ -21,8 +21,8 @@
   p
     = "#{@joined_count} 回"
 
-- if @artist_ids_with_count.size >= 3
-  = render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
+/- if @artist_ids_with_count.size >= 3
+= render "artist_ranking", artist_ids_with_count: @artist_ids_with_count
 
 .content-divider
   p

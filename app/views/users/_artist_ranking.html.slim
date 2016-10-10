@@ -11,7 +11,7 @@ table.artist-ranking
           = Artist.find(array[0]).name
         td.count
           = "#{array[1]} 回"
-    tr.more.text-center
+    tr.more.text-center class="#{'hidden' if artist_ids_with_count.size <= 3}"
       td colspan=2
         span.label-block.label-more
           i.fa.fa-chevron-down.pr5 aria-hidden="true"
