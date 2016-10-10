@@ -1,5 +1,7 @@
 class User::ConcertsController < User::UserApplicationController
   before_action :set_concert, only: [:update, :edit]
+  before_action :set_concert_ids, only: [:index, :filter]
+  before_action :set_years, only: [:index, :filter]
 
   def new
     @concert = Concert.new
@@ -7,6 +9,17 @@ class User::ConcertsController < User::UserApplicationController
   end
 
   def edit
+  end
+
+  def index
+    @concerts = Concert.includes_for_list.where(id: @concert_ids).order("date DESC").page(params[:page])
+    @join_concert_ids = Concert.ids_joined_by(current_user, @concerts)
+  end
+
+  def filter
+    @concerts = Concert.includes_for_list.where(id: @concert_ids).order("date DESC").page(params[:page])
+    @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
+    render template: "concerts/filter.js"
   end
 
   def create
@@ -73,5 +86,42 @@ class User::ConcertsController < User::UserApplicationController
 
     def artist_params
       params.require(:appearance_artist).permit(:artist_id)
+    end
+
+    def set_concert_ids
+      @favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
+      #@concert_ids = Concert.includes(:prefecture, :appearance_artists).
+                    #where(appearance_artists: {artist_id: @favorite_artist_ids}).
+                    #order("date").take(200).pluck(:id)
+
+      if params[:year].present?
+        @year = params[:year].to_i
+        if params[:prefecture_id].present?
+          @prefecture_id = params[:prefecture_id]
+          @concert_ids = Concert.includes(:prefecture, :appearance_artists).
+                         where(appearance_artists: {artist_id: @favorite_artist_ids}, prefecture_id: @prefecture_id).
+                         this_year(@year).order("date DESC").take(300).pluck(:id)
+        else
+          @concert_ids = Concert.includes(:prefecture, :appearance_artists).
+                         where(appearance_artists: {artist_id: @favorite_artist_ids}).
+                         this_year(@year).order("date DESC").take(300).pluck(:id)
+        end
+      else
+        if params[:prefecture_id].present?
+          @prefecture_id = params[:prefecture_id]
+          @concert_ids = Concert.includes(:prefecture, :appearance_artists).
+                         where(appearance_artists: {artist_id: @favorite_artist_ids}, prefecture_id: @prefecture_id).
+                         order("date DESC").take(300).pluck(:id)
+        else
+          @concert_ids = Concert.includes(:prefecture, :appearance_artists).
+                         where(appearance_artists: {artist_id: @favorite_artist_ids}).
+                         order("date DESC").take(300).pluck(:id)
+        end
+      end
+    end
+
+    def set_years
+      years = [*1996..Date.today.year].reverse
+      @years = years.map{|year| ["#{year}年", year]}
     end
 end

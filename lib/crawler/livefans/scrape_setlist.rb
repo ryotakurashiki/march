@@ -165,7 +165,12 @@ module Crawler::Livefans
                   if livefans_path.match(/group/)
                     puts "this page has group link"
                     date = Date.parse(date_text)
-                    concerts = Concert.where(livefans_path: livefans_path, date: date)
+                    if livefans_path.match(/groups\/0$/)
+                      puts "groups/0"
+                      concerts = []
+                    else
+                      concerts = Concert.where(livefans_path: livefans_path, date: date)
+                    end
                   else
                     puts "this page has event link"
                     concerts = Concert.where(livefans_path: livefans_path)

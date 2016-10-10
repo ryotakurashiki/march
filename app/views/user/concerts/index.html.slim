@@ -1,0 +1,24 @@
+h1.title.overflow
+  .concert-fileter
+    .form-inputs
+      = collection_select(:artist, :id, current_user.artists, :id, :name, include_blank: "全お気に入りアーティスト")
+
+.content-divider
+  p.artist-ranking-cap
+    | 出演ライブ
+
+.concert-fileter
+  .form-inputs
+    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, include_blank: "全エリア", selected: @prefecture_id)
+    = select :date, :year, @years, include_blank: "全期間", selected: @year
+
+#concerts
+  section.concert-list
+    - @concerts.each do |concert|
+      - if concert.close?
+        = render "shared/past_concert_list", concert: concert, join_concert_ids: @join_concert_ids
+      - else
+        = render "shared/future_concert_list", concert: concert, join_concert_ids: @join_concert_ids
+
+.hidden
+  = paginate @concerts

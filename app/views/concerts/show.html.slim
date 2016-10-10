@@ -2,7 +2,7 @@
   h1.title.overflow
     .concert-fileter
       .form-inputs
-        = collection_select(:artist, :id, current_user.artists, :id, :name, prompt: "アーティストを選択")
+        = collection_select(:artist, :id, current_user.artists, :id, :name, include_blank: "全お気に入りアーティスト")
 - else
   h1.title.overflow = @artist.name
 
@@ -13,9 +13,9 @@
 .concert-fileter
   .form-inputs
     /span.select.sp
-    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, prompt: "都道府県で絞る")
+    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, include_blank: "全エリア")
     /span.select.sp
-    = select :date, :year, @years, prompt: "開催年で絞る"
+    = select :date, :year, @years,  include_blank: "全期間"
 
 #concerts
   section.concert-list

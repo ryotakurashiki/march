@@ -4,35 +4,37 @@ $(document).on 'turbolinks:load', ->
     year = $("#date_year")[0].value
     display_loading_image()
 
-    if $('body.tutorials').length
-      artist_id = $("#artist_id")[0].value
-      url = "#{location.protocol}//#{location.host}/artists/#{artist_id}/concerts/filter"
+    if $('body.user.concerts.index').length
+      location.href = "#{location.protocol}//#{location.host}/concerts/?year=" + year + "&prefecture_id=" + prefecture_id
     else
-      url = location.pathname + "/filter"
+      if $('body.tutorials').length
+        artist_id = $("#artist_id")[0].value
+        url = "#{location.protocol}//#{location.host}/artists/#{artist_id}/concerts/filter"
+      else
+        url = location.pathname + "/filter"
 
-    $.ajax({
-      url: url,
-      method: "post",
-      data: {
-        prefecture_id: prefecture_id,
-        year: year
-        artist_id: artist_id
-      },
-      dataType: 'script',
-      success: ->
-        if prefecture_id || year
-          stop_infinitescroll()
-        else
-          restart_infinitescroll()
-        SortAppearanceArtist.run()
-    })
-  )
+      $.ajax({
+        url: url,
+        method: "post",
+        data: {
+          prefecture_id: prefecture_id,
+          year: year
+        },
+        dataType: 'script',
+        success: ->
+          if prefecture_id || year
+            stop_infinitescroll()
+          else
+            restart_infinitescroll()
+          SortAppearanceArtist.run()
+      })
+    )
 
   stop_infinitescroll = ->
     $("#concerts .concert-list").infinitescroll('unbind')
 
   restart_infinitescroll = ->
-    #$("#concerts .concert-list").infinitescroll('bind')
+    $("#concerts .concert-list").infinitescroll('bind')
     $("#concerts .concert-list").infinitescroll('update', state: {currPage: 1})
 
   display_loading_image = ->

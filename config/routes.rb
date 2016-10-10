@@ -26,8 +26,9 @@ Rails.application.routes.draw do
     resource :favorite_artists, only: [:create, :destroy, :show]
     resource :favorite_prefectures, only: [:create, :destroy, :show]
     resource :user_concert_joinings, only: [:create]
-    resources :concerts, only: [:create, :new, :update, :edit, :show]
+    resources :concerts, only: [:create, :new, :update, :edit, :index]
     resource :artists, only: [:create]
+    post 'concerts/filter', to: "concerts#filter"
     post 'concerts/check_duplicate', to: "concerts#check_duplicate"
     post 'concerts/add_appearance_artist', to: "concerts#add_appearance_artist"
   end
