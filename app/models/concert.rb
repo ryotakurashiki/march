@@ -43,7 +43,7 @@ class Concert < ApplicationRecord
       return nil
     elsif appearance_artists.size == 1
       appearance_artists.first.setlist_url
-    elsif livefans_path = "/groups/0"
+    elsif livefans_path == "/groups/0"
       if appearance_artists.first.setlist_path.present?
         appearance_artists.first.setlist_url
       else
