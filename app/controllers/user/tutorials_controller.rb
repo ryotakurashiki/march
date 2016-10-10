@@ -17,10 +17,10 @@ class User::TutorialsController < User::UserApplicationController
     redirect_to root_path if current_user.tutorial_finished
 
     @artist = params[:artist_id] ? Artist.find(params[:artist_id]) : current_user.artists.first
-    @concerts = @artist.concerts.order("date DESC")
+    @concerts = @artist.concerts.close.order("date DESC")
     @years = @concerts.pluck(:date).map{|date| ["#{date.year}年", date.year]}.uniq
     @years ||= []
-    @concerts = @concerts.includes_for_list.page(params[:page])
+    @concerts = @concerts.close.includes_for_list.page(params[:page])
     @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
   end
 
