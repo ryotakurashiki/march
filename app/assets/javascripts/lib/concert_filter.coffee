@@ -31,6 +31,7 @@ $(document).on 'turbolinks:load', ->
     )
 
   $("#artist_id").change( ->
+    stop_infinitescroll()
     display_loading_image()
     if $('body.tutorials').length
       location.href = "#{location.protocol}//#{location.host}/tutorial/select_concert/" + this.value
