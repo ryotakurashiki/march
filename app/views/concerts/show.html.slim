@@ -9,7 +9,7 @@
 .concert-filter
   .form-inputs
     /span.select.sp
-    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, include_blank: "全エリア")
+    = collection_select(:prefecture, :prefecture_id, Prefecture.all, :id, :name, include_blank: "全エリア", selected: @last_prefecture_id)
     /span.select.sp
     = select :date, :year, @years,  include_blank: "全期間"
 

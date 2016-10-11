@@ -9,6 +9,5 @@ class User::UserApplicationController < ApplicationController
       end
     end
   end
-
   #layout "user_application"
 end

@@ -1,4 +1,5 @@
 class User::ConcertsController < User::UserApplicationController
+  before_action :redirect_favorite_prefecture, only: [:index]
   before_action :set_concert, only: [:update, :edit]
   before_action :set_concert_ids, only: [:index, :filter]
   before_action :set_years, only: [:index, :filter]
@@ -88,7 +89,17 @@ class User::ConcertsController < User::UserApplicationController
       params.require(:appearance_artist).permit(:artist_id)
     end
 
+    def redirect_favorite_prefecture
+      unless request.url.match(/prefecture_id/)
+        if current_user.prefectures.present?
+          favorite_prefecture_id = current_user.favorite_prefectures.first.prefecture_id
+          redirect_to concerts_path(prefecture_id: favorite_prefecture_id)
+        end
+      end
+    end
+
     def set_concert_ids
+      update_favorite_prefecture(params[:prefecture_id])
       @favorite_artist_ids = current_user.favorite_artists.pluck(:artist_id)
       #@concert_ids = Concert.includes(:prefecture, :appearance_artists).
                     #where(appearance_artists: {artist_id: @favorite_artist_ids}).
