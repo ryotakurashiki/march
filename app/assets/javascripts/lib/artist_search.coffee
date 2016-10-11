@@ -3,7 +3,7 @@ $(document).on 'turbolinks:load', ->
   $search_result_table = $('#search-result-list table')
   $artist_search = $('#artist-search')
 
-  $artist_search.bind('keydown keyup',(e) ->
+  $artist_search.bind('keydown keyup input',(e) ->
     $search_result_table.removeClass('hidden')
     $search_result_list.css('height', '132px')
     input_text = e.currentTarget.value
