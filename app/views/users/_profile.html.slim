@@ -7,12 +7,15 @@
       span.username_jp = user.username_jp
       br
       - if user.provider
-        = link_to "https://twitter.com/#{user.username}"
+        = link_to "https://twitter.com/#{user.username}", class: "twitter-link"
           span.twitter-iqon
             i.fa.fa-twitter
           span.username = user.username
       - else
         span.username = user.username
+      /- if user.id == current_user.id
+      - if user == current_user
+        = link_to "編集", account_path, method: "get", class: "btn btn-sm edit"
   .description
     = user.description
   /.schedule
