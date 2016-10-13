@@ -50,8 +50,8 @@ Rails.application.routes.draw do
   devise_for :admins, only: [:sessions]
   namespace :admin do
     resources :deactive_concerts
-    resources :concerts
-    resources :artists
+    resources :concerts, only: [:index, :update, :destroy]
+    resources :artists, only: [:index, :update, :destroy]
     resources :medium_artist_relations
     resources :artist_relations
     resources :media

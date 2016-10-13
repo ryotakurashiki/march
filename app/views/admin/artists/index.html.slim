@@ -1,0 +1,21 @@
+h1 ユーザー作成アーティスト一覧
+
+.artists-list
+  - @artists.each do |artist|
+    .concert-item
+      .form-group
+        = simple_form_for(artist, url: admin_artist_path(artist), remote: true) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :name, placeholder: "名前", label: false
+            = f.input :creator_id, disabled: true, label: "creator ID"
+            = f.hidden_field :admin_denied, value: false
+            .artist.medium_artist_relations
+              = collection_select(:medium_artist_relation, :medium_id, Medium.all, :id, :name)
+              = text_field :medium_artist_relation, :medium_artist_id
+            .form-actions
+              = f.button :submit, class: "btn-info", value: "更新する", id: "create-concert"
+              = link_to '消去する', admin_artist_path(artist), data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-danger"
+
+.success-msg
+  span 更新しました
