@@ -10,6 +10,8 @@ class Concert < ApplicationRecord
   scope :close, -> (days = 0) { where(arel_table[:date].lt(days.days.ago.to_date)) }
   scope :open, -> (days = 0) { where(arel_table[:date].gteq(Date.today)) }
   scope :this_year, -> (year) { where(date: (Date.new(year, 1, 1))..(Date.new(year, 12, 31))) }
+  scope :create_by_user, -> { where.not(creator_id: nil) }
+  scope :not_checked_concerts_by_user, -> { where(title_edited: false).create_by_user }
   scope :ids_joined_by, -> (user, concerts) {
     includes(user_concert_joinings: :user).
     merge(concerts).where(users: {id: user.id}).

@@ -1,0 +1,28 @@
+h1 ユーザー作成コンサート一覧
+
+.concerts-list
+  - @concerts.each do |concert|
+    .concert-item
+      .form-group
+        = simple_form_for(concert, url: admin_concert_path(concert), remote: true) do |f|
+          = f.error_notification
+
+          .form-inputs
+            = f.input :title, placeholder: "公演名", label: false
+            = f.input :place, placeholder: "会場", label: false
+            = f.input :prefecture_id, :collection => Prefecture.all.limit(47), selected: 122, label: false
+            = f.input :date, as: :calendar, placeholder: 'mm/dd/yyyy', label: false
+            = f.input :eplus_id, placeholder: "e+ ID", label: false
+            = f.input :livefans_path, placeholder: "livefans path", label: false
+            = f.input :creator_id, disabled: true, label: "creator ID"
+            = f.hidden_field :title_edited, value: true
+            .appearance_artists
+              label 出演アーティスト
+              - concert.artists.each do |artist|
+                span = artist.name
+            .form-actions
+              = f.button :submit, class: "btn-info", value: "更新する", id: "create-concert"
+              = link_to '消去する', admin_concert_path(concert), data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-danger"
+
+.success-msg
+  span 更新しました

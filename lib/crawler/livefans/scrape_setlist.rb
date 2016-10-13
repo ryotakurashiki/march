@@ -15,7 +15,7 @@ module Crawler::Livefans
 
     def run
       threads_num = @use_proxy ? 5 : 1
-      medium_artist_relations = MediumArtistRelation.livefans.crawlable(30)
+      medium_artist_relations = MediumArtistRelation.livefans.crawlable(3)
       Parallel.each(medium_artist_relations, in_threads: threads_num) do |medium_artist_relation|
       #medium_artist_relations.each do |medium_artist_relation| #.reverse .shuffle
       #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
@@ -80,7 +80,7 @@ module Crawler::Livefans
               if appearance_artists.present? && crawl_status.crawled_on
                 if appearance_artists.first.attachable
                   if appearance_artists.first.attachable.close?(7)
-                    puts "stop pagination"
+                    #puts "stop pagination"
                     #break
                   end
                 end
@@ -237,7 +237,7 @@ module Crawler::Livefans
     private
 
     def date_decided(appearance_artists, date)
-      concerts = appearance_artists.map{ |a| a.concert }
+      concerts = appearance_artists.map{ |a| a.attachable }
       concerts.each do |concert|
         if concert.date = date
           concert.appearance_artist.update(not_decided: false)
