@@ -5,7 +5,7 @@ class OmniauthCallbacksController < ApplicationController
     redirected = User.find_by(uid: uid, provider: provider) ? root_path : tutorial_path
     @user = User.from_omniauth(request.env["omniauth.auth"].except("extra"))
     if @user.persisted?
-      flash.notice = "Twitter認証が完了しました！"
+      #flash.notice = "Twitter認証が完了しました！"
       sign_in(@user)
       redirect_to redirected
     else
