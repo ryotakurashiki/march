@@ -2,7 +2,12 @@
   h1.title.overflow
     .concert-filter
       .form-inputs
-        = collection_select(:artist, :id, current_user.artists, :id, :name, include_blank: "全お気に入りアーティスト")
+        - if current_user.artists.pluck(:id).include?(@artist.id)
+          - artists = current_user.artists
+        - else
+          - artists = current_user.artists.to_a.unshift(@artist)
+        = collection_select(:artist, :id, artists, :id, :name, include_blank: "全お気に入りアーティスト")
+        /= collection_select(:artist, :id, current_user.artists, :id, :name, include_blank: "全お気に入りアーティスト"
 - else
   h1.title.overflow = @artist.name
 

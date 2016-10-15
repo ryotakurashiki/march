@@ -15,10 +15,10 @@ module Crawler::Livefans
 
     def run
       threads_num = @use_proxy ? 5 : 1
-      medium_artist_relations = MediumArtistRelation.livefans.crawlable(3)
+      medium_artist_relations = MediumArtistRelation.livefans.crawlable(5)
       Parallel.each(medium_artist_relations, in_threads: threads_num) do |medium_artist_relation|
-      #medium_artist_relations.each do |medium_artist_relation| #.reverse .shuffle
-      #MediumArtistRelation.where(medium_artist_id: ["70887", "100"], medium_id: 3).each do |medium_artist_relation|
+      #MediumArtistRelation.where(medium_artist_id: ["44441"], medium_id: 3).each do |medium_artist_relation|
+        #medium_artist_relation = CrawlStatus.find(83602).medium_artist_relation
         ActiveRecord::Base.connection_pool.with_connection do
           begin
             agent = create_agent
@@ -117,7 +117,7 @@ module Crawler::Livefans
                 if appearance_artists.present?
                   if appearance_artists.first.attachable
                     if appearance_artists.first.attachable.close?
-                      puts "this setlist have already been scraped and concert closed"
+                      puts "this setlist has already been scraped and concert closed"
                       next
                     end
                   end
@@ -148,11 +148,13 @@ module Crawler::Livefans
 
                 ## appearance_artistの有無で場合分け
                 if appearance_artists.present? # 1回以上スクレピングしたことある場合
-                  puts "this setlist have been scraped once"
+                  puts "this setlist has been scraped once"
+                  # appearance_artist は AppearanceArtist.where(artist_id, setlist_path)
+                  # 今スクレイピングしているアーティストの出演日未定フェスのappearance_artistsが取れる
                   if appearance_artists.first.not_decided
                     puts "appearance date have not been decided yet"
                     puts date_text = page.at('//*[@id="content"]/div/div/div/p[@class="date"]').inner_text
-                    date_decided(appearance_artists, Date.parse(date_text)) if date_text != "出演日未定"
+                    date_decided(appearance_artists, Date.parse(date_text), artist) if date_text != "出演日未定"
                     # 出演日未定がありえるフェスの場合は、livefans_url変わらないのでそこの処理入れない #
                   else
                     # concertが変わっている場合は更新 / appearance_artistが存在する時concertも存在
@@ -162,11 +164,11 @@ module Crawler::Livefans
                 else # 初めてのスクレピング→appearance_artistが存在しない → どのコンサートに紐付けていくか
                   puts "new setlist"
                   # 出演日決まってるか、コンサート存在するか、複数アーティスト出演かどうか
-                  if livefans_path.match(/group/)
-                    puts "this page has group link"
+                  if livefans_path.match(/group|artist/)
+                    puts "this page has group or artist link"
                     date = Date.parse(date_text)
-                    if livefans_path.match(/groups\/0$/)
-                      puts "groups/0"
+                    if livefans_path.match(/groups\/0$|artist/)
+                      puts "groups/0 or artist"
                       concerts = []
                     else
                       concerts = Concert.where(livefans_path: livefans_path, date: date)
@@ -236,13 +238,15 @@ module Crawler::Livefans
 
     private
 
-    def date_decided(appearance_artists, date)
+    def date_decided(appearance_artists, date, artist)
+      puts "date decided"
       concerts = appearance_artists.map{ |a| a.attachable }
       concerts.each do |concert|
-        if concert.date = date
-          concert.appearance_artist.update(not_decided: false)
+        if concert.date == date
+          puts "appear on #{date}"
+          concert.appearance_artists.where(artist_id: artist.id).update_all(not_decided: false)
         else
-          concert.appearance_artist.destroy
+          concert.appearance_artists.where(artist_id: artist.id).destroy_all
         end
       end
     end
@@ -416,20 +420,20 @@ module Crawler::Livefans
       # 複数コンサートをcreate
       dates.each do |date|
         # livefans_pathは存在しないが
-        concert = artist.concerts.where.not(eplus_id: nil).find_by(date: date)
+        concert = artist.concerts.find_by(date: date, prefecture_id: prefecture_id)
         if concert.present? # e+側でconcertは存在する → livefansの情報で上書き
           puts "updated eplus concert #{date} : #{concert_title}"
           concert.update(title: concert_title, livefans_path: livefans_path,
            place: place, prefecture_id: prefecture_id, date: date, title_edited: title_edited)
-        else # # e+側でもconcertは存在しない → 普通にcreate
-          unless Concert.find_by(place: place, date: date)
+        else # # e+側でもconcertは存在しない → 普通にcreate / groups/0は重複チェック
+          unless Concert.find_by(title: concert_title, place: place, date: date)
             puts "created concert #{date} : #{concert_title}"
             Concert.create(title: concert_title, livefans_path: livefans_path,
              place: place, prefecture_id: prefecture_id, date: date, title_edited: title_edited)
           end
         end
       end
-      Concert.where(livefans_path: livefans_path,date: dates, place: place, title: concert_title)
+      Concert.where(livefans_path: livefans_path, date: dates, place: place, title: concert_title)
     end
 
     def time_up?

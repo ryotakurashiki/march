@@ -14,7 +14,7 @@ module Crawler
       if hour >= 1 && hour <= 7
         sleep(0.3)
       else
-        sleep(10)
+        sleep(3)
       end
     end
 
