@@ -2,6 +2,7 @@ $(document).on 'turbolinks:load', ->
   $("#prefecture_prefecture_id, #date_year").change( ->
     prefecture_id = $("#prefecture_prefecture_id")[0].value
     year = $("#date_year")[0].value
+    stop_infinitescroll()
     display_loading_image()
 
     if $('body.user.concerts.index').length

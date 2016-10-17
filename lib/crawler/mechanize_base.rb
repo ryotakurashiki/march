@@ -12,7 +12,7 @@ module Crawler
     def sleep_before_visit
       hour = Time.zone.now.hour
       if hour >= 1 && hour <= 7
-        sleep(0.3)
+        sleep(0.2)
       else
         sleep(3)
       end
