@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 ruby '2.2.5' # for Heroku
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -74,6 +74,10 @@ gem 'meta-tags'
 # imageupload
 gem 'carrierwave'
 gem 'rmagick', require: 'rmagick'
+gem 'imgkit'
+gem 'wkhtmltoimage-binary'
+#gem 'wkhtmltoimage'
+
 
 gem 'config'
 

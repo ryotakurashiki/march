@@ -59,6 +59,11 @@ class User < ApplicationRecord
     ArtistRelation.joins(:artist).merge(artists).group(:related_artist_id).pluck(:related_artist_id)
   end
 
+  def create_card_images
+    file = Tempfile.new(["", '.png'], 'tmp', :encoding => 'ascii-8bit')
+    file.write(IMGKit.new(hogehoge_url, quality: 100, :"crop-w" => 1024).to_png)
+  end
+
   def self.new_with_session(params, session)
     if session["devise.user_attributes"]
       new(session["devise.user_attributes"]) do |user|

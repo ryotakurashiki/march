@@ -1,0 +1,16 @@
+.logo OTOLOG
+
+.user.clearfix
+  = image_tag(@this_user.icon_path, size: "150x150")
+  .name
+    p
+      = @this_user.username_jp
+      span.no の
+
+.text
+  p
+    i.fa.fa-check-circle aria-hidden="true"
+    span ライブ参加予定
+
+
+
