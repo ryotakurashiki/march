@@ -60,8 +60,11 @@ class User < ApplicationRecord
   end
 
   def create_card_images
-    file = Tempfile.new(["", '.png'], 'tmp', :encoding => 'ascii-8bit')
-    file.write(IMGKit.new(hogehoge_url, quality: 100, :"crop-w" => 1024).to_png)
+    file = Tempfile.new(["joining", '.png'], "public/twitter_card/user/#{id}/joining", :encoding => 'ascii-8bit')
+    file.write(
+      #{Rails.application.routes.url_helpers.card_image_joining_path(username)}
+      IMGKit.new("https://otolog.herokuapp.com/card_images/huta_kobu/joining",quality: 100, width: 840, height: 438).to_png
+    )
   end
 
   def self.new_with_session(params, session)

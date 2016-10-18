@@ -10,7 +10,8 @@ class MediumArtistRelation < ApplicationRecord
   scope :livefans, -> { where(medium_id: 3) }
   scope :crawlable, -> (period) {
     joins(:crawl_status).
-    where("crawl_statuses.crawled_on IS NULL OR crawl_statuses.crawled_on < ?", period.days.ago)
+    where("crawl_statuses.crawled_on IS NULL OR crawl_statuses.crawled_on < ?", period.days.ago).
+    order("crawled_on")
   }
 
   def eplus_url

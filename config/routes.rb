@@ -36,8 +36,8 @@ Rails.application.routes.draw do
   get '/:username/joined', to: 'users#joined', as: 'user_joined'
   get '/:username/joining', to: 'users#joining', as: 'user_joining'
   get '/:username/favorite', to: 'users#favorite', as: 'user_favorite'
-  get 'card_images/:username/joining', to: 'card_images#joining', as: 'card_image_joining'
-  get 'card_images/:username/joined', to: 'card_images#joined', as: 'card_image_joined'
+  #get 'card_images/:username/joining', to: 'card_images#joining', as: 'card_image_joining'
+  #get 'card_images/:username/joined', to: 'card_images#joined', as: 'card_image_joined'
   post '/appearance_artists/sort', to: 'appearance_artists#sort'
   resources :artists, only: [:show] do
     resource :concerts, only: [:show] do

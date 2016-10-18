@@ -7,6 +7,8 @@ html[lang="ja"]
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag('social/favicon.ico')
+    = favicon_link_tag('social/otolog_apple_touch_icon.png', {rel: 'apple-touch-icon', sizes: '180x180', type: 'image/png'})
 
   body[class="#{controller_classes}"]
     = render "header"
