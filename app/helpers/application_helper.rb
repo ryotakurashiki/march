@@ -11,7 +11,7 @@ module ApplicationHelper
         title: :title,
         type: Settings.site.meta.ogp.type,
         url: request.original_url,
-        image: image_url("sosial/otolog_fb_ogp.png"),
+        image: image_url("social/otolog_fb_ogp.png"),
         #image: image_url(Settings.site.meta.ogp.image_path),
         site_name: Settings.site.name,
         description: :description,
@@ -23,7 +23,7 @@ module ApplicationHelper
       twitter: {
         site: '@OTOLOG_official',
         card: 'photo',
-        image: image_url("sosial/otolog_tw_card.png"),
+        image: image_url("social/otolog_tw_card.png"),
         creator: '@OTOLOG_official'
       }
     }
