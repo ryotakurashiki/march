@@ -6,12 +6,12 @@ class ConcertsController < ApplicationController
     @last_prefecture_id = user_signed_in? ? current_user.favorite_prefectures.first.try(:prefecture_id) : nil
     if @last_prefecture_id
       @concerts = @artist.concerts.includes_for_list.where(prefecture_id: @last_prefecture_id).
-                  order("date DESC").page(params[:page])
+                  order("date DESC")
     else
-      @concerts = @artist.concerts.includes_for_list.order("date DESC").page(params[:page])
+      @concerts = @artist.concerts.includes_for_list.order("date DESC")
     end
-
     @years = @concerts.pluck(:date).map{|date| ["#{date.year}年", date.year]}.uniq
+    @concerts = @concerts.page(params[:page])
     @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
   end
 
