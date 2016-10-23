@@ -6,7 +6,7 @@ class User::StaticsController < User::UserApplicationController
   def update
     #if @inquiry.valid?
     @user = current_user.update(user_params)
-    redirect_to account_path
+    redirect_to account_path, notice: '保存しました'
   end
 
   def search
