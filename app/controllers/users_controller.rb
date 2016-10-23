@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def joining
-    @this_user.create_card_images
     @concerts = @this_user.concerts.includes_for_list.
                 open.order("date").page(params[:page])
     @join_concert_ids = user_signed_in? ? Concert.ids_joined_by(current_user, @concerts) : []
