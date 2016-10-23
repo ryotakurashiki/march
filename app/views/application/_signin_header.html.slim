@@ -14,15 +14,15 @@
     a.dropdown-toggle href="#" data-toggle="dropdown"
       i.fa.fa-bars aria-hidden="true"
     ul.dropdown-menu
-      li = link_to "ライブ参加登録", concerts_path, method: "get"
-      li = link_to "ライブ新規作成", new_concert_path, method: "get"
-      li = link_to "アーティスト検索", search_path, method: "get"
+      /li = link_to "参加予定", user_joining_path(current_user.username), method: "get"
+      li = link_to "プロフィール", user_joined_path(current_user.username), method: "get"
+      /li = link_to "お気に入り", user_favorite_path(current_user.username), method: "get"
       li.divider
-      li = link_to "参加予定", user_joining_path(current_user.username), method: "get"
-      li = link_to "参加ログ", user_joined_path(current_user.username), method: "get"
-      li = link_to "お気に入り", user_favorite_path(current_user.username), method: "get"
+      li = link_to "ライブ参加登録", concerts_path, method: "get"
+      li = link_to "アーティスト検索", search_path, method: "get"
       /li.divider
       /li = link_to "都道府県の登録", favorite_prefectures_path, method: "get"
       li.divider
+      li = link_to "ライブ新規作成", new_concert_path, method: "get"
       li = link_to "お問い合わせ", inquiry_path, method: "get"
       li = link_to "ログアウト",  destroy_user_session_path, method: "delete"
