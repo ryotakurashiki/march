@@ -15,14 +15,26 @@
       i.fa.fa-bars aria-hidden="true"
     ul.dropdown-menu
       /li = link_to "参加予定", user_joining_path(current_user.username), method: "get"
-      li = link_to "プロフィール", user_joined_path(current_user.username), method: "get"
+      li = link_to user_joined_path(current_user.username), method: "get"
+        i.fa.fa-lg.fa-user
+        span プロフィール
       /li = link_to "お気に入り", user_favorite_path(current_user.username), method: "get"
       li.divider
-      li = link_to "ライブ参加登録", concerts_path, method: "get"
-      li = link_to "アーティスト検索", search_path, method: "get"
+      li = link_to concerts_path, method: "get"
+        i.fa.fa-lg.fa-check-circle aria-hidden="true"
+        span ライブ参加登録
+      li = link_to search_path, method: "get"
+        i.fa.fa-lg.fa-search
+        span アーティスト検索
       /li.divider
       /li = link_to "都道府県の登録", favorite_prefectures_path, method: "get"
       li.divider
-      li = link_to "ライブ新規作成", new_concert_path, method: "get"
-      li = link_to "お問い合わせ", inquiry_path, method: "get"
-      li = link_to "ログアウト",  destroy_user_session_path, method: "delete"
+      li = link_to new_concert_path, method: "get"
+        i.fa.fa-lg.fa-pencil-square-o
+        span ライブ新規作成
+      li = link_to inquiry_path, method: "get"
+        i.fa.fa-lg.fa-question-circle
+        span お問い合わせ
+      li = link_to destroy_user_session_path, method: "delete"
+        i.fa.fa-lg.fa-sign-out
+        span ログアウト

@@ -5,10 +5,16 @@ div.nav.unsigned-in
     a.dropdown-toggle href="#" data-toggle="dropdown"
       i.fa.fa-bars aria-hidden="true"
     ul.dropdown-menu
-      li = link_to 'アカウント作成', new_user_registration_path
-      li = link_to 'ログイン', new_user_session_path
+      li = link_to new_user_registration_path
+        i.fa.fa-lg.fa-user-plus
+        span アカウント作成
+      li = link_to new_user_session_path
+        i.fa.fa-lg.fa-sign-in
+        span ログイン
       li.divider
-      li = link_to "お問い合わせ", inquiry_path
+      li = link_to inquiry_path, method: "get"
+        i.fa.fa-lg.fa-question-circle
+        span お問い合わせ
 - unless action_name == "welcome" || controller_path.match(/^devise/)
   div#signup-bar
     = link_to 'アカウント作成', new_user_registration_path, class: "btn signup-btn"
