@@ -9,6 +9,13 @@
     i.fa.fa-check-circle aria-hidden="true"
     | 参加予定のライブ
 
+.joined-head
+  p.select-yaer 参加予定のライブ一覧
+  p.twitter-share
+    a.btn.btn-twitter-share target="_blank" href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライブ参加予定&url=#{request.url}&hashtags=otolog"
+      i.fa.fa-twitter.fa-lg
+      span ツイートする
+
 #concerts
   section.concert-list
     = render partial: "shared/future_concert_list", collection: @concerts, as: "concert",

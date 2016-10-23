@@ -13,6 +13,11 @@
     = select :params, :year, @years, selected: @year
     span.after-text
      | のログ
+  p.twitter-share
+    a.btn.btn-twitter-share target="_blank" href="https://twitter.com/intent/tweet?text=#{@this_user.username_jp}のライブ参加ログ&url=#{request.url}&hashtags=otolog"
+      i.fa.fa-twitter.fa-lg
+      span ツイートする
+
 
 .content-divider
   p
