@@ -6,7 +6,7 @@
       = link_to user_concert_joinings_path(concert_id: concert.id), remote: true, method: :post
         i.fa.fa-check-circle aria-hidden="true"
         |  参加予定
-    span.ticket
+    /span.ticket
       = link_to concert_tickets_path(concert_id: concert.id)
         i.fa.fa-ticket aria-hidden="true"
         |  チケットを探す
