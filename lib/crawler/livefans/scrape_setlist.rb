@@ -15,7 +15,7 @@ module Crawler::Livefans
 
     def run
       threads_num = @use_proxy ? 5 : 1
-      medium_artist_relations = MediumArtistRelation.livefans.crawlable(3)
+      medium_artist_relations = MediumArtistRelation.livefans.crawlable(1)
       Parallel.each(medium_artist_relations, in_threads: threads_num) do |medium_artist_relation|
       #MediumArtistRelation.where(medium_artist_id: ["44441"], medium_id: 3).each do |medium_artist_relation|
         #medium_artist_relation = CrawlStatus.find(83602).medium_artist_relation
@@ -80,8 +80,8 @@ module Crawler::Livefans
               if appearance_artists.present? && crawl_status.crawled_on
                 if appearance_artists.first.attachable
                   if appearance_artists.first.attachable.close?(7)
-                    #puts "stop pagination"
-                    #break
+                    puts "stop pagination"
+                    break
                   end
                 end
               end
